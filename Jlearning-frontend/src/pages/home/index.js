@@ -15,13 +15,21 @@ const HomePage = () => {
     if (user !== null) {
       dispatch(getUserCourses({ email: user.email }));
     }
-  }, [isRefreshUserCourses])
+  }, [isRefreshUserCourses]);
 
   return (
     <>
-      {user !== null ? user.role_id === ROLE.ADMIN ? <Dashboard /> : <UserHomePage /> : <PublicHomePage />}
+      {user !== null ? (
+        user.role_id === ROLE.USER ? (
+          <UserHomePage />
+        ) : (
+          <Dashboard />
+        )
+      ) : (
+        <PublicHomePage />
+      )}
     </>
   );
-}
+};
 
 export default HomePage;

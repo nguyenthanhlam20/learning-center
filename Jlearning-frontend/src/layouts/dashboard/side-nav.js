@@ -16,18 +16,18 @@ export const SideNav = () => {
   let items = adminRoutes;
 
   useEffect(() => {
-    if (user?.role_id == ROLE.ADMIN) {
+    if (user?.role_id === ROLE.ADMIN) {
       items = adminRoutes;
     }
 
-    if (user?.role_id == ROLE.STAFF) {
+    if (user?.role_id === ROLE.STAFF) {
       items = staffRoutes;
     }
 
-    if (user?.role_id == ROLE.TEACHER) {
+    if (user?.role_id === ROLE.TEACHER) {
       items = teacherRoutes;
     }
-  }, [user]);
+  }, []);
 
   const content = (
     <Scrollbar
