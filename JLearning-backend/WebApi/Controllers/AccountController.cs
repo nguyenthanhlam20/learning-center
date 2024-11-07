@@ -80,6 +80,7 @@ namespace WebApi.Controllers
 
             return Unauthorized();
         }
+
         [HttpPut("update-info")]
         public ActionResult UpdateInfo([FromBody] AccountDTO accountDTO)
         {
@@ -90,6 +91,40 @@ namespace WebApi.Controllers
             acc.Password = account.Password;
             repository.UpdateAccount(acc);
             return Ok();
+        }
+
+        [HttpPut("update")]
+        public ActionResult UpdateRole([FromBody] AccountDTO accountDTO)
+        {
+            var account = repository.FindAccountByEmail(accountDTO.Email);
+            if (account == null) return NotFound();
+            Account acc = _mapper.Map<Account>(accountDTO);
+            acc.RoleId = account.RoleId;
+            repository.UpdateAccount(acc);
+            return Ok();
+        }
+
+        [HttpPost("/insert")]
+        public IActionResult InsertAccount([FromBody] AccountDTO accountDTO)
+        {
+            var account = repository.FindAccountByEmail(accountDTO.Email);
+            if (account is not null) return BadRequest();
+
+            Account acc = _mapper.Map<Account>(accountDTO);
+            var success = repository.InsertAccount(acc);
+
+            if (success == true) return Ok();
+            return BadRequest();
+        }
+
+        [HttpGet("/get-users")]
+        public IActionResult GetUsers([FromQuery] int role)
+        {
+            var accounts = repository.FindByRole(role);
+            if (accounts is null) return NotFound();
+
+            var acc = _mapper.Map<List<AccountDTO>>(accounts);
+            return Ok(acc);
         }
     }
 }

@@ -1,94 +1,96 @@
-
 import { APP_CONSTANTS, SIGNIN_CONSTANTS } from "../../constants/constants";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { forgotPassword } from "../../redux/authenSlice";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import SmoothScrollUp from "../../components/Common/SmoothScrollUp";
 import { validateEmail } from "../../helpers/validation";
-
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = React.useState("");
- 
 
   const handleForgotPassword = () => {
-    if(email.trim() == "") {
-      toast.warning('Nhập email của bạn!');
+    if (email.trim() == "") {
+      toast.warning("Nhập email của bạn!");
 
-      return;
-    } 
-
-    if(validateEmail(email) === false) {
-      toast.warning('Email không hợp lệ');
       return;
     }
 
-    dispatch(forgotPassword({ 
-      email: email, 
-      subject: 'Thay Đổi Mật Khẩu Tài Khoản JLearning',
-      link:  ROUTE_CONSTANTS.DOMAIN + ROUTE_CONSTANTS.NEW_PASSWORD_PAGE,
-    }));
+    if (validateEmail(email) === false) {
+      toast.warning("Email không hợp lệ");
+      return;
+    }
+
+    dispatch(
+      forgotPassword({
+        email: email,
+        subject: "Thay Đổi Mật Khẩu Tài Khoản Seed Center",
+        link: ROUTE_CONSTANTS.DOMAIN + ROUTE_CONSTANTS.NEW_PASSWORD_PAGE,
+      })
+    );
   };
 
   return (
     <>
-        <SmoothScrollUp />
+      <SmoothScrollUp />
 
-      <section className="relative z-10 overflow-hidden pt-36 pb-16 md:pb-20 lg:pt-[180px] lg:pb-28">
+      <section className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
         <div className="container">
-       
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4">
-              <div className="mx-auto max-w-[500px] rounded-md bg-primary bg-opacity-5 py-10 px-6 dark:bg-dark sm:p-[60px]">
+              <div className="mx-auto max-w-[500px] rounded-md bg-primary bg-opacity-5 px-6 py-10 dark:bg-dark sm:p-[60px]">
                 <h3 className="mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                Quên Mật Khẩu
+                  Quên Mật Khẩu
                 </h3>
                 <p className="mb-11 text-center text-base font-medium text-body-color">
-               Chúng tôi sẽ gửi đường liên kết thay đổi mật khẩu qua email của bạn
+                  Chúng tôi sẽ gửi đường liên kết thay đổi mật khẩu qua email
+                  của bạn
                 </p>
-              
+
                 <div>
                   <div className="mb-8">
                     <label
                       htmlFor="email"
                       className="mb-3 block text-sm font-medium text-dark dark:text-white"
                     >
-                     {APP_CONSTANTS.EMAIL}
+                      {APP_CONSTANTS.EMAIL}
                     </label>
                     <input
                       type="email"
                       name="email"
                       placeholder={SIGNIN_CONSTANTS.SIGN_IN_EMAIL}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                      className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                     />
                   </div>
-                
-                
+
                   <div className="mb-6">
                     <button
-                    onClick={handleForgotPassword}
-                    className="flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
+                      onClick={handleForgotPassword}
+                      className="flex w-full items-center justify-center rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                    >
                       Gửi
                     </button>
                   </div>
                 </div>
                 <p className="text-center text-base font-medium  text-body-color">
                   Bạn đã nhớ ra mật khẩu của mình?
-                  <Link to={ROUTE_CONSTANTS.SIGN_IN} className="ml-1 text-primary hover:underline">
-                   Đăng nhập
+                  <Link
+                    to={ROUTE_CONSTANTS.SIGN_IN}
+                    className="ml-1 text-primary hover:underline"
+                  >
+                    Đăng nhập
                   </Link>
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute top-0 left-0 z-[-1]">
+        <div className="absolute left-0 top-0 z-[-1]">
           <svg
             width="1440"
             height="969"

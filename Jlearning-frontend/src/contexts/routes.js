@@ -1,4 +1,3 @@
-
 import { ROUTE_CONSTANTS } from "../constants/route.constants";
 import { HomePage } from "../pages";
 import SigninPage from "../pages/signin";
@@ -30,6 +29,7 @@ import PaymentResultPage from "../pages/user/payment/PaymentResultPage";
 import PaymentHistoryPage from "../pages/payment-history";
 import AdminInvoicePage from "../pages/admin/invoice";
 import NewPasswordPage from "../pages/create-new-password";
+import AdminStaffPage from "../pages/admin/staffs";
 
 export const routes = [
   {
@@ -210,6 +210,13 @@ export const routes = [
     path: ROUTE_CONSTANTS.ERROR_PAGE,
     isPrivate: false,
     component: <ErrorPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.ADMIN.STAFF_PAGE,
+    isPrivate: true,
+    component: <AdminStaffPage />,
     exact: true,
   },
 ];

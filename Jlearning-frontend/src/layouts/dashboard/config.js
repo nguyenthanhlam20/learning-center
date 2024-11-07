@@ -1,96 +1,92 @@
-import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import BookOpenIcon from '@heroicons/react/24/solid/BookOpenIcon';
-import QuestionMarkCircleIcon from '@heroicons/react/24/solid/QuestionMarkCircleIcon';
-import FaceSmileIcon from '@heroicons/react/24/solid/FaceSmileIcon';
-import NewspaperIcon from '@heroicons/react/24/solid/NewspaperIcon';
-import PhoneIcon from '@heroicons/react/24/solid/PhoneIcon';
-import UserIcon from '@heroicons/react/24/solid/UserIcon';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import { SvgIcon } from '@mui/material';
+import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
+import BookOpenIcon from "@heroicons/react/24/solid/BookOpenIcon";
+import QuestionMarkCircleIcon from "@heroicons/react/24/solid/QuestionMarkCircleIcon";
+import FaceSmileIcon from "@heroicons/react/24/solid/FaceSmileIcon";
+import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
+import PhoneIcon from "@heroicons/react/24/solid/PhoneIcon";
+import UserIcon from "@heroicons/react/24/solid/UserIcon";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import { SvgIcon } from "@mui/material";
+import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
-export const items = [
+export const adminRoutes = [
   {
-    title: 'Tổng quan',
-    path: '/',
+    title: "Tổng quan",
+    path: "/",
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Khóa học',
-    path: '/authen/course',
+    title: "Quản lý khóa học",
+    path: "/authen/course",
     icon: (
       <SvgIcon fontSize="small">
         <BookOpenIcon />
       </SvgIcon>
-    )
-  },
-
-  {
-    title: 'Bài kiểm tra',
-    path: '/authen/test',
-    icon: (
-      <SvgIcon fontSize="small">
-        <QuestionMarkCircleIcon />
-      </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Hóa đơn',
-    path: '/authen/invoices',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ReceiptLongIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Tin tức',
-    path: '/authen/blog',
+    title: "Quản lý lớp học",
+    path: "/authen/blog",
     icon: (
       <SvgIcon fontSize="small">
         <NewspaperIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Hỗ trợ',
-    path: '/authen/supports',
+    title: "Quản lý nhân viên",
+    path: ROUTE_CONSTANTS.ADMIN.STAFF_PAGE,
     icon: (
       <SvgIcon fontSize="small">
-        <PhoneIcon />
+        <QuestionMarkCircleIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
-    title: 'Liên hệ',
-    path: '/authen/contacts',
+    title: "Quản lý giáo viên",
+    path: ROUTE_CONSTANTS.ADMIN.STAFF_PAGE,
     icon: (
       <SvgIcon fontSize="small">
-        <UserIcon />
+        <ReceiptLongIcon />
       </SvgIcon>
-    )
+    ),
   },
-  {
-    title: 'Phản hồi',
-    path: '/authen/feedbacks',
-    icon: (
-      <SvgIcon fontSize="small">
-        <FaceSmileIcon />
-      </SvgIcon>
-    )
-  },
-  // {
-  //   title: 'Cài đặt',
-  //   path: '/authen/settings',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <CogIcon />
-  //     </SvgIcon>
-  //   )
-  // },
+];
 
+export const staffRoutes = [
+  {
+    title: "Quản lý lớp học",
+    path: "/authen/course",
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
+      </SvgIcon>
+    ),
+  },
+];
 
+export const teacherRoutes = [
+  {
+    title: "Quản lý lớp học",
+    path: "/authen/course",
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Quản lý điểm",
+    path: "/authen/test",
+    icon: (
+      <SvgIcon fontSize="small">
+        <QuestionMarkCircleIcon />
+      </SvgIcon>
+    ),
+  },
 ];

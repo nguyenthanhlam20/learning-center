@@ -24,10 +24,7 @@ const AdminCoursesPage = () => {
 
 
   return (
-    <>
-
-      <ListCourse data={courses} />
-    </>
+    <ListCourse data={courses} />
   );
 };
 

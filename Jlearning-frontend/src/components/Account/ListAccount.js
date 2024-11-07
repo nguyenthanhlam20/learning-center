@@ -19,19 +19,18 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import CourseImageDefault from "../../assets/images/course/course-default.png";
-import AppInput from "../../components/AppInput/AppInput";
-import { CourseProfileDetails } from "../../components/Course/CourseProfileDetails";
-import FileUploader from "../../components/FileUploader";
-import { insertCourse } from "../../redux/courseSlice";
-import userSlice from "../../redux/userSlice";
-import { CourseTable } from "../../sections/table/course-table";
+import userSlice, { insertUser } from "../../redux/userSlice";
+import { AccountTable } from "../../sections/table/account-table";
+import AppInput from "../AppInput/AppInput";
+import { CourseProfileDetails } from "../Course/CourseProfileDetails";
+import FileUploader from "../FileUploader";
 
-const ListCourse = ({ data }) => {
+const ListAccount = ({ data }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [courses, setCourses] = useState(data);
-  const [coursesPagination, setCoursesPagination] = useState(
-    courses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  const [accounts, setAccounts] = useState(data || []);
+  const [accountsPagination, setAccountsPagination] = useState(
+    accounts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
@@ -71,13 +70,13 @@ const ListCourse = ({ data }) => {
   const { setCurrentPage } = userSlice.actions;
 
   React.useEffect(() => {
-    dispatch(setCurrentPage("Quản lý khóa học"));
+    dispatch(setCurrentPage("Quản lý nhân viên"));
   }, []);
 
   // console.log(data);
   React.useEffect(() => {
-    setCourses(data);
-    setCoursesPagination(
+    setAccounts(data);
+    setAccountsPagination(
       data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     );
   }, [data]);
@@ -90,14 +89,14 @@ const ListCourse = ({ data }) => {
 
   const handlePageChange = (value) => {
     setPage(value);
-    setCoursesPagination(
-      courses.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
+    setAccountsPagination(
+      accounts.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
     );
   };
 
-  const handleSubmitCourse = () => {
+  const handleSubmitAccount = () => {
     if (values.course_name.trim() === "") {
-      toast.warning("Chưa nhập tên khóa học");
+      toast.warning("Chưa nhập tên nhân viên");
       return;
     }
 
@@ -118,18 +117,11 @@ const ListCourse = ({ data }) => {
       return;
     }
     if (values.avatar_url.trim() === "") {
-      toast.warning("Chưa chọn ảnh khóa học");
+      toast.warning("Chưa chọn ảnh nhân viên");
       return;
     }
 
-    dispatch(
-      insertCourse({
-        ...values,
-        created_at: new Date(),
-        duration: parseInt(values.duration.trim()),
-        price: parseFloat(values.price.replace(/\./g, "").replace("₫", "")),
-      })
-    );
+    dispatch(insertUser(values));
     setValues({
       course_name: "",
       description: "",
@@ -157,22 +149,22 @@ const ListCourse = ({ data }) => {
     setRowsPerPage(rows);
 
     let endIndex = rowsPerPage;
-    if (courses.length < endIndex) endIndex = courses.length;
+    if (accounts.length < endIndex) endIndex = accounts.length;
 
-    setCoursesPagination(courses.slice(0, endIndex));
+    setAccountsPagination(accounts.slice(0, endIndex));
   };
   React.useEffect(() => {
     const result = data.filter((course) =>
       course?.course_name.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
-    setCourses(result);
+    setAccounts(result);
     setPage(0);
     setRowsPerPage(5);
 
     let endIndex = 5;
     if (result.length < endIndex) endIndex = result.length;
 
-    setCoursesPagination(result.slice(0, endIndex));
+    setAccountsPagination(result.slice(0, endIndex));
   }, [searchTerm.value]);
 
   const handleClearSearch = () => {
@@ -200,7 +192,7 @@ const ListCourse = ({ data }) => {
                     <AppInput
                       value={searchTerm.value}
                       handleChangeValue={handleChangeSearchTerm}
-                      placeholder={"Tìm kiếm khóa học"}
+                      placeholder={"Tìm kiếm nhân viên"}
                       title={"value"}
                     />
                   </div>
@@ -227,14 +219,14 @@ const ListCourse = ({ data }) => {
                   <SvgIcon sx={{ mr: 1 }}>
                     <PlusIcon />
                   </SvgIcon>
-                  Thêm mới khóa học
+                  Thêm mới nhân viên
                 </Button>
               </div>
             </Card>
-            {courses.length > 0 ? (
-              <CourseTable
-                count={courses.length}
-                items={coursesPagination}
+            {accounts.length > 0 ? (
+              <AccountTable
+                count={accounts.length}
+                items={accountsPagination}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}
@@ -319,7 +311,7 @@ const ListCourse = ({ data }) => {
                   </Button>
                   <Button
                     disabled={disableSubmit}
-                    onClick={handleSubmitCourse}
+                    onClick={handleSubmitAccount}
                     color="primary"
                     variant="contained"
                     className="ml-3 w-[150px]"
@@ -339,4 +331,4 @@ const ListCourse = ({ data }) => {
   );
 };
 
-export default ListCourse;
+export default ListAccount;

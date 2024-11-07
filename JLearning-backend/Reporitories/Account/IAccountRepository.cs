@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessObjects.DTO;
-using BusinessObjects.Models;
+﻿using BusinessObjects.Models;
 
 namespace Reporitories
 {
     public interface IAccountRepository
     {
-        Account SignIn(Account account);
+        Account? SignIn(Account account);
         bool SignUp(Account account);
         bool ChangePassword(Account account);
         void UpdateAccount(Account account);
         Account FindAccountByEmail(string email);
+        bool InsertAccount(Account account);
+        bool UpdateRole(Account account);
+        List<Account> FindByRole(int roleId);
     }
 }

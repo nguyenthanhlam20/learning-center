@@ -8,6 +8,7 @@ namespace BusinessObjects.Models
         public Course()
         {
             Chapters = new HashSet<Chapter>();
+            Classes = new HashSet<Class>();
             Feedbacks = new HashSet<Feedback>();
             LessonDones = new HashSet<LessonDone>();
             Payments = new HashSet<Payment>();
@@ -25,6 +26,7 @@ namespace BusinessObjects.Models
         public DateTime? CreatedAt { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<LessonDone> LessonDones { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
