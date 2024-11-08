@@ -11,21 +11,19 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
   Stack,
   SvgIcon,
 } from "@mui/material";
+import { capitalize, isEmpty } from "lodash";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import CourseImageDefault from "../../assets/images/course/course-default.png";
 import userSlice, { insertUser } from "../../redux/userSlice";
 import { AccountTable } from "../../sections/table/account-table";
 import AppInput from "../AppInput/AppInput";
-import { CourseProfileDetails } from "../Course/CourseProfileDetails";
-import FileUploader from "../FileUploader";
+import { AccountDetails } from "./AccountDetails";
 
-const ListAccount = ({ data }) => {
+const ListAccount = ({ data, roleId, title }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [accounts, setAccounts] = useState(data || []);
@@ -34,19 +32,18 @@ const ListAccount = ({ data }) => {
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
-  const [currentFile, setCurrentFile] = React.useState(null);
-  const [previewUrl, setPreviewUrl] = React.useState(null);
-
-  const [disableSubmit, setDisableSubmit] = React.useState(false);
 
   const [values, setValues] = useState({
-    course_name: "",
-    description: "",
-    duration: "0",
-    price: "0",
-    status: false,
     avatar_url: "",
-    created_at: "",
+    name: "",
+    email: "",
+    address: "",
+    date_of_birth: "",
+    gender: 1,
+    phone: "",
+    description: "",
+    status: true,
+    role_id: roleId,
   });
 
   const handleChangeValue = (key, value) => {
@@ -56,21 +53,10 @@ const ListAccount = ({ data }) => {
     }));
   };
 
-  React.useEffect(() => {
-    if (currentFile?.url != undefined) {
-      // alert(currentFile?.url);
-      setValues((prevValues) => ({
-        ...prevValues,
-        avatar_url: currentFile?.url,
-      }));
-      setDisableSubmit(false);
-    }
-  }, [currentFile]);
-
   const { setCurrentPage } = userSlice.actions;
 
   React.useEffect(() => {
-    dispatch(setCurrentPage("Quản lý nhân viên"));
+    dispatch(setCurrentPage("Quản lý " + title));
   }, []);
 
   // console.log(data);
@@ -95,44 +81,40 @@ const ListAccount = ({ data }) => {
   };
 
   const handleSubmitAccount = () => {
-    if (values.course_name.trim() === "") {
-      toast.warning("Chưa nhập tên nhân viên");
+    if (isEmpty(values.name.trim())) {
+      toast.warning("Chưa nhập tên " + title);
       return;
     }
 
-    if (
-      values.duration.trim() === "" ||
-      parseInt(values.duration.trim()) === 0
-    ) {
-      toast.warning("Chưa nhập thời gian học");
-      return;
-    }
-    if (values.price.trim() === "") {
-      toast.warning("Chưa nhập giá tiền");
+    if (isEmpty(values.address.trim())) {
+      toast.warning("Chưa địa chỉ " + title);
       return;
     }
 
-    if (values.description.trim() === "") {
-      toast.warning("Chưa nhập mô tả");
+    if (isEmpty(values.email.trim())) {
+      toast.warning("Chưa nhập địa chỉ email " + title);
       return;
     }
-    if (values.avatar_url.trim() === "") {
-      toast.warning("Chưa chọn ảnh nhân viên");
+
+    if (isEmpty(values.phone.trim())) {
+      toast.warning("Chưa nhập số điện thoại " + title);
       return;
     }
 
     dispatch(insertUser(values));
     setValues({
-      course_name: "",
-      description: "",
-      duration: 0,
-      price: 0,
-      status: false,
       avatar_url: "",
-      created_at: "",
+      name: "",
+      email: "",
+      address: "",
+      date_of_birth: "",
+      gender: 1,
+      phone: "",
+      description: "",
+      status: true,
+      role_id: roleId,
     });
 
-    setPreviewUrl(null);
     setIsOpenModal(false);
     // console.log(values);
   };
@@ -154,8 +136,8 @@ const ListAccount = ({ data }) => {
     setAccountsPagination(accounts.slice(0, endIndex));
   };
   React.useEffect(() => {
-    const result = data.filter((course) =>
-      course?.course_name.toLowerCase().includes(searchTerm.value.toLowerCase())
+    const result = data.filter((account) =>
+      account?.email.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
     setAccounts(result);
     setPage(0);
@@ -192,7 +174,7 @@ const ListAccount = ({ data }) => {
                     <AppInput
                       value={searchTerm.value}
                       handleChangeValue={handleChangeSearchTerm}
-                      placeholder={"Tìm kiếm nhân viên"}
+                      placeholder={"Tìm kiếm " + title}
                       title={"value"}
                     />
                   </div>
@@ -219,7 +201,7 @@ const ListAccount = ({ data }) => {
                   <SvgIcon sx={{ mr: 1 }}>
                     <PlusIcon />
                   </SvgIcon>
-                  Thêm mới nhân viên
+                  Thêm mới
                 </Button>
               </div>
             </Card>
@@ -231,6 +213,7 @@ const ListAccount = ({ data }) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                title={capitalize(title)}
               />
             ) : (
               <>
@@ -253,78 +236,48 @@ const ListAccount = ({ data }) => {
         </Container>
       </Box>
 
-      <Dialog maxWidth open={isOpenModal} onClose={handleCloseModal}>
-        <DialogTitle>THÊM MỚI KHÓA HỌC</DialogTitle>
+      <Dialog maxWidth="lg" open={isOpenModal} onClose={handleCloseModal}>
+        <DialogTitle>THÊM MỚI {title.toUpperCase()}</DialogTitle>
         <DialogContent
-          sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" }}
+          sx={{
+            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+          }}
           dividers
         >
-          <Container className="mt-10" maxWidth="lg" sx={{ height: 450 }}>
+          <div className="my-2">
             <Stack spacing={3}>
-              <div>
-                <Grid container spacing={3}>
-                  <Grid xs={12} md={6} lg={4}>
-                    <div
-                      style={{
-                        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
-                      }}
-                      className="relative  flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
-                    >
-                      <div className="bg-blue-gray-500 shadow-blue-gray-500/40  relative mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg">
-                        <img
-                          src={
-                            previewUrl == null ? CourseImageDefault : previewUrl
-                          }
-                          alt="img-blur-shadow"
-                        />
-                      </div>
-                      <Divider className="h-4" />
-                      <FileUploader
-                        setDisableSubmit={setDisableSubmit}
-                        setCurrentFile={setCurrentFile}
-                        firebaseFolderName={"course/images"}
-                        setPreviewUrl={setPreviewUrl}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid xs={12} md={6} lg={8}>
-                    <CourseProfileDetails
-                      handleChangeValue={handleChangeValue}
-                      values={values}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-              <div className="flex w-full justify-end">
-                <div className="flex w-[320px] justify-between">
-                  <Button
-                    disabled={disableSubmit}
-                    color="error"
-                    variant="contained"
-                    className=" w-[150px]"
-                    onClick={handleCloseModal}
-                  >
-                    <SvgIcon className="mr-2">
-                      <XMarkIcon />
-                    </SvgIcon>{" "}
-                    Hủy
-                  </Button>
-                  <Button
-                    disabled={disableSubmit}
-                    onClick={handleSubmitAccount}
-                    color="primary"
-                    variant="contained"
-                    className="ml-3 w-[150px]"
-                  >
-                    <SvgIcon className="mr-2">
-                      <HandThumbUpIcon />
-                    </SvgIcon>{" "}
-                    Lưu
-                  </Button>
-                </div>
-              </div>
+              <AccountDetails
+                handleChangeValue={handleChangeValue}
+                values={values}
+              />
+              <Divider />
+
+              <Stack spacing={2} direction={"row"} justifyContent={"end"}>
+                <Button
+                  color="error"
+                  variant="contained"
+                  className=" w-[150px]"
+                  onClick={handleCloseModal}
+                >
+                  <SvgIcon className="mr-2">
+                    <XMarkIcon />
+                  </SvgIcon>
+                  Hủy
+                </Button>
+                <Button
+                  onClick={handleSubmitAccount}
+                  color="primary"
+                  variant="contained"
+                  className="ml-3 w-[150px]"
+                >
+                  <SvgIcon className="mr-2">
+                    <HandThumbUpIcon />
+                  </SvgIcon>{" "}
+                  Lưu
+                </Button>
+              </Stack>
             </Stack>
-          </Container>
+          </div>
         </DialogContent>
       </Dialog>
     </>

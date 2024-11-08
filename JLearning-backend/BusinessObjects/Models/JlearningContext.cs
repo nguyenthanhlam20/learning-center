@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BusinessObjects.Models
 {
-    public partial class JlearningContext : DbContext
+    public partial class JLearningContext : DbContext
     {
-        public JlearningContext()
+        public JLearningContext()
         {
         }
 
-        public JlearningContext(DbContextOptions<JlearningContext> options)
+        public JLearningContext(DbContextOptions<JLearningContext> options)
             : base(options)
         {
         }
@@ -41,7 +41,7 @@ namespace BusinessObjects.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=LAPTOP-ALU23ESG;database=Jlearning;uid=sa;pwd=55555;TrustServerCertificate=true");
+                optionsBuilder.UseSqlServer("server=LAPTOP-ALU23ESG;database=JLearning;uid=sa;pwd=55555;TrustServerCertificate=true");
             }
         }
 
@@ -58,11 +58,26 @@ namespace BusinessObjects.Models
                     .HasMaxLength(100)
                     .HasColumnName("email");
 
+                entity.Property(e => e.ActiveStatus)
+                    .IsRequired()
+                    .HasColumnName("active_status")
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Address)
                     .HasMaxLength(200)
                     .HasColumnName("address");
 
                 entity.Property(e => e.AvatarUrl).HasColumnName("avatar_url");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("date")
+                    .HasColumnName("created_date");
+
+                entity.Property(e => e.DateOfBirth)
+                    .HasColumnType("date")
+                    .HasColumnName("date_of_birth");
+
+                entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 

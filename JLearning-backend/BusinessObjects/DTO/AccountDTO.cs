@@ -31,6 +31,17 @@ namespace BusinessObjects.DTO
         [JsonPropertyName("role_id")]
         public int? RoleId { get; set; }
 
-        
+        [JsonPropertyName("status")]
+        public bool? ActiveStatus { get; set; }
+
+        [JsonPropertyName("date_of_birth")]
+        public DateTime? DateOfBirth { get; set; }
+
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+
+        [JsonPropertyName("created_date")]
+        public DateTime? CreatedDate { get; set; }
+
     }
 }

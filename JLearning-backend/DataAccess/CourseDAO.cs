@@ -11,7 +11,7 @@ namespace DataAccess
             var listCourses = new List<Course>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listCourses = context.Courses
                         .Include(x => x.Chapters)
@@ -42,7 +42,7 @@ namespace DataAccess
             Course course;
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     course = context.Courses.Include(u => u.Chapters).SingleOrDefault(x => x.CourseId == id);
                     foreach (var chaps in course.Chapters)
@@ -67,7 +67,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Courses.Add(c);
                     context.SaveChanges();
@@ -84,7 +84,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Course>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -101,7 +101,7 @@ namespace DataAccess
             var listCourses = new List<Course>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     var usercourse = context.UserCourses
                    .Where(x => x.Email == email)
@@ -126,7 +126,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.UserCourses.Add(uc);
                     context.SaveChanges();

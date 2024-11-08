@@ -269,40 +269,38 @@ const ListCourse = ({ data }) => {
         >
           <Container className="mt-10" maxWidth="lg" sx={{ height: 450 }}>
             <Stack spacing={3}>
-              <div>
-                <Grid container spacing={3}>
-                  <Grid xs={12} md={6} lg={4}>
-                    <div
-                      style={{
-                        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
-                      }}
-                      className="relative  flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
-                    >
-                      <div className="bg-blue-gray-500 shadow-blue-gray-500/40  relative mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg">
-                        <img
-                          src={
-                            previewUrl == null ? CourseImageDefault : previewUrl
-                          }
-                          alt="img-blur-shadow"
-                        />
-                      </div>
-                      <Divider className="h-4" />
-                      <FileUploader
-                        setDisableSubmit={setDisableSubmit}
-                        setCurrentFile={setCurrentFile}
-                        firebaseFolderName={"course/images"}
-                        setPreviewUrl={setPreviewUrl}
+              <Grid container spacing={3}>
+                <Grid xs={12} md={6} lg={4}>
+                  <div
+                    style={{
+                      boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+                    }}
+                    className="relative  flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+                  >
+                    <div className="bg-blue-gray-500 shadow-blue-gray-500/40  relative mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg">
+                      <img
+                        src={
+                          previewUrl == null ? CourseImageDefault : previewUrl
+                        }
+                        alt="img-blur-shadow"
                       />
                     </div>
-                  </Grid>
-                  <Grid xs={12} md={6} lg={8}>
-                    <CourseProfileDetails
-                      handleChangeValue={handleChangeValue}
-                      values={values}
+                    <Divider className="h-4" />
+                    <FileUploader
+                      setDisableSubmit={setDisableSubmit}
+                      setCurrentFile={setCurrentFile}
+                      firebaseFolderName={"course/images"}
+                      setPreviewUrl={setPreviewUrl}
                     />
-                  </Grid>
+                  </div>
                 </Grid>
-              </div>
+                <Grid xs={12} md={6} lg={8}>
+                  <CourseProfileDetails
+                    handleChangeValue={handleChangeValue}
+                    values={values}
+                  />
+                </Grid>
+              </Grid>
               <div className="flex w-full justify-end">
                 <div className="flex w-[320px] justify-between">
                   <Button

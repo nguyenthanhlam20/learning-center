@@ -15,7 +15,7 @@ namespace DataAccess
             var listContacts = new List<Contact>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listContacts = context.Contacts.ToList();
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             Contact c = new Contact();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     c = context.Contacts.SingleOrDefault(x => x.ContactId == id);
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Contacts.Add(c);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Contact>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();

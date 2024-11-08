@@ -9,7 +9,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JlearningContext();
+                using var context = new JLearningContext();
                 return context.Accounts.SingleOrDefault(x => x.Email == account.Email && x.Password == account.Password);
             }
             catch (Exception e)
@@ -24,7 +24,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JlearningContext();
+                using var context = new JLearningContext();
                 context.Accounts.Add(account);
 
                 if (context.SaveChanges() > 0)
@@ -44,7 +44,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Account>(a).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -60,7 +60,7 @@ namespace DataAccess
             bool status = false;
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Account>(a).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     if (context.SaveChanges() > 0)
@@ -80,7 +80,7 @@ namespace DataAccess
             Account account = new Account();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     account = context.Accounts.SingleOrDefault(x => x.Email == email);
                 }
@@ -97,7 +97,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JlearningContext();
+                using var context = new JLearningContext();
                 return context.Accounts.Where(x => x.RoleId == roleId).ToList();
             }
             catch (Exception e)
@@ -111,7 +111,8 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JlearningContext();
+                account.Password = "Abc1234!";
+                using var context = new JLearningContext();
                 context.Accounts.Add(account);
                 if (context.SaveChanges() > 0)
                 {
@@ -131,7 +132,7 @@ namespace DataAccess
             bool status = false;
             try
             {
-                using var context = new JlearningContext();
+                using var context = new JLearningContext();
                 context.Entry<Account>(account).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 if (context.SaveChanges() > 0)
                 {

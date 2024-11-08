@@ -27,6 +27,10 @@ namespace BusinessObjects.Models
         public int? YearOfBirth { get; set; }
         public bool? Gender { get; set; }
         public int RoleId { get; set; }
+        public bool? ActiveStatus { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Description { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<Class> ClassStaffEmailNavigations { get; set; }

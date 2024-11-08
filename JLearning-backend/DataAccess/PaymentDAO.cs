@@ -14,7 +14,7 @@ namespace DataAccess
             var listPayments = new List<Payment>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listPayments = context.Payments.ToList();
                 }
@@ -31,7 +31,7 @@ namespace DataAccess
             var listPayments = new List<Payment>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listPayments = context.Payments.Where(p => p.Email == email).ToList();
                 }
@@ -49,7 +49,7 @@ namespace DataAccess
             bool insertStatus = false;
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Payments.Add(payment);
                     if (context.SaveChanges() > 0)

@@ -30,6 +30,7 @@ import PaymentHistoryPage from "../pages/payment-history";
 import AdminInvoicePage from "../pages/admin/invoice";
 import NewPasswordPage from "../pages/create-new-password";
 import AdminStaffPage from "../pages/admin/staffs";
+import EditAccount from "../pages/account/edit";
 
 export const routes = [
   {
@@ -126,6 +127,12 @@ export const routes = [
     path: ROUTE_CONSTANTS.ACCOUNT_PAGE,
     isPrivate: true,
     component: <AccountPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.ADMIN.EDIT_ACCOUNT,
+    isPrivate: false,
+    component: <EditAccount />,
     exact: true,
   },
   {

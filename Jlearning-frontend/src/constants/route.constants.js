@@ -33,5 +33,6 @@ export const ROUTE_CONSTANTS = {
   ADMIN_TEST_DETAILS: "/authen/test-details",
   ADMIN: {
     STAFF_PAGE: "/authen/staffs",
+    EDIT_ACCOUNT: "/authen/account/edit",
   },
 };

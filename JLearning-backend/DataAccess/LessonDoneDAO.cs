@@ -16,7 +16,7 @@ namespace DataAccess
             var listLessonDones = new List<LessonDone>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listLessonDones = context.LessonDones
                         .Where(x => x.CourseId == course_id && x.Email == email).ToList();
@@ -38,7 +38,7 @@ namespace DataAccess
             LessonDone lessonDone = new LessonDone();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     lessonDone = context.LessonDones
                         .SingleOrDefault(x => x.CourseId == course_id
@@ -57,7 +57,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.LessonDones.Add(lessonDone);
                     context.SaveChanges();

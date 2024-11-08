@@ -14,7 +14,7 @@ namespace DataAccess
             Lesson lesson = new Lesson();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     lesson = context.Lessons.SingleOrDefault(x => x.LessonId == id);
                 }
@@ -30,7 +30,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Lessons.Add(lesson);
                     context.SaveChanges();
@@ -47,7 +47,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Lesson>(lesson).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -63,7 +63,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     // find lesson done and remove
                     var lessionDone = context.LessonDones.Where(x => x.LessonId == lesson.LessonId).ToList();

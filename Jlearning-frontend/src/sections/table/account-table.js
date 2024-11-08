@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AccountTable = (props) => {
   const {
+    title,
     count = 0,
     items = [],
     onPageChange,
@@ -34,8 +35,8 @@ export const AccountTable = (props) => {
   } = props;
 
   const navigate = useNavigate();
-  const handleEditAccount = (id) => {
-    navigate(ROUTE_CONSTANTS.ADMIN_COURSE_DETAILS + "?account_id=" + id);
+  const handleEditAccount = (email) => {
+    navigate(ROUTE_CONSTANTS.ADMIN.EDIT_ACCOUNT + "?email=" + email);
   };
 
   return (
@@ -48,54 +49,49 @@ export const AccountTable = (props) => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>Tên</TableCell>
-
-                  <TableCell>Thời gian</TableCell>
-                  <TableCell>Giá</TableCell>
-                  <TableCell>Số bài học</TableCell>
-                  <TableCell>Ngày tạo</TableCell>
+                  <TableCell>Họ và tên</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Địa chỉ </TableCell>
+                  <TableCell>Ngày sinh</TableCell>
+                  <TableCell>Giới tính</TableCell>
+                  <TableCell>Số điện thoại</TableCell>
+                  <TableCell>Chức vụ</TableCell>
                   <TableCell>Trạng thái</TableCell>
                   <TableCell>Hành động</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {items.map((account) => {
-                  const createdAt = format(
-                    new Date(account.created_at),
-                    "dd/MM/yyyy"
-                  );
-
                   return (
-                    <TableRow hover key={account.account_id}>
+                    <TableRow hover key={account.email}>
                       <TableCell>
                         <Stack alignItems="center" direction="row" spacing={2}>
-                          <Avatar src={account.account_avatar_url}>
-                            {getInitials(account.account_name)}
+                          <Avatar src={account.avatar_url}>
+                            {getInitials(account.name)}
                           </Avatar>
                           <Typography variant="subtitle2">
-                            {account.account_name}
+                            {account.name}
                           </Typography>
                         </Stack>
                       </TableCell>
-
-                      <TableCell>{account.duration} tháng</TableCell>
+                      <TableCell>{account.email}</TableCell>
+                      <TableCell>{account.address}</TableCell>
                       <TableCell>
-                        {account.price.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
+                        {account.date_of_birth &&
+                          new Date(account?.date_of_birth).toLocaleDateString()}
                       </TableCell>
-                      <TableCell>{account.chapters.length}</TableCell>
-                      <TableCell>{createdAt}</TableCell>
+                      <TableCell>{account.gender ? "Nam" : "Nữ"}</TableCell>
+                      <TableCell>{account.phone}</TableCell>
+                      <TableCell>{title}</TableCell>
                       <TableCell>
                         <Chip
-                          color={account.status ? "secondary" : "error"}
-                          label={account.status ? "Công khai" : "Khóa"}
+                          color={account.active_status ? "secondary" : "error"}
+                          label={account.active_status ? "Active" : "Deactive"}
                         />
                       </TableCell>
                       <TableCell>
                         <Button
-                          onClick={() => handleEditAccount(account.account_id)}
+                          onClick={() => handleEditAccount(account.email)}
                           variant="contained"
                           className="bg-primary"
                           size="small"

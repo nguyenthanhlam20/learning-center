@@ -14,7 +14,7 @@ namespace DataAccess
             Question question = new Question();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     question = context.Questions.SingleOrDefault(x => x.QuestionId == id);
                 }
@@ -30,7 +30,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Questions.Add(question);
                     context.SaveChanges();
@@ -47,7 +47,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Question>(question).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -63,7 +63,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     var ques = context.Questions.SingleOrDefault(x => x.QuestionId == question.QuestionId);
                     context.Questions.Remove(ques);

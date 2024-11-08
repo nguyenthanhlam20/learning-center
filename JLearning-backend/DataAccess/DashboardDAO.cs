@@ -9,7 +9,7 @@ namespace DataAccess
     {
         public static string GetData()
         {
-            using (var context = new JlearningContext())
+            using (var context = new JLearningContext())
             {
                 int totalCourse = context.Courses.Count();
                 int totalBlog = context.Blogs.Count();

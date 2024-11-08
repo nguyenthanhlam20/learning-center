@@ -15,7 +15,7 @@ namespace DataAccess
             var listTests = new List<Test>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listTests = context.Tests
                         .Include(x => x.Questions)
@@ -34,7 +34,7 @@ namespace DataAccess
             Test test = new Test();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     test = context.Tests.Include(u => u.Questions).SingleOrDefault(x => x.TestId == id);
                 }
@@ -50,7 +50,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Tests.Add(test);
                     context.SaveChanges();
@@ -67,7 +67,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Test>(test).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -83,7 +83,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
 
                     var test = context.Tests.SingleOrDefault(x => x.TestId == t.TestId);

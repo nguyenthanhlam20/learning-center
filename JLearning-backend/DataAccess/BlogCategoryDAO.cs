@@ -15,7 +15,7 @@ namespace DataAccess
             var listBlogCategorys = new List<BlogCategory>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listBlogCategorys = context.BlogCategories.ToList();
                 }

@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<JlearningContext>(options =>
+builder.Services.AddDbContext<JLearningContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
 });

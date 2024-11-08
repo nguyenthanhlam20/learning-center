@@ -7,6 +7,13 @@ const userServices = {
     const response = await axios.put(API.MANAGE_ACCOUNT + "/update-info", user);
     return response.data;
   },
+  getUser: async (email) => {
+    const response = await axios.get(
+      API.MANAGE_ACCOUNT + "/get-user?email=" + email
+    );
+    console.log("res", response);
+    return response.data;
+  },
   getUsers: async (role) => {
     const response = await axios.get(
       API.MANAGE_ACCOUNT + "/get-users?role=" + role

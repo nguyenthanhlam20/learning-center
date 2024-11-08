@@ -14,7 +14,7 @@ namespace DataAccess
             Chapter chapter = new Chapter();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     chapter = context.Chapters.SingleOrDefault(x => x.ChapterId == id);
                 }
@@ -30,7 +30,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Chapters.Add(chapter);
                     context.SaveChanges();
@@ -47,7 +47,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Chapter>(chapter).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -63,7 +63,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     // delete all test have same chapterId
                     var test = context.Tests.Where(x => x.ChapterId == chapter.ChapterId).ToList();

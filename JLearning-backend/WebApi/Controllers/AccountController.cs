@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
 using BusinessObjects.Models;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Reporitories;
 
@@ -104,7 +105,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("/insert")]
+        [HttpPost("insert")]
         public IActionResult InsertAccount([FromBody] AccountDTO accountDTO)
         {
             var account = repository.FindAccountByEmail(accountDTO.Email);
@@ -117,13 +118,24 @@ namespace WebApi.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/get-users")]
+        [HttpGet("get-users")]
         public IActionResult GetUsers([FromQuery] int role)
         {
             var accounts = repository.FindByRole(role);
             if (accounts is null) return NotFound();
 
             var acc = _mapper.Map<List<AccountDTO>>(accounts);
+            return Ok(acc);
+        }
+
+
+        [HttpGet("get-user")]
+        public IActionResult GetUsers([FromQuery] string email)
+        {
+            var account = repository.FindAccountByEmail(email);
+            if (account is null) return NotFound();
+
+            var acc = _mapper.Map<AccountDTO>(account);
             return Ok(acc);
         }
     }

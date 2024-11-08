@@ -12,6 +12,11 @@ export const getUsers = createAsyncThunk("get-users", async (role) => {
   return response;
 });
 
+export const getUser = createAsyncThunk("get-user", async (email) => {
+  const response = await userServices.getUser(email);
+  return response;
+});
+
 export const insertUser = createAsyncThunk("insert-user", async (user) => {
   const response = await userServices.insertUser(user);
   return response;
@@ -29,6 +34,7 @@ const userSlice = createSlice({
     data: [],
     isRefresh: false,
     currentPage: "",
+    specific: null,
   },
   reducers: {
     setCurrentPage: (state, action) => {
@@ -53,6 +59,10 @@ const userSlice = createSlice({
     builder.addCase(updateRole.fulfilled, (state, action) => {
       toast.success("Phân quyền người dùng thành công");
       state.isRefresh = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.specific = action.payload;
     });
   },
 });

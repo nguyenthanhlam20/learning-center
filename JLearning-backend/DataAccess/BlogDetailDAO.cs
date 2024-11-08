@@ -15,7 +15,7 @@ namespace DataAccess
             var listBlogDetails = new List<BlogDetail>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listBlogDetails = context.BlogDetails.ToList();
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             BlogDetail b = new BlogDetail();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     b = context.BlogDetails.SingleOrDefault(x => x.BlogDetailsId == id);
                 }
@@ -49,7 +49,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.BlogDetails.Add(b);
                     context.SaveChanges();
@@ -66,7 +66,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<BlogDetail>(b).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -82,7 +82,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
 
                     var BlogDetail = context.BlogDetails.SingleOrDefault(x => x.BlogDetailsId == b.BlogDetailsId);

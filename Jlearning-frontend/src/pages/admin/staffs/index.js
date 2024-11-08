@@ -20,7 +20,13 @@ const AdminStaffPage = () => {
     dispatch(getUsers(ROLE.STAFF));
   }, [dispatch, isRefreshCourse]);
 
-  return <ListAccount data={accounts ?? []} />;
+  return (
+    <ListAccount
+      data={accounts ?? []}
+      roleId={ROLE.STAFF}
+      title={"nhân viên"}
+    />
+  );
 };
 
 export default AdminStaffPage;

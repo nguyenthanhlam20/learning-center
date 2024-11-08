@@ -14,7 +14,7 @@ namespace DataAccess
             Feedback fb = null;
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     fb = context.Feedbacks.SingleOrDefault(x => x.CourseId == courseId && x.Email== email);
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             List<Feedback> fb = null;
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     fb = context.Feedbacks.ToList();
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Feedbacks.Add(fb);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Feedback>(fb).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();

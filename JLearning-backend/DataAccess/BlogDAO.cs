@@ -15,7 +15,7 @@ namespace DataAccess
             var listBlogs = new List<Blog>();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     listBlogs = context.Blogs.Include(x=>x.BlogDetails).ToList();
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             Blog b = new Blog();
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     b = context.Blogs.Include(u => u.BlogDetails).SingleOrDefault(x => x.BlogId == id);
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Blogs.Add(b);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     context.Entry<Blog>(b).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -81,7 +81,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JlearningContext())
+                using (var context = new JLearningContext())
                 {
                     var bookDetail = context.BlogDetails.Where(x => x.BlogId == b.BlogId).ToList();
                     context.BlogDetails.RemoveRange(bookDetail);
