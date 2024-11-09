@@ -4,7 +4,7 @@ const AppInput = ({
   value,
   handleChangeValue,
   title,
-  height,
+  height = "",
 }) => {
   return (
     <div className="w-full">

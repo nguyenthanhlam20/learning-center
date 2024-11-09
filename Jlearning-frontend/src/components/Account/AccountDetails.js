@@ -7,14 +7,15 @@ import AppRadioButton from "../AppInput/AppRadioButton";
 import AppTextArea from "../AppInput/AppTextArea";
 import { isEmpty } from "lodash";
 
-export const AccountDetails = ({ handleChangeValue, values }) => {
+export const AccountDetails = ({ handleChangeValue, values, width }) => {
   return (
-    <Grid xs={12} container spacing={3} minWidth={900}>
-      <Grid xs={12} md={6}>
+    <Grid xs={12} container width={width}>
+      <Grid xs={12} md={6} pr={3}>
         <Stack spacing={3}>
           <div
             style={{
               boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+              width: "100%",
             }}
             className="bg-blue-gray-500 shadow-blue-gray-500/40  relative  h-56 overflow-hidden rounded-xl rounded-xl bg-white bg-clip-border bg-clip-border text-gray-700 text-white shadow-lg shadow-md"
           >

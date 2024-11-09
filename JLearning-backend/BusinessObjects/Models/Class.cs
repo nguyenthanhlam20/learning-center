@@ -7,7 +7,9 @@ namespace BusinessObjects.Models
     {
         public Class()
         {
+            ClassMembers = new HashSet<ClassMember>();
             Grades = new HashSet<Grade>();
+            RegistrationForms = new HashSet<RegistrationForm>();
             StudentEmails = new HashSet<Account>();
         }
 
@@ -22,11 +24,17 @@ namespace BusinessObjects.Models
         public string? TeacherEmail { get; set; }
         public string? Room { get; set; }
         public string? DaysOfWeek { get; set; }
+        public TimeSpan? StartTime { get; set; }
+        public TimeSpan? EndTime { get; set; }
+        public string? ClassCode { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Course? Course { get; set; }
         public virtual Account? StaffEmailNavigation { get; set; }
         public virtual Account? TeacherEmailNavigation { get; set; }
+        public virtual ICollection<ClassMember> ClassMembers { get; set; }
         public virtual ICollection<Grade> Grades { get; set; }
+        public virtual ICollection<RegistrationForm> RegistrationForms { get; set; }
 
         public virtual ICollection<Account> StudentEmails { get; set; }
     }

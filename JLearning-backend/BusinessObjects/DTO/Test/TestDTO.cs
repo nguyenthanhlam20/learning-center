@@ -27,6 +27,6 @@ namespace BusinessObjects.DTO
         [JsonPropertyName("duration")]
         public long? Duration { get; set; }
         [JsonPropertyName("questions")]
-        public virtual ICollection<QuestionDTO>? Questions { get; set; }
+        public  ICollection<QuestionDTO>? Questions { get; set; }
     }
 }

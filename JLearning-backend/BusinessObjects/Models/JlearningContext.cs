@@ -22,6 +22,7 @@ namespace BusinessObjects.Models
         public virtual DbSet<BlogDetail> BlogDetails { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Class> Classes { get; set; } = null!;
+        public virtual DbSet<ClassMember> ClassMembers { get; set; } = null!;
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
@@ -30,6 +31,7 @@ namespace BusinessObjects.Models
         public virtual DbSet<LessonDone> LessonDones { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
+        public virtual DbSet<RegistrationForm> RegistrationForms { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Support> Supports { get; set; } = null!;
         public virtual DbSet<Test> Tests { get; set; } = null!;
@@ -213,6 +215,11 @@ namespace BusinessObjects.Models
             {
                 entity.Property(e => e.ClassId).HasColumnName("class_id");
 
+                entity.Property(e => e.ClassCode)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("class_code");
+
                 entity.Property(e => e.ClassName)
                     .HasMaxLength(200)
                     .HasColumnName("class_name");
@@ -226,6 +233,8 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.EndDate)
                     .HasColumnType("date")
                     .HasColumnName("end_date");
+
+                entity.Property(e => e.EndTime).HasColumnName("end_time");
 
                 entity.Property(e => e.NumberOfSlots).HasColumnName("number_of_slots");
 
@@ -243,6 +252,10 @@ namespace BusinessObjects.Models
                     .HasColumnType("date")
                     .HasColumnName("start_date");
 
+                entity.Property(e => e.StartTime).HasColumnName("start_time");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
                 entity.Property(e => e.TeacherEmail)
                     .HasMaxLength(100)
                     .HasColumnName("teacher_email");
@@ -255,12 +268,44 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.StaffEmailNavigation)
                     .WithMany(p => p.ClassStaffEmailNavigations)
                     .HasForeignKey(d => d.StaffEmail)
-                    .HasConstraintName("FK__Classes__staff_e__70DDC3D8");
+                    .HasConstraintName("FK__Classes__staff_e__09A971A2");
 
                 entity.HasOne(d => d.TeacherEmailNavigation)
                     .WithMany(p => p.ClassTeacherEmailNavigations)
                     .HasForeignKey(d => d.TeacherEmail)
-                    .HasConstraintName("FK__Classes__teacher__71D1E811");
+                    .HasConstraintName("FK__Classes__teacher__0A9D95DB");
+            });
+
+            modelBuilder.Entity<ClassMember>(entity =>
+            {
+                entity.HasKey(e => new { e.StudentEmail, e.ClassId })
+                    .HasName("PK__Class_Me__FDD5C8A7D4ACFC9D");
+
+                entity.ToTable("Class_Member");
+
+                entity.Property(e => e.StudentEmail)
+                    .HasMaxLength(100)
+                    .HasColumnName("student_email");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.EnrollmentDate)
+                    .HasColumnType("date")
+                    .HasColumnName("enrollment_date");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.ClassMembers)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Class_Mem__class__7E37BEF6");
+
+                entity.HasOne(d => d.StudentEmailNavigation)
+                    .WithMany(p => p.ClassMembers)
+                    .HasForeignKey(d => d.StudentEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Class_Mem__stude__7D439ABD");
             });
 
             modelBuilder.Entity<Contact>(entity =>
@@ -298,6 +343,11 @@ namespace BusinessObjects.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
+                entity.Property(e => e.Code)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("code");
+
                 entity.Property(e => e.CourseAvatarUrl).HasColumnName("course_avatar_url");
 
                 entity.Property(e => e.CourseName)
@@ -313,6 +363,12 @@ namespace BusinessObjects.Models
                     .HasColumnName("description");
 
                 entity.Property(e => e.Duration).HasColumnName("duration");
+
+                entity.Property(e => e.Level)
+                    .HasMaxLength(100)
+                    .HasColumnName("level");
+
+                entity.Property(e => e.NumberOfSlots).HasColumnName("number_of_slots");
 
                 entity.Property(e => e.Price).HasColumnName("price");
 
@@ -549,6 +605,46 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.TestId)
                     .HasConstraintName("FK__Question__test_i__619B8048");
+            });
+
+            modelBuilder.Entity<RegistrationForm>(entity =>
+            {
+                entity.HasKey(e => new { e.StudentEmail, e.ClassId, e.CourseId })
+                    .HasName("PK__Registra__525AD650A6D35CBE");
+
+                entity.ToTable("Registration_Form");
+
+                entity.Property(e => e.StudentEmail)
+                    .HasMaxLength(100)
+                    .HasColumnName("student_email");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.CourseId).HasColumnName("course_id");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("date")
+                    .HasColumnName("created_date");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.RegistrationForms)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Registrat__class__02084FDA");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.RegistrationForms)
+                    .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Registrat__cours__02FC7413");
+
+                entity.HasOne(d => d.StudentEmailNavigation)
+                    .WithMany(p => p.RegistrationForms)
+                    .HasForeignKey(d => d.StudentEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Registrat__stude__01142BA1");
             });
 
             modelBuilder.Entity<Role>(entity =>

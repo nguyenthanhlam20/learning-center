@@ -12,6 +12,7 @@ namespace BusinessObjects.Models
             Feedbacks = new HashSet<Feedback>();
             LessonDones = new HashSet<LessonDone>();
             Payments = new HashSet<Payment>();
+            RegistrationForms = new HashSet<RegistrationForm>();
             TestDones = new HashSet<TestDone>();
             UserCourses = new HashSet<UserCourse>();
         }
@@ -24,12 +25,16 @@ namespace BusinessObjects.Models
         public double? Price { get; set; }
         public bool? Status { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? NumberOfSlots { get; set; }
+        public string? Code { get; set; }
+        public string? Level { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<LessonDone> LessonDones { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<RegistrationForm> RegistrationForms { get; set; }
         public virtual ICollection<TestDone> TestDones { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
     }

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import userServices from "../services/userServices";
+import { ROLE } from "../constants/constants";
 
 export const updateInfo = createAsyncThunk("update-info", async (user) => {
   const response = await userServices.updateInfo(user);
@@ -9,6 +10,16 @@ export const updateInfo = createAsyncThunk("update-info", async (user) => {
 
 export const getUsers = createAsyncThunk("get-users", async (role) => {
   const response = await userServices.getUsers(role);
+  return response;
+});
+
+export const getStaffs = createAsyncThunk("get-staffs", async () => {
+  const response = await userServices.getUsers(ROLE.STAFF);
+  return response;
+});
+
+export const getTeachers = createAsyncThunk("get-teachers", async () => {
+  const response = await userServices.getUsers(ROLE.TEACHER);
   return response;
 });
 
@@ -35,6 +46,8 @@ const userSlice = createSlice({
     isRefresh: false,
     currentPage: "",
     specific: null,
+    staffs: [],
+    teachers: [],
   },
   reducers: {
     setCurrentPage: (state, action) => {
@@ -49,6 +62,16 @@ const userSlice = createSlice({
     });
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.data = action.payload;
+      state.isRefresh = false;
+      console.log(action.payload);
+    });
+    builder.addCase(getStaffs.fulfilled, (state, action) => {
+      state.staffs = action.payload;
+      state.isRefresh = false;
+      console.log(action.payload);
+    });
+    builder.addCase(getTeachers.fulfilled, (state, action) => {
+      state.teachers = action.payload;
       state.isRefresh = false;
       console.log(action.payload);
     });

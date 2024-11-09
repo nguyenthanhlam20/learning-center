@@ -18,32 +18,34 @@ import { capitalize, isEmpty } from "lodash";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import userSlice, { insertUser } from "../../redux/userSlice";
-import { AccountTable } from "../../sections/table/account-table";
+import { insertClass } from "../../redux/classSlice";
+import userSlice from "../../redux/userSlice";
+import { ClassTable } from "../../sections/table/class-table";
 import AppInput from "../AppInput/AppInput";
-import { AccountDetails } from "./AccountDetails";
+import { ClassDetails } from "./ClassDetails";
 
-const ListAccount = ({ data, roleId, title }) => {
+const ListClass = ({ data, title, staffs, teachers, courses }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
-  const [accounts, setAccounts] = useState(data || []);
-  const [accountsPagination, setAccountsPagination] = useState(
-    accounts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  const [classs, setClasss] = useState(data || []);
+  const [classsPagination, setClasssPagination] = useState(
+    classs?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
 
   const [values, setValues] = useState({
-    avatar_url: "",
-    name: "",
-    email: "",
-    address: "",
-    date_of_birth: "",
-    gender: 1,
-    phone: "",
-    description: "",
+    courseId: 0,
+    classCode: "",
+    className: "",
+    startDate: "",
+    endDate: "",
+    numberOfStudent: 1,
+    numberOfSlots: 1,
+    staffEmail: "",
+    teacherEmail: "",
+    room: "",
     status: true,
-    role_id: roleId,
   });
 
   const handleChangeValue = (key, value) => {
@@ -61,8 +63,8 @@ const ListAccount = ({ data, roleId, title }) => {
 
   // console.log(data);
   React.useEffect(() => {
-    setAccounts(data);
-    setAccountsPagination(
+    setClasss(data);
+    setClasssPagination(
       data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     );
   }, [data]);
@@ -75,44 +77,65 @@ const ListAccount = ({ data, roleId, title }) => {
 
   const handlePageChange = (value) => {
     setPage(value);
-    setAccountsPagination(
-      accounts.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
+    setClasssPagination(
+      classs.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
     );
   };
 
-  const handleSubmitAccount = () => {
-    if (isEmpty(values.name.trim())) {
-      toast.warning("Chưa nhập tên " + title);
+  const handleSubmitClass = () => {
+    if (isEmpty(values.classCode.trim())) {
+      toast.warning("Chưa nhập mã " + title);
       return;
     }
 
-    if (isEmpty(values.address.trim())) {
-      toast.warning("Chưa địa chỉ " + title);
+    if (isEmpty(values.className.trim())) {
+      toast.warning("Chưa tên " + title);
       return;
     }
 
-    if (isEmpty(values.email.trim())) {
-      toast.warning("Chưa nhập địa chỉ email " + title);
+    if (isEmpty(values.room.trim())) {
+      toast.warning("Chưa nhập phòng học");
       return;
     }
 
-    if (isEmpty(values.phone.trim())) {
-      toast.warning("Chưa nhập số điện thoại " + title);
+    if (isEmpty(values.startDate.trim())) {
+      toast.warning("Chưa chọn ngày bắt đầu");
       return;
     }
 
-    dispatch(insertUser(values));
+    if (isEmpty(values.endDate.trim())) {
+      toast.warning("Chưa chọn ngày kết thúc");
+      return;
+    }
+
+    if (parseInt(values.numberOfStudent) <= 0) {
+      toast.warning("Số lượng học viên phải lớn hơn 1");
+      return;
+    }
+
+    if (parseInt(values.numberOfSlots) <= 0) {
+      toast.warning("Số lượng buổi học phải lớn hơn 1");
+      return;
+    }
+
+    if (parseInt(values.courseId) <= 0) {
+      toast.warning("Chưa chọn khóa học");
+      return;
+    }
+
+    dispatch(insertClass(values));
     setValues({
-      avatar_url: "",
-      name: "",
-      email: "",
-      address: "",
-      date_of_birth: "",
-      gender: 1,
-      phone: "",
-      description: "",
+      courseId: 0,
+      classCode: "",
+      className: "",
+      startDate: "",
+      endDate: "",
+      numberOfStudent: 1,
+      numberOfSlots: 1,
+      staffEmail: "",
+      teacherEmail: "",
+      room: "",
       status: true,
-      role_id: roleId,
     });
 
     setIsOpenModal(false);
@@ -131,22 +154,22 @@ const ListAccount = ({ data, roleId, title }) => {
     setRowsPerPage(rows);
 
     let endIndex = rowsPerPage;
-    if (accounts.length < endIndex) endIndex = accounts.length;
+    if (classs.length < endIndex) endIndex = classs.length;
 
-    setAccountsPagination(accounts.slice(0, endIndex));
+    setClasssPagination(classs.slice(0, endIndex));
   };
   React.useEffect(() => {
-    const result = data.filter((account) =>
-      account?.email.toLowerCase().includes(searchTerm.value.toLowerCase())
+    const result = data.filter((classes) =>
+      classes?.className.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
-    setAccounts(result);
+    setClasss(result);
     setPage(0);
     setRowsPerPage(5);
 
     let endIndex = 5;
     if (result.length < endIndex) endIndex = result.length;
 
-    setAccountsPagination(result.slice(0, endIndex));
+    setClasssPagination(result.slice(0, endIndex));
   }, [searchTerm.value]);
 
   const handleClearSearch = () => {
@@ -211,10 +234,10 @@ const ListAccount = ({ data, roleId, title }) => {
                 </Button>
               </div>
             </Card>
-            {accounts.length > 0 ? (
-              <AccountTable
-                count={accounts.length}
-                items={accountsPagination}
+            {classs.length > 0 ? (
+              <ClassTable
+                count={classs.length}
+                items={classsPagination}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}
@@ -252,10 +275,12 @@ const ListAccount = ({ data, roleId, title }) => {
         >
           <div className="my-2">
             <Stack spacing={3}>
-              <AccountDetails
+              <ClassDetails
                 handleChangeValue={handleChangeValue}
                 values={values}
-                width={900}
+                staffs={staffs}
+                teachers={teachers}
+                courses={courses}
               />
               <Divider />
 
@@ -272,7 +297,7 @@ const ListAccount = ({ data, roleId, title }) => {
                   Hủy
                 </Button>
                 <Button
-                  onClick={handleSubmitAccount}
+                  onClick={handleSubmitClass}
                   color="primary"
                   variant="contained"
                   className="ml-3 w-[150px]"
@@ -291,4 +316,4 @@ const ListAccount = ({ data, roleId, title }) => {
   );
 };
 
-export default ListAccount;
+export default ListClass;

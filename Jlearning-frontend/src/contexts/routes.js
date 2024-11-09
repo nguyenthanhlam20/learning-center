@@ -31,6 +31,8 @@ import AdminInvoicePage from "../pages/admin/invoice";
 import NewPasswordPage from "../pages/create-new-password";
 import AdminStaffPage from "../pages/admin/staffs";
 import EditAccount from "../pages/account/edit";
+import AdminTeacherPage from "../pages/admin/teachers";
+import AdminClassPage from "../pages/classes";
 
 export const routes = [
   {
@@ -224,6 +226,19 @@ export const routes = [
     path: ROUTE_CONSTANTS.ADMIN.STAFF_PAGE,
     isPrivate: true,
     component: <AdminStaffPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.ADMIN.TEACHER_PAGE,
+    isPrivate: true,
+    component: <AdminTeacherPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.CLASS.INDEX,
+    isPrivate: true,
+    component: <AdminClassPage />,
     exact: true,
   },
 ];

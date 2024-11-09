@@ -30,7 +30,7 @@ export const adminRoutes = [
   },
   {
     title: "Quản lý lớp học",
-    path: "/authen/blog",
+    path: ROUTE_CONSTANTS.CLASS.INDEX,
     icon: (
       <SvgIcon fontSize="small">
         <NewspaperIcon />
@@ -48,7 +48,7 @@ export const adminRoutes = [
   },
   {
     title: "Quản lý giáo viên",
-    path: ROUTE_CONSTANTS.ADMIN.STAFF_PAGE,
+    path: ROUTE_CONSTANTS.ADMIN.TEACHER_PAGE,
     icon: (
       <SvgIcon fontSize="small">
         <ReceiptLongIcon />

@@ -1,6 +1,14 @@
 import { Box, Container, Stack } from "@mui/system";
 import { AccountDetails } from "../../components/Account/AccountDetails";
-import { Button, Divider, SvgIcon, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon";
 import HandThumbUpIcon from "@heroicons/react/24/solid/HandThumbUpIcon";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -52,43 +60,54 @@ function EditAccount() {
         py: 0,
       }}
     >
-      <Container maxWidth="xl">
-        <Typography mb={3} textAlign={"center"} sx={{ fontSize: "20px" }}>
-          Chỉnh sửa thông tin
-        </Typography>
-        <Stack spacing={3}>
-          <AccountDetails
-            handleChangeValue={handleChangeValue}
-            values={values}
-          />
-          <Divider />
+      <Card
+        sx={{
+          ml: 1,
+          mr: 2,
+          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
+        }}
+      >
+        <CardContent sx={{ pb: 3 }}>
+          <Stack spacing={2}>
+            <Typography textAlign={"center"} variant="h5">
+              Chỉnh sửa thông tin
+            </Typography>
 
-          <Stack spacing={2} direction={"row"} justifyContent={"end"}>
-            <Button
-              color="error"
-              variant="contained"
-              className=" w-[150px]"
-              onClick={handleCancel}
-            >
-              <SvgIcon className="mr-2">
-                <XMarkIcon />
-              </SvgIcon>
-              Hủy
-            </Button>
-            <Button
-              onClick={handleSubmitAccount}
-              color="primary"
-              variant="contained"
-              className="ml-3 w-[150px]"
-            >
-              <SvgIcon className="mr-2">
-                <HandThumbUpIcon />
-              </SvgIcon>
-              Lưu
-            </Button>
+            <AccountDetails
+              handleChangeValue={handleChangeValue}
+              values={values}
+              width={"100%"}
+            />
+            <Divider />
+
+            <Stack spacing={2} direction={"row"} justifyContent={"end"}>
+              <Button
+                color="error"
+                variant="contained"
+                className=" w-[150px]"
+                onClick={handleCancel}
+              >
+                <SvgIcon className="mr-2">
+                  <XMarkIcon />
+                </SvgIcon>
+                Hủy
+              </Button>
+              <Button
+                onClick={handleSubmitAccount}
+                color="primary"
+                variant="contained"
+                className="ml-3 w-[150px]"
+              >
+                <SvgIcon className="mr-2">
+                  <HandThumbUpIcon />
+                </SvgIcon>
+                Lưu
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
+        </CardContent>
+        <Divider />
+      </Card>
     </Box>
   );
 }

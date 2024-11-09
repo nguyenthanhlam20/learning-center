@@ -19,8 +19,8 @@ namespace BusinessObjects.DTO
         [JsonPropertyName("course_id")]
         public int CourseId { get; set; }
         [JsonPropertyName("lessons")]
-        public virtual ICollection<LessonDTO> Lessons { get; set; }
+        public  ICollection<LessonDTO> Lessons { get; set; }
         [JsonPropertyName("tests")]
-        public virtual ICollection<TestDTO> Tests { get; set; }
+        public  ICollection<TestDTO> Tests { get; set; }
     }
 }

@@ -1,6 +1,9 @@
 using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Unicode;
 using WebApi.Config;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Set up JSON serializer to handle UTF-8 explicitly, including broader Unicode ranges if needed
+        options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+        options.JsonSerializerOptions.WriteIndented = true; // Optional for readability in responses
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 // allow all content type
 builder.Services.AddCors(options =>
 {

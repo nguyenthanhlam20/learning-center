@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
+using BusinessObjects.DTO.Classes;
+using BusinessObjects.DTO.ClassMembers;
+using BusinessObjects.DTO.RegistrationForms;
 using BusinessObjects.Models;
 
 namespace WebApi.Config
@@ -80,6 +83,15 @@ namespace WebApi.Config
                 // Payment
                 config.CreateMap<PaymentDTO, Payment>();
                 config.CreateMap<Payment, PaymentDTO>();
+
+                config.CreateMap<Class, ClassDTO>();
+                config.CreateMap<AddClassDTO, Class>();
+
+                config.CreateMap<ClassMember, ClassMemberDTO>();
+                config.CreateMap<AddMemberClassDTO, ClassMember>();
+
+                config.CreateMap<RegistrationForm, RegistrationFormDTO>();
+                config.CreateMap<AddRegistrationFormDTO, RegistrationForm>();
 
             });
 

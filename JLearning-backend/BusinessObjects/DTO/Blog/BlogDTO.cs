@@ -28,7 +28,7 @@ namespace BusinessObjects.DTO
 
         [JsonPropertyName("blog_details")]
 
-        public virtual ICollection<BlogDetailDTO>? BlogDetails { get; set; }
+        public  ICollection<BlogDetailDTO>? BlogDetails { get; set; }
 
     }
 }
