@@ -11,10 +11,12 @@ export const ClassDetails = ({
   staffs,
   teachers,
   courses,
+  width = 900,
+  direction = "row",
 }) => {
   return (
-    <Stack spacing={2} width={900}>
-      <Stack direction={"row"} gap={3}>
+    <Stack spacing={2} width={width}>
+      <Stack direction={direction} gap={3}>
         <AppInput
           value={values?.classCode}
           title={"classCode"}
@@ -28,7 +30,7 @@ export const ClassDetails = ({
           placeholder={"Tên lớp"}
         />
       </Stack>
-      <Stack direction={"row"} gap={3}>
+      <Stack direction={direction} gap={3}>
         <AppDatePicker
           value={values?.startDate}
           title={"startDate"}
@@ -44,7 +46,7 @@ export const ClassDetails = ({
         />
       </Stack>
 
-      <Stack direction={"row"} gap={3}>
+      <Stack direction={direction} gap={3}>
         <AppInputNumber
           value={values?.numberOfStudent}
           title={"numberOfStudent"}

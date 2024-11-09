@@ -85,8 +85,8 @@ export const AccountTable = (props) => {
                       <TableCell>{title}</TableCell>
                       <TableCell>
                         <Chip
-                          color={account.active_status ? "secondary" : "error"}
-                          label={account.active_status ? "Active" : "Deactive"}
+                          color={account.status ? "secondary" : "error"}
+                          label={account.status ? "Active" : "Deactive"}
                         />
                       </TableCell>
                       <TableCell>

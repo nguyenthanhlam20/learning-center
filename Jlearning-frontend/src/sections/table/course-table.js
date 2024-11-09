@@ -48,12 +48,11 @@ export const CourseTable = (props) => {
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell>Tên</TableCell>
-
-                  <TableCell>Thời gian</TableCell>
-                  <TableCell>Giá</TableCell>
-                  <TableCell>Số bài học</TableCell>
-                  <TableCell>Ngày tạo</TableCell>
+                  <TableCell>Tên khóa học</TableCell>
+                  <TableCell>Code</TableCell>
+                  <TableCell>Học phí</TableCell>
+                  <TableCell>Số buổi học </TableCell>
+                  <TableCell>Cập độ</TableCell>
                   <TableCell>Trạng thái</TableCell>
                   <TableCell>Hành động</TableCell>
                 </TableRow>
@@ -69,7 +68,10 @@ export const CourseTable = (props) => {
                     <TableRow hover key={course.course_id}>
                       <TableCell>
                         <Stack alignItems="center" direction="row" spacing={2}>
-                          <Avatar src={course.course_avatar_url}>
+                          <Avatar
+                            sx={{ borderRadius: "0", width: 70 }}
+                            src={course.course_avatar_url}
+                          >
                             {getInitials(course.course_name)}
                           </Avatar>
                           <Typography variant="subtitle2">
@@ -78,19 +80,20 @@ export const CourseTable = (props) => {
                         </Stack>
                       </TableCell>
 
-                      <TableCell>{course.duration} tháng</TableCell>
+                      <TableCell>{course.code}</TableCell>
                       <TableCell>
                         {course.price.toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
                         })}
                       </TableCell>
-                      <TableCell>{course.chapters.length}</TableCell>
-                      <TableCell>{createdAt}</TableCell>
+                      <TableCell>{course.number_of_slots}</TableCell>
+                      <TableCell>{course.level}</TableCell>
+
                       <TableCell>
                         <Chip
                           color={course.status ? "secondary" : "error"}
-                          label={course.status ? "Công khai" : "Khóa"}
+                          label={course.status ? "Active" : "Deactive"}
                         />
                       </TableCell>
                       <TableCell>

@@ -20,6 +20,7 @@ namespace BusinessObjects.Models
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
         public virtual DbSet<BlogCategory> BlogCategories { get; set; } = null!;
         public virtual DbSet<BlogDetail> BlogDetails { get; set; } = null!;
+        public virtual DbSet<Calendar> Calendars { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Class> Classes { get; set; } = null!;
         public virtual DbSet<ClassMember> ClassMembers { get; set; } = null!;
@@ -187,6 +188,28 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.BlogDetails)
                     .HasForeignKey(d => d.BlogId)
                     .HasConstraintName("FK__Blog_Deta__blog___5812160E");
+            });
+
+            modelBuilder.Entity<Calendar>(entity =>
+            {
+                entity.ToTable("Calendar");
+
+                entity.Property(e => e.CalendarId).HasColumnName("calendar_id");
+
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
+
+                entity.Property(e => e.DayOfWeeks)
+                    .HasMaxLength(500)
+                    .HasColumnName("day_of_weeks");
+
+                entity.Property(e => e.EndTime).HasColumnName("end_time");
+
+                entity.Property(e => e.StartTime).HasColumnName("start_time");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Calendars)
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK__Calendar__class___0D7A0286");
             });
 
             modelBuilder.Entity<Chapter>(entity =>

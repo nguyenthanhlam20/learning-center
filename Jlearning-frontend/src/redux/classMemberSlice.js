@@ -34,14 +34,6 @@ export const insertClassMember = createAsyncThunk(
   }
 );
 
-export const updateRole = createAsyncThunk(
-  "update-role",
-  async (classMember) => {
-    const response = await classMemberServices.updateRole(classMember);
-    return response;
-  }
-);
-
 const classMemberSlice = createSlice({
   name: "classMember",
   initialState: {
@@ -66,10 +58,7 @@ const classMemberSlice = createSlice({
       toast.success("Thêm mới người dùng thành công");
       state.isRefresh = true;
     });
-    builder.addCase(updateRole.fulfilled, (state, action) => {
-      toast.success("Phân quyền người dùng thành công");
-      state.isRefresh = true;
-    });
+
     builder.addCase(getClassMember.fulfilled, (state, action) => {
       console.log(action.payload);
       state.specific = action.payload;

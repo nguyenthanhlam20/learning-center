@@ -23,7 +23,7 @@ const AdminTeacherPage = () => {
   return (
     <ListAccount
       data={accounts ?? []}
-      roleId={ROLE.STAFF}
+      roleId={ROLE.TEACHER}
       title={"giáo viên"}
     />
   );

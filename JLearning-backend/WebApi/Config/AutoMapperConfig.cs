@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
+using BusinessObjects.DTO.Calendar;
 using BusinessObjects.DTO.Classes;
 using BusinessObjects.DTO.ClassMembers;
 using BusinessObjects.DTO.RegistrationForms;
@@ -84,7 +85,10 @@ namespace WebApi.Config
                 config.CreateMap<PaymentDTO, Payment>();
                 config.CreateMap<Payment, PaymentDTO>();
 
-                config.CreateMap<Class, ClassDTO>();
+                config.CreateMap<Class, ClassDTO>()
+                     .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToString("yyyy-MM-dd")))
+                     .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.ToString("yyyy-MM-dd")));
+
                 config.CreateMap<AddClassDTO, Class>();
 
                 config.CreateMap<ClassMember, ClassMemberDTO>();
@@ -92,6 +96,9 @@ namespace WebApi.Config
 
                 config.CreateMap<RegistrationForm, RegistrationFormDTO>();
                 config.CreateMap<AddRegistrationFormDTO, RegistrationForm>();
+
+                config.CreateMap<Calendar, CalendarDTO>();
+                config.CreateMap<AddCalendarDTO, Calendar>();
 
             });
 

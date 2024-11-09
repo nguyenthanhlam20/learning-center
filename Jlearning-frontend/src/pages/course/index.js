@@ -1,9 +1,8 @@
-
-import { useDispatch, useSelector } from "react-redux";
-import CourseList from "./CourseList";
 import React from "react";
-import { getCourses } from "../../redux/courseSlice";
+import { useDispatch, useSelector } from "react-redux";
 import SmoothScrollUp from "../../components/Common/SmoothScrollUp";
+import { getCourses } from "../../redux/courseSlice";
+import CourseList from "./CourseList";
 
 const CoursePage = () => {
   const dispatch = useDispatch();
@@ -11,12 +10,11 @@ const CoursePage = () => {
 
   React.useEffect(() => {
     dispatch(getCourses());
-  }, [])
+  }, []);
 
   return (
     <>
-        <SmoothScrollUp />
-
+      <SmoothScrollUp />
       <CourseList data={courses} />
     </>
   );

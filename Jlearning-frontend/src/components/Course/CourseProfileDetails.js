@@ -1,67 +1,98 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
-import AppInput from '../AppInput/AppInput';
-import AppCheckBox from '../AppInput/AppCheckBox';
-import AppTextArea from '../AppInput/AppTextArea';
-import AppInputNumber from '../AppInput/AppInputNumber';
-import AppInputCurrency from '../AppInput/AppInputCurrency';
+import { Box } from "@mui/material";
+import { height, Stack, width } from "@mui/system";
+import { isEmpty } from "lodash";
+import CourseImageDefault from "../../assets/images/course/course-default.png";
+import AppCheckBox from "../AppInput/AppCheckBox";
+import AppInput from "../AppInput/AppInput";
+import AppInputCurrency from "../AppInput/AppInputCurrency";
+import AppInputNumber from "../AppInput/AppInputNumber";
+import AppTextArea from "../AppInput/AppTextArea";
+import AppSelect from "../AppInput/AppSelect";
+import { levels } from "../../constants/constants";
 
-
-export const CourseProfileDetails = ({handleChangeValue, values}) => {
-  
-
+export const CourseProfileDetails = ({ handleChangeValue, values }) => {
   return (
-    <Card sx={{ ml: 2, boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;' }} >
-
-      <CardContent className='h-[394px]' sx={{ pb: 5 }} >
-        <CardHeader title="Thông tin khóa học" />
-        <Grid
-          container
-          spacing={3}
+    <Stack spacing={3} direction={"row"} minWidth={900}>
+      <Stack spacing={2}>
+        <div
+          style={{
+            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+            borderRadius: "10px",
+          }}
+          className="relative flex h-[240px] w-96 flex-col rounded bg-white  text-gray-700 shadow-md"
         >
-          <Grid
+          <img
+            src={
+              isEmpty(values.avatar_url)
+                ? CourseImageDefault
+                : values.avatar_url
+            }
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: "10px",
+            }}
+            alt="img-blur-shadow"
+          />
+        </div>
+        <AppInput
+          value={values?.avatar_url}
+          title={"avatar_url"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Ảnh khóa học"}
+        />
+        <AppInputCurrency
+          value={values?.price}
+          title={"price"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Giá (vnd)"}
+        />
+        <AppInputNumber
+          value={values?.number_of_slots}
+          title={"number_of_slots"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Số buổi học"}
+        />
+      </Stack>
+      <Stack spacing={2} sx={{ width: "100%" }}>
+        <AppInput
+          value={values?.course_name}
+          title={"course_name"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Tên khóa học"}
+        />
+        <AppInput
+          value={values?.code}
+          title={"code"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Code"}
+        />
 
-            xs={12}
-            md={6}
-          >
-            <AppInput height={""} value={values?.course_name} title={"course_name"} handleChangeValue={handleChangeValue} placeholder={"Tên khóa học"} />
-          </Grid>
-     
-          <Grid
-            xs={12}
-            md={6}
-          >
-            <AppInputNumber height={""} value={values?.duration} title={"duration"} handleChangeValue={handleChangeValue} placeholder={"Thời gian học (tháng)"} />
-          </Grid>
-          <Grid
-            xs={12}
-            md={6}
-          >
-            <AppInputCurrency height={""} value={values?.price} title={"price"} handleChangeValue={handleChangeValue} placeholder={"Giá (vnd)"} />
-          </Grid>
-          <Grid
-            xs={12}
-            md={6}
-          >
-            <AppCheckBox value={values?.status}  handleChangeValue={handleChangeValue} title={"status"} placeholder={"Trạng thái"} />
-          </Grid>
-          <Grid
-            xs={12}
-            md={12}
-            
-          >
-            <AppTextArea height={"h-[150px]"} value={values?.description} title={"description"} handleChangeValue={handleChangeValue} placeholder={"Mô tả khóa học"} />
-          </Grid>
+        <AppSelect
+          value={values?.level}
+          data={levels}
+          title={"level"}
+          display={"level"}
+          itemKey={"level"}
+          placeholder={"Chọn cấp độ"}
+          handleChangeValue={handleChangeValue}
+        />
 
-        </Grid>
-      </CardContent>
-      <Divider />
-    </Card>
-
+        <AppTextArea
+          height={"h-[170px]"}
+          value={values?.description}
+          title={"description"}
+          handleChangeValue={handleChangeValue}
+          placeholder={"Mô tả khóa học"}
+        />
+        <AppCheckBox
+          value={values?.status}
+          handleChangeValue={handleChangeValue}
+          title={"status"}
+          placeholder={"Active"}
+        />
+      </Stack>
+    </Stack>
   );
 };

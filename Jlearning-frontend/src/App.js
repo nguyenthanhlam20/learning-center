@@ -15,7 +15,8 @@ import { routes } from "./contexts/routes";
 import React from "react";
 import { ROLE } from "./constants/constants";
 import ErrorPage from "./pages/error";
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 function App() {
   let user = useSelector((state) => state.authen.user);
   console.log(user);
@@ -39,7 +40,7 @@ function App() {
   };
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <div>
           {user?.role_id === ROLE.USER || user?.role_id === undefined ? (
@@ -65,7 +66,7 @@ function App() {
           <ScrollToTop />
         </div>
       </Router>
-    </>
+    </LocalizationProvider>
   );
 }
 

@@ -33,6 +33,9 @@ import AdminStaffPage from "../pages/admin/staffs";
 import EditAccount from "../pages/account/edit";
 import AdminTeacherPage from "../pages/admin/teachers";
 import AdminClassPage from "../pages/classes";
+import EditClassPage from "../pages/classes/edit";
+import AddCalendarPage from "../pages/calendar/create";
+import EditCalendarPage from "../pages/calendar/edit";
 
 export const routes = [
   {
@@ -228,7 +231,6 @@ export const routes = [
     component: <AdminStaffPage />,
     exact: true,
   },
-
   {
     path: ROUTE_CONSTANTS.ADMIN.TEACHER_PAGE,
     isPrivate: true,
@@ -239,6 +241,24 @@ export const routes = [
     path: ROUTE_CONSTANTS.CLASS.INDEX,
     isPrivate: true,
     component: <AdminClassPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.CLASS.EDIT,
+    isPrivate: true,
+    component: <EditClassPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.CALENDAR.ADD,
+    isPrivate: true,
+    component: <AddCalendarPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.CALENDAR.EDIT,
+    isPrivate: true,
+    component: <EditCalendarPage />,
     exact: true,
   },
 ];

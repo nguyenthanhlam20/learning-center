@@ -3,7 +3,7 @@ import CourseCard from "./CourseCard";
 import Carousel from "react-material-ui-carousel";
 import React from "react";
 
-const CourseCarousel = ({ data, title,paragraph  }) => {
+const CourseCarousel = ({ data, title, paragraph }) => {
   const totalCourse = data.length;
   let totalPage = Math.floor(totalCourse / 3);
   let pageList = [];
@@ -11,15 +11,11 @@ const CourseCarousel = ({ data, title,paragraph  }) => {
 
   for (let i = 0; i < totalPage; i++) {
     pageList.push(i);
-
   }
 
   const [currentPage, setCurrentPage] = React.useState(1);
 
-
-  const handleAction = () => {
-
-  }
+  const handleAction = () => {};
   return (
     <section id="pricing" className="relative z-10 ">
       <div className="container">
@@ -30,7 +26,7 @@ const CourseCarousel = ({ data, title,paragraph  }) => {
           width="665px"
         />
 
-        <div className="relative w-full pl-20 pr-20 pb-20">
+        <div className="relative w-full p-10 pt-0">
           <Carousel
             indicators={totalPage > 1 ? true : false}
             autoPlay={true}
@@ -41,52 +37,87 @@ const CourseCarousel = ({ data, title,paragraph  }) => {
             className="h-[670px]"
           >
             {pageList.map((pageNumber) => {
-
               let startIndex = pageNumber * 3;
               let endIndex = startIndex + 3;
               if (endIndex > totalCourse) endIndex = totalCourse;
 
-              return <div key={"item-" + pageNumber} className={`p-3 w-full h-full duration-700 ease-in-out grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3 `}>
-                {data.slice(startIndex, endIndex).map((course) => (
-                  <CourseCard
-                    course={course}
-                  />
-                ))}
-              </div>
-
+              return (
+                <div
+                  key={"item-" + pageNumber}
+                  className={`grid h-full w-full grid-cols-1 gap-x-8 gap-y-10 p-3 duration-700 ease-in-out md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3 `}
+                >
+                  {data.slice(startIndex, endIndex).map((course) => (
+                    <CourseCard course={course} />
+                  ))}
+                </div>
+              );
             })}
           </Carousel>
 
-          <div className={`${totalPage > 1 ? "block" : "hidden"}`} >
-            <button onClick={() => {
-              if (currentPage > 1) {
-                setCurrentPage(currentPage - 1);
-              } else {
-                setCurrentPage(totalPage);
-              }
-            }} type="button" className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none">
-
-              <span className="animate-bounce inline-flex bg-primary items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
-                <svg aria-hidden="true" className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+          <div className={`${totalPage > 1 ? "block" : "hidden"}`}>
+            <button
+              onClick={() => {
+                if (currentPage > 1) {
+                  setCurrentPage(currentPage - 1);
+                } else {
+                  setCurrentPage(totalPage);
+                }
+              }}
+              type="button"
+              className="group absolute left-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center  focus:outline-none"
+            >
+              <span className="inline-flex h-8 w-8 animate-bounce items-center justify-center rounded-full bg-primary transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp sm:h-10 sm:w-10">
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 19l-7-7 7-7"
+                  ></path>
+                </svg>
               </span>
             </button>
-            <button type="button" onClick={() => {
-              if (currentPage < totalPage) {
-                setCurrentPage(currentPage + 1);
-              } else {
-                setCurrentPage(1);
-              }
-            }} className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" >
-              <span className="animate-bounce inline-flex bg-primary items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
-                <svg aria-hidden="true" className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+            <button
+              type="button"
+              onClick={() => {
+                if (currentPage < totalPage) {
+                  setCurrentPage(currentPage + 1);
+                } else {
+                  setCurrentPage(1);
+                }
+              }}
+              className="group absolute right-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center  focus:outline-none"
+            >
+              <span className="inline-flex h-8 w-8 animate-bounce items-center justify-center rounded-full bg-primary transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp sm:h-10 sm:w-10">
+                <svg
+                  aria-hidden="true"
+                  className="h-5 w-5 text-white dark:text-gray-800 sm:h-6 sm:w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
               </span>
             </button>
           </div>
-
         </div>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-[-1]">
+      <div className="absolute bottom-0 left-0 z-[-1]">
         <svg
           width="239"
           height="601"

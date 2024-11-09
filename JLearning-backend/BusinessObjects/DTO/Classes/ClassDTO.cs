@@ -8,8 +8,8 @@ public class ClassDTO
     public int ClassId { get; set; }
     public int? CourseId { get; set; }
     public string ClassName { get; set; } = null!;
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public string? StartDate { get; set; }
+    public string? EndDate { get; set; }
     public int NumberOfStudent { get; set; }
     public int NumberOfSlots { get; set; }
     public string? StaffEmail { get; set; }

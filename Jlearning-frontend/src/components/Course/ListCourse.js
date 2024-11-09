@@ -18,13 +18,12 @@ import {
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import CourseImageDefault from "../../assets/images/course/course-default.png";
 import AppInput from "../../components/AppInput/AppInput";
 import { CourseProfileDetails } from "../../components/Course/CourseProfileDetails";
-import FileUploader from "../../components/FileUploader";
 import { insertCourse } from "../../redux/courseSlice";
 import userSlice from "../../redux/userSlice";
 import { CourseTable } from "../../sections/table/course-table";
+import { isEmpty } from "lodash";
 
 const ListCourse = ({ data }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -35,19 +34,16 @@ const ListCourse = ({ data }) => {
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
-  const [currentFile, setCurrentFile] = React.useState(null);
-  const [previewUrl, setPreviewUrl] = React.useState(null);
-
-  const [disableSubmit, setDisableSubmit] = React.useState(false);
 
   const [values, setValues] = useState({
+    avatar_url: "",
+    code: "",
     course_name: "",
     description: "",
-    duration: "0",
-    price: "0",
-    status: false,
-    avatar_url: "",
-    created_at: "",
+    number_of_slots: 1,
+    price: "",
+    status: true,
+    level: "",
   });
 
   const handleChangeValue = (key, value) => {
@@ -57,24 +53,12 @@ const ListCourse = ({ data }) => {
     }));
   };
 
-  React.useEffect(() => {
-    if (currentFile?.url != undefined) {
-      // alert(currentFile?.url);
-      setValues((prevValues) => ({
-        ...prevValues,
-        avatar_url: currentFile?.url,
-      }));
-      setDisableSubmit(false);
-    }
-  }, [currentFile]);
-
   const { setCurrentPage } = userSlice.actions;
 
   React.useEffect(() => {
     dispatch(setCurrentPage("Quản lý khóa học"));
   }, []);
 
-  // console.log(data);
   React.useEffect(() => {
     setCourses(data);
     setCoursesPagination(
@@ -96,29 +80,33 @@ const ListCourse = ({ data }) => {
   };
 
   const handleSubmitCourse = () => {
-    if (values.course_name.trim() === "") {
+    if (isEmpty(values.avatar_url.trim())) {
+      toast.warning("Chưa nhập ảnh khóa học");
+      return;
+    }
+    if (isEmpty(values.course_name.trim())) {
       toast.warning("Chưa nhập tên khóa học");
       return;
     }
-
-    if (
-      values.duration.trim() === "" ||
-      parseInt(values.duration.trim()) === 0
-    ) {
-      toast.warning("Chưa nhập thời gian học");
+    if (isEmpty(values.code.trim())) {
+      toast.warning("Chưa nhập mã khóa học");
       return;
     }
-    if (values.price.trim() === "") {
+    if (isEmpty(values.level.trim())) {
+      toast.warning("Chưa chọn cập độ khóa học");
+      return;
+    }
+    if (parseInt(values.number_of_slots) <= 0) {
+      toast.warning("Số buổi học phải lớn hơn 0");
+      return;
+    }
+    if (isEmpty(values.price.trim())) {
       toast.warning("Chưa nhập giá tiền");
       return;
     }
 
-    if (values.description.trim() === "") {
+    if (isEmpty(values.description.trim())) {
       toast.warning("Chưa nhập mô tả");
-      return;
-    }
-    if (values.avatar_url.trim() === "") {
-      toast.warning("Chưa chọn ảnh khóa học");
       return;
     }
 
@@ -126,21 +114,20 @@ const ListCourse = ({ data }) => {
       insertCourse({
         ...values,
         created_at: new Date(),
-        duration: parseInt(values.duration.trim()),
         price: parseFloat(values.price.replace(/\./g, "").replace("₫", "")),
       })
     );
     setValues({
+      avatar_url: "",
+      code: "",
       course_name: "",
       description: "",
-      duration: 0,
+      number_of_slots: 1,
       price: 0,
-      status: false,
-      avatar_url: "",
-      created_at: "",
+      status: true,
+      level: "",
     });
 
-    setPreviewUrl(null);
     setIsOpenModal(false);
     // console.log(values);
   };
@@ -267,70 +254,37 @@ const ListCourse = ({ data }) => {
           sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" }}
           dividers
         >
-          <Container className="mt-10" maxWidth="lg" sx={{ height: 450 }}>
-            <Stack spacing={3}>
-              <Grid container spacing={3}>
-                <Grid xs={12} md={6} lg={4}>
-                  <div
-                    style={{
-                      boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
-                    }}
-                    className="relative  flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
-                  >
-                    <div className="bg-blue-gray-500 shadow-blue-gray-500/40  relative mx-4 -mt-6 h-56 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg">
-                      <img
-                        src={
-                          previewUrl == null ? CourseImageDefault : previewUrl
-                        }
-                        alt="img-blur-shadow"
-                      />
-                    </div>
-                    <Divider className="h-4" />
-                    <FileUploader
-                      setDisableSubmit={setDisableSubmit}
-                      setCurrentFile={setCurrentFile}
-                      firebaseFolderName={"course/images"}
-                      setPreviewUrl={setPreviewUrl}
-                    />
-                  </div>
-                </Grid>
-                <Grid xs={12} md={6} lg={8}>
-                  <CourseProfileDetails
-                    handleChangeValue={handleChangeValue}
-                    values={values}
-                  />
-                </Grid>
-              </Grid>
-              <div className="flex w-full justify-end">
-                <div className="flex w-[320px] justify-between">
-                  <Button
-                    disabled={disableSubmit}
-                    color="error"
-                    variant="contained"
-                    className=" w-[150px]"
-                    onClick={handleCloseModal}
-                  >
-                    <SvgIcon className="mr-2">
-                      <XMarkIcon />
-                    </SvgIcon>{" "}
-                    Hủy
-                  </Button>
-                  <Button
-                    disabled={disableSubmit}
-                    onClick={handleSubmitCourse}
-                    color="primary"
-                    variant="contained"
-                    className="ml-3 w-[150px]"
-                  >
-                    <SvgIcon className="mr-2">
-                      <HandThumbUpIcon />
-                    </SvgIcon>{" "}
-                    Lưu
-                  </Button>
-                </div>
-              </div>
+          <Stack spacing={3} mb={1} mt={1}>
+            <CourseProfileDetails
+              handleChangeValue={handleChangeValue}
+              values={values}
+            />
+            <Divider />
+            <Stack spacing={2} direction={"row"} justifyContent={"end"}>
+              <Button
+                color="error"
+                variant="contained"
+                className=" w-[150px]"
+                onClick={handleCloseModal}
+              >
+                <SvgIcon className="mr-2">
+                  <XMarkIcon />
+                </SvgIcon>
+                Hủy
+              </Button>
+              <Button
+                onClick={handleSubmitCourse}
+                color="primary"
+                variant="contained"
+                className="ml-3 w-[150px]"
+              >
+                <SvgIcon className="mr-2">
+                  <HandThumbUpIcon />
+                </SvgIcon>
+                Lưu
+              </Button>
             </Stack>
-          </Container>
+          </Stack>
         </DialogContent>
       </Dialog>
     </>

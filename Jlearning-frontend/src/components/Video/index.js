@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import SectionTitle from "../Common/SectionTitle";
 import ModalVideo from "react-modal-video";
@@ -24,8 +23,13 @@ const Video = () => {
               data-wow-delay=".15s"
             >
               <div className="relative aspect-[77/40] items-center justify-center">
-                <img src={VideoImage} alt="video image" fill />
-                <div className="absolute top-0 right-0 flex h-full w-full items-center justify-center">
+                <img
+                  src={VideoImage}
+                  alt="video image"
+                  style={{ width: "100%" }}
+                  fill
+                />
+                <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center">
                   <button
                     onClick={() => setOpen(true)}
                     className="flex h-[70px] w-[70px] items-center justify-center rounded-full bg-white bg-opacity-75 text-primary transition hover:bg-opacity-100"
@@ -51,13 +55,12 @@ const Video = () => {
         autoplay={true}
         start={true}
         isOpen={isOpen}
-        videoId="zWI5jp-abTk"
+        videoId="oafyFIOqtsw"
         onClose={() => setOpen(false)}
       />
-       <div className="absolute bottom-0 left-0 right-0 z-[-1]">
+      <div className="absolute bottom-0 left-0 right-0 z-[-1]">
         <img src={Shape} alt="shape" className="w-full" />
       </div>
-     
     </section>
   );
 };

@@ -77,3 +77,18 @@ export const SIGNUP_CONSTANTS = {
   HAVE_ACCOUNT: "Bạn đã có tài khoản?",
   SIGN_UP_NOW: "Đăng nhập ngay",
 };
+
+export const levels = [
+  {
+    value: "Mới bắt đầu",
+    level: "Mới bắt đầu",
+  },
+  {
+    value: "Trung bình",
+    level: "Trung bình",
+  },
+  {
+    value: "Nâng cao",
+    level: "Nâng cao",
+  },
+];

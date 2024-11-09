@@ -20,6 +20,7 @@ import dashboardSlice from "./dashboardSlice";
 import classSlice from "./classSlice";
 import classMemberSlice from "./classMemberSlice";
 import registrationFormSlice from "./registrationFormSlice";
+import calendarSlice from "./calendarSlice";
 
 const persistConfig = {
   key: "root",
@@ -45,6 +46,7 @@ const rootReducers = combineReducers({
   classes: classSlice.reducer,
   classMember: classMemberSlice.reducer,
   registrationForm: registrationFormSlice.reducer,
+  calendar: calendarSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

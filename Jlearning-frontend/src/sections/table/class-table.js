@@ -1,29 +1,25 @@
-import React from "react";
-import { format } from "date-fns";
+import PencilIcon from "@heroicons/react/24/solid/PencilIcon";
 import {
   Box,
+  Button,
   Card,
-  Stack,
+  Chip,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Button,
-  Typography,
-  SvgIcon,
-  Chip,
-  Avatar,
   Tooltip,
 } from "@mui/material";
+import React from "react";
 import { Scrollbar } from "../../components/ScrollBar";
-import PencilIcon from "@heroicons/react/24/solid/PencilIcon";
-import { getInitials } from "../../utils/get-initials";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
+import { People, PeopleOutline } from "@mui/icons-material";
+import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
-import { height } from "@mui/system";
 
 export const ClassTable = (props) => {
   const {
@@ -37,8 +33,8 @@ export const ClassTable = (props) => {
   } = props;
 
   const navigate = useNavigate();
-  const handleEditClass = (email) => {
-    navigate(ROUTE_CONSTANTS.ADMIN.EDIT_ACCOUNT + "?email=" + email);
+  const handleEditClass = (classId) => {
+    navigate(ROUTE_CONSTANTS.CLASS.EDIT + "?classId=" + classId);
   };
 
   return (
@@ -59,12 +55,14 @@ export const ClassTable = (props) => {
                   <TableCell>Sĩ số</TableCell>
                   <TableCell>Ngày bắt đầu</TableCell>
                   <TableCell>Ngày kết thúc</TableCell>
-                  <TableCell>Trạng thái</TableCell>
-                  <TableCell>Buổi học</TableCell>
-                  <TableCell>Thời gian học</TableCell>
+                  {/* <TableCell>Buổi học</TableCell>
+                  <TableCell>Thời gian học</TableCell> */}
                   <TableCell>Phòng học</TableCell>
                   <TableCell>Giảng viên</TableCell>
-                  <TableCell>Hành động</TableCell>
+                  <TableCell>Trạng thái</TableCell>
+                  <TableCell sx={{ width: "180px", textAlign: "center" }}>
+                    Hành động
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody sx={{ overflow: "auto" }}>
@@ -80,7 +78,6 @@ export const ClassTable = (props) => {
                           <p>{classes.classCode + "-00" + classes.classId}</p>
                         </Tooltip>
                       </TableCell>
-
                       <TableCell>
                         <Tooltip
                           title={classes.className}
@@ -116,31 +113,43 @@ export const ClassTable = (props) => {
                         {classes.endDate &&
                           new Date(classes?.endDate).toLocaleDateString()}
                       </TableCell>
+                      {/* <TableCell>{classes.daysOfWeek}</TableCell>
+                      <TableCell>
+                        {classes.startTime + " - " + classes.endTime}
+                      </TableCell> */}
+                      <TableCell>{classes.room}</TableCell>
+                      <TableCell>
+                        {classes.teacherEmailNavigation.name}
+                      </TableCell>
                       <TableCell>
                         <Chip
                           color={classes.status ? "secondary" : "error"}
                           label={classes.status ? "Active" : "Deactive"}
                         />
                       </TableCell>
-                      <TableCell>{classes.daysOfWeek}</TableCell>
-                      <TableCell>
-                        {classes.startTime + " - " + classes.endTime}
-                      </TableCell>
-                      <TableCell>{classes.room}</TableCell>
-                      <TableCell>
-                        {classes.teacherEmailNavigation.name}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          onClick={() => handleEditClass(classes.email)}
-                          variant="contained"
-                          className="bg-primary"
-                          size="small"
-                        >
-                          <SvgIcon>
-                            <PencilIcon />
-                          </SvgIcon>
-                        </Button>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        <Stack direction={"row"} spacing={2}>
+                          <Button
+                            onClick={() => handleEditClass(classes.classId)}
+                            variant="contained"
+                            className="bg-primary"
+                            size="small"
+                          >
+                            <SvgIcon>
+                              <PencilIcon />
+                            </SvgIcon>
+                          </Button>
+                          <Button
+                            onClick={() => handleEditClass(classes.classId)}
+                            variant="contained"
+                            className="bg-primary"
+                            size="small"
+                          >
+                            <SvgIcon>
+                              <People />
+                            </SvgIcon>
+                          </Button>
+                        </Stack>
                       </TableCell>
                     </TableRow>
                   );
