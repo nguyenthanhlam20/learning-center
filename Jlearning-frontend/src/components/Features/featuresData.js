@@ -1,4 +1,3 @@
-
 const featuresData = [
   {
     id: 1,
@@ -13,7 +12,7 @@ const featuresData = [
     ),
     title: "Chương trình học đa dạng",
     paragraph:
-      "Trang web cung cấp các chương trình học tiếng Nhật đa dạng và phù hợp với mọi trình độ, từ cơ bản đến nâng cao, giúp người học tiếp cận với nhiều kỹ năng như từ vựng, ngữ pháp, đọc hiểu, viết và giao tiếp.",
+      "Trang web cung cấp các chương trình học tiếng Anh đa dạng và phù hợp với mọi trình độ, từ cơ bản đến nâng cao, giúp người học tiếp cận với nhiều kỹ năng như từ vựng, ngữ pháp, đọc hiểu, viết và giao tiếp.",
   },
   {
     id: 1,
@@ -28,7 +27,7 @@ const featuresData = [
     ),
     title: "Tài liệu đa dạng và chất lượng",
     paragraph:
-      "Người học có thể truy cập đến các nguồn tài liệu học tập đa dạng, bao gồm sách, video, âm thanh và hình ảnh với chất lượng cao, giúp họ nâng cao trình độ tiếng Nhật một cách hiệu quả.",
+      "Người học có thể truy cập đến các nguồn tài liệu học tập đa dạng, bao gồm sách, video, âm thanh và hình ảnh với chất lượng cao, giúp họ nâng cao trình độ tiếng Anh một cách hiệu quả.",
   },
   {
     id: 1,
@@ -43,7 +42,7 @@ const featuresData = [
     ),
     title: "Kiểm tra và đánh giá trình độ",
     paragraph:
-      "Trang web cung cấp các bài kiểm tra và đánh giá trình độ tiếng Nhật để người học đánh giá được sự tiến bộ của mình, từ đó điều chỉnh lộ trình học phù hợp.",
+      "Trang web cung cấp các bài kiểm tra và đánh giá trình độ tiếng Anh để người học đánh giá được sự tiến bộ của mình, từ đó điều chỉnh lộ trình học phù hợp.",
   },
   {
     id: 1,
@@ -58,7 +57,7 @@ const featuresData = [
     ),
     title: "Thực hành giao tiếp",
     paragraph:
-      "Người học được thực hành giao tiếp tiếng Nhật thông qua các hoạt động và bài tập thực hành, từ đó tăng cường kỹ năng giao tiếp và sự tự tin khi sử dụng tiếng Nhật.",
+      "Người học được thực hành giao tiếp tiếng Anh thông qua các hoạt động và bài tập thực hành, từ đó tăng cường kỹ năng giao tiếp và sự tự tin khi sử dụng tiếng Anh.",
   },
   {
     id: 1,
@@ -73,7 +72,7 @@ const featuresData = [
     ),
     title: "Cộng đồng học tập đông đảo",
     paragraph:
-      "Trang web có cộng đồng học tập đông đảo và thân thiện, giúp người học có thể chia sẻ kinh nghiệm, học hỏi từ những người học tiếng Nhật khác trên toàn thế giới và tạo ra môi trường học tập tích cực.",
+      "Trang web có cộng đồng học tập đông đảo và thân thiện, giúp người học có thể chia sẻ kinh nghiệm, học hỏi từ những người học tiếng Anh khác trên toàn thế giới và tạo ra môi trường học tập tích cực.",
   },
   {
     id: 1,
@@ -88,7 +87,7 @@ const featuresData = [
     ),
     title: "Giáo viên chuyên nghiệp và tận tâm",
     paragraph:
-      "Trang web có đội ngũ giáo viên chuyên nghiệp và tận tâm, sẵn sàng hỗ trợ người học trong quá trình học tập, từ đó giúp cho việc học tiếng Nhật trở nên dễ dàng và hiệu quả hơn.",
+      "Trang web có đội ngũ giáo viên chuyên nghiệp và tận tâm, sẵn sàng hỗ trợ người học trong quá trình học tập, từ đó giúp cho việc học tiếng Anh trở nên dễ dàng và hiệu quả hơn.",
   },
 ];
 export default featuresData;

@@ -4,8 +4,8 @@ import registrationFormServices from "../services/registrationFormServices";
 
 export const getRegistrationForms = createAsyncThunk(
   "get-registrationForms",
-  async (role) => {
-    const response = await registrationFormServices.getRegistrationForms(role);
+  async () => {
+    const response = await registrationFormServices.getRegistrationForms();
     return response;
   }
 );
@@ -28,6 +28,16 @@ export const insertRegistrationForm = createAsyncThunk(
   }
 );
 
+export const cancelForm = createAsyncThunk("cancel-form", async (data) => {
+  const response = await registrationFormServices.cancel(data);
+  return response;
+});
+
+export const confirmForm = createAsyncThunk("confirm-form", async (id) => {
+  const response = await registrationFormServices.confirm(id);
+  return response;
+});
+
 const registrationFormSlice = createSlice({
   name: "registrationForm",
   initialState: {
@@ -46,16 +56,47 @@ const registrationFormSlice = createSlice({
     builder.addCase(getRegistrationForms.fulfilled, (state, action) => {
       state.data = action.payload;
       state.isRefresh = false;
-      console.log(action.payload);
+      console.log("registration", action.payload);
     });
     builder.addCase(insertRegistrationForm.fulfilled, (state, action) => {
-      toast.success("Thêm mới người dùng thành công");
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
       state.isRefresh = true;
     });
 
     builder.addCase(getRegistrationForm.fulfilled, (state, action) => {
       console.log(action.payload);
+
       state.specific = action.payload;
+    });
+
+    builder.addCase(cancelForm.fulfilled, (state, action) => {
+      console.log(action.payload);
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+      state.isRefresh = true;
+    });
+
+    builder.addCase(confirmForm.fulfilled, (state, action) => {
+      console.log(action.payload);
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+      state.isRefresh = true;
     });
   },
 });

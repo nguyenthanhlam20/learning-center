@@ -19,13 +19,6 @@ table {
   cursor: pointer;
 }
 
-table td {
-  max-width: 120px; /* Set a fixed or maximum width */
-  white-space: nowrap; /* Prevents text from wrapping to a new line */
-  overflow: hidden; /* Hides overflowed text */
-  text-overflow: ellipsis; /* Adds ellipsis ("...") to the overflowed text */
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -632,14 +632,9 @@ namespace BusinessObjects.Models
 
             modelBuilder.Entity<RegistrationForm>(entity =>
             {
-                entity.HasKey(e => new { e.StudentEmail, e.ClassId, e.CourseId })
-                    .HasName("PK__Registra__525AD650A6D35CBE");
-
                 entity.ToTable("Registration_Form");
 
-                entity.Property(e => e.StudentEmail)
-                    .HasMaxLength(100)
-                    .HasColumnName("student_email");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ClassId).HasColumnName("class_id");
 
@@ -649,25 +644,33 @@ namespace BusinessObjects.Models
                     .HasColumnType("date")
                     .HasColumnName("created_date");
 
+                entity.Property(e => e.Response)
+                    .HasMaxLength(500)
+                    .HasColumnName("response");
+
                 entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.StudentEmail)
+                    .HasMaxLength(100)
+                    .HasColumnName("student_email");
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__class__02084FDA");
+                    .HasConstraintName("FK__Registrat__class__114A936A");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__cours__02FC7413");
+                    .HasConstraintName("FK__Registrat__cours__123EB7A3");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.StudentEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__stude__01142BA1");
+                    .HasConstraintName("FK__Registrat__stude__10566F31");
             });
 
             modelBuilder.Entity<Role>(entity =>

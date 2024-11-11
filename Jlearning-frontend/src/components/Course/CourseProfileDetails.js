@@ -1,14 +1,13 @@
-import { Box } from "@mui/material";
-import { height, Stack, width } from "@mui/system";
+import { Stack } from "@mui/system";
 import { isEmpty } from "lodash";
 import CourseImageDefault from "../../assets/images/course/course-default.png";
+import { levels } from "../../constants/constants";
 import AppCheckBox from "../AppInput/AppCheckBox";
 import AppInput from "../AppInput/AppInput";
 import AppInputCurrency from "../AppInput/AppInputCurrency";
 import AppInputNumber from "../AppInput/AppInputNumber";
-import AppTextArea from "../AppInput/AppTextArea";
 import AppSelect from "../AppInput/AppSelect";
-import { levels } from "../../constants/constants";
+import AppTextArea from "../AppInput/AppTextArea";
 
 export const CourseProfileDetails = ({ handleChangeValue, values }) => {
   return (

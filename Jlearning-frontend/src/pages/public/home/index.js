@@ -1,4 +1,3 @@
-
 import Blog from "../../../components/Blog";
 import ScrollUp from "../../../components/Common/ScrollUp";
 import Contact from "../../../components/Contact";
@@ -9,16 +8,18 @@ import Testimonials from "../../../components/Testimonials";
 import Video from "../../../components/Video";
 import React from "react";
 const PublicHomePage = () => {
-  return <>
-    <ScrollUp />
-    <Hero />
-    <Features />
-    <Video />
-    <Course />
-    <Blog />
-    <Testimonials />
-    <Contact />
-  </>
+  return (
+    <>
+      <ScrollUp />
+      <Hero />
+      <Features />
+      <Video />
+      <Course />
+      {/* <Blog /> */}
+      <Testimonials />
+      <Contact />
+    </>
+  );
 };
 
 export default PublicHomePage;

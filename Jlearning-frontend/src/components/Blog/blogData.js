@@ -6,11 +6,11 @@ import Blog4 from "../../assets/images/blog/blog-4.png";
 const blogData = [
   {
     id: 1,
-    title: "Cách chuyển tên sang tiếng Nhật",
+    title: "Cách chuyển tên sang tiếng Anh",
     paragraph:
-      "Bài viết này sẽ cung cấp cho bạn những gợi ý và hướng dẫn để chuyển đổi tên của mình sang tiếng Nhật một cách đúng quy cách và phù hợp với văn hoá Nhật Bản. Bạn sẽ được tìm hiểu về cách lựa chọn từ, cách xác định phát âm và các quy tắc đặt tên trong tiếng Nhật.",
+      "Bài viết này sẽ cung cấp cho bạn những gợi ý và hướng dẫn để chuyển đổi tên của mình sang tiếng Anh một cách đúng quy cách và phù hợp với văn hoá Nhật Bản. Bạn sẽ được tìm hiểu về cách lựa chọn từ, cách xác định phát âm và các quy tắc đặt tên trong tiếng Anh.",
     image: Blog1,
-    category: "Kinh Nghiệm Học Tiếng Nhật",
+    category: "Kinh Nghiệm Học Tiếng Anh",
     tags: ["n1"],
     publishDate: "20/07/2021",
   },
@@ -36,11 +36,11 @@ const blogData = [
   },
   {
     id: 4,
-    title: "Tiếng Nhật có bao nhiêu loại chữ?",
+    title: "Tiếng Anh có bao nhiêu loại chữ?",
     paragraph:
-      "Tiếng Nhật sử dụng khoảng 3.000 ký tự chữ Hán và Kanji, và khoảng 50 bảng chữ cái Hiragana và Katakana.",
+      "Tiếng Anh sử dụng khoảng 3.000 ký tự chữ Hán và Kanji, và khoảng 50 bảng chữ cái Hiragana và Katakana.",
     image: Blog4,
-    category: "Kinh Nghiệm Học Tiếng Nhật",
+    category: "Kinh Nghiệm Học Tiếng Anh",
     tags: ["n2"],
     publishDate: "12/01/2020",
   },

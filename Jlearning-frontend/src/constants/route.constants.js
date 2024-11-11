@@ -35,13 +35,29 @@ export const ROUTE_CONSTANTS = {
     STAFF_PAGE: "/authen/staffs",
     TEACHER_PAGE: "/authen/teachers",
     EDIT_ACCOUNT: "/authen/account/edit",
+    REGISTRATION_FORM: {
+      INDEX: "/authen/admin/registration-form",
+      EDIT: "/authen/admin/registration-form/edit",
+    },
   },
   CLASS: {
     INDEX: "/authen/classes",
     EDIT: "/authen/classes/edit",
+    MINE: "/authen/classes/mine",
   },
   CALENDAR: {
     ADD: "/authen/calendar/add",
     EDIT: "/authen/calendar/edit",
+  },
+  REGISTRATION_FORM: {
+    INDEX: "/authen/registration-form",
+    EDIT: "/authen/registration-form/edit",
+  },
+  CLASS_MEMBER: {
+    INDEX: "/authen/class-member",
+    EDIT: "/authen/class-member/edit",
+  },
+  TEACHER: {
+    INDEX: "/teachers",
   },
 };

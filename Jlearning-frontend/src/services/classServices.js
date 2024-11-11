@@ -6,6 +6,12 @@ const classServices = {
     const response = await axios.get(API.MANAGE_CLASS);
     return response.data;
   },
+  getUserClasses: async (email) => {
+    const response = await axios.get(
+      API.MANAGE_CLASS + "/get-by-user-email/" + email
+    );
+    return response.data;
+  },
   getClass: async (classId) => {
     const response = await axios.get(API.MANAGE_CLASS + "/" + classId);
     return response.data;

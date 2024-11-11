@@ -27,6 +27,21 @@ namespace WebApi.Controllers
             return map;
         }
 
+        // GET: api/Class
+        [HttpGet("get-by-user-email/{email}")]
+        public async Task<ActionResult<List<ClassDTO>>> GetClassesByUserEmail(string email)
+        {
+            var classes = await _context.Classes
+                .Include(x => x.Course)
+                .Include(x => x.TeacherEmailNavigation)
+                .Include(x => x.StaffEmailNavigation)
+                .Include(x => x.ClassMembers)
+                .Where(x => x.ClassMembers.Any(m => m.StudentEmail == email))
+                .ToListAsync();
+            var map = _mapper.Map<List<ClassDTO>>(classes);
+            return map;
+        }
+
         // GET: api/Class/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClassDTO>> GetClass(int id)

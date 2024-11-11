@@ -36,6 +36,13 @@ import AdminClassPage from "../pages/classes";
 import EditClassPage from "../pages/classes/edit";
 import AddCalendarPage from "../pages/calendar/create";
 import EditCalendarPage from "../pages/calendar/edit";
+import AdminClassMemberPage from "../pages/class-members";
+import EditClassMemeberPage from "../pages/class-members/edit";
+import TeacherPage from "../pages/teacher";
+import RegistrationFormPage from "../pages/user/registration-form";
+import EditRegistrationFormPage from "../pages/user/registration-form/edit";
+import MyClassPage from "../pages/user/class";
+import ListRegistrationPage from "../pages/admin/registration";
 
 export const routes = [
   {
@@ -259,6 +266,55 @@ export const routes = [
     path: ROUTE_CONSTANTS.CALENDAR.EDIT,
     isPrivate: true,
     component: <EditCalendarPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.CLASS_MEMBER.INDEX,
+    isPrivate: true,
+    component: <AdminClassMemberPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.CLASS_MEMBER.EDIT,
+    isPrivate: true,
+    component: <EditClassMemeberPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.REGISTRATION_FORM.INDEX,
+    isPrivate: true,
+    component: <RegistrationFormPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.REGISTRATION_FORM.EDIT,
+    isPrivate: true,
+    component: <EditRegistrationFormPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.TEACHER.INDEX,
+    isPrivate: false,
+    component: <TeacherPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.CLASS.MINE,
+    isPrivate: true,
+    component: <MyClassPage />,
+    exact: true,
+  },
+
+  {
+    path: ROUTE_CONSTANTS.ADMIN.REGISTRATION_FORM.INDEX,
+    isPrivate: true,
+    component: <ListRegistrationPage />,
     exact: true,
   },
 ];

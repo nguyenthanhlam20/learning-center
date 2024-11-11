@@ -4,6 +4,8 @@ using BusinessObjects.DTO.ClassMembers;
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
+using Reporitories;
 
 namespace WebApi.Controllers;
 
@@ -15,12 +17,13 @@ public class ClassMemberController(JLearningContext context, IMapper mapper) : C
     private readonly IMapper _mapper = mapper;
 
     // GET: api/ClassMember
-    [HttpGet]
-    public async Task<ActionResult<List<ClassMemberDTO>>> GetClassMembers()
+    [HttpGet("find")]
+    public async Task<IActionResult> GetClassMembers(string email, int classId)
     {
-        var memebers = await _context.ClassMembers.ToListAsync();
-        var map = _mapper.Map<List<ClassMemberDTO>>(memebers);
-        return map;
+        var memeber = await _context.ClassMembers.Include(x => x.StudentEmailNavigation)
+            .FirstOrDefaultAsync(x => x.StudentEmail == email && x.ClassId == classId);
+        var map = _mapper.Map<ClassMemberDTO>(memeber);
+        return Ok(map);
     }
 
     // GET: api/ClassMember/5
@@ -38,6 +41,41 @@ public class ClassMemberController(JLearningContext context, IMapper mapper) : C
 
         var map = _mapper.Map<List<ClassMemberDTO>>(classMember);
         return map;
+    }
+
+    [HttpPost("insert")]
+    public async Task<IActionResult> InsertAccount([FromBody] AddMemberClassDTO request)
+    {
+        try
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Email == request.Email);
+            if (account is null)
+            {
+                var acc = _mapper.Map<Account>(request);
+                var success = _context.Accounts.Add(acc);
+                await _context.SaveChangesAsync();
+            }
+
+            var existClassMember = await _context.ClassMembers.FirstOrDefaultAsync(x => x.ClassId == request.ClassId && x.StudentEmail == request.Email);
+
+            if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
+            _context.ClassMembers.Add(new ClassMember()
+            {
+                ClassId = request.ClassId,
+                StudentEmail = request.Email,
+                EnrollmentDate = DateTime.Now,
+                Status = true
+
+            });
+            await _context.SaveChangesAsync();
+
+            return Ok(new ResponseDTO(false, "Thêm mới thành viên lớp thành công"));
+        }
+        catch (Exception)
+        {
+
+            return Ok(new ResponseDTO(false, "Thêm thành viên lớp thất bại"));
+        }
     }
 
     // PUT: api/ClassMember/5
@@ -58,7 +96,7 @@ public class ClassMemberController(JLearningContext context, IMapper mapper) : C
         }
         catch (Exception ex)
         {
-           
+
         }
 
         return NoContent();

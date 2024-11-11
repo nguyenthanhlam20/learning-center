@@ -12,16 +12,19 @@ export const updateInfo = createAsyncThunk(
 
 export const getClassMembers = createAsyncThunk(
   "get-classMembers",
-  async (role) => {
-    const response = await classMemberServices.getClassMembers(role);
+  async (classId) => {
+    const response = await classMemberServices.getClassMembers(classId);
     return response;
   }
 );
 
 export const getClassMember = createAsyncThunk(
   "get-classMember",
-  async (email) => {
-    const response = await classMemberServices.getClassMember(email);
+  async ({ email, classId }) => {
+    const response = await classMemberServices.getClassMember({
+      email,
+      classId,
+    });
     return response;
   }
 );
@@ -43,11 +46,7 @@ const classMemberSlice = createSlice({
     currentPage: "",
     specific: null,
   },
-  reducers: {
-    setCurrentPage: (state, action) => {
-      state.currentPage = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getClassMembers.fulfilled, (state, action) => {
       state.data = action.payload;
@@ -55,12 +54,12 @@ const classMemberSlice = createSlice({
       console.log(action.payload);
     });
     builder.addCase(insertClassMember.fulfilled, (state, action) => {
-      toast.success("Thêm mới người dùng thành công");
+      toast.success("Thêm mới thành viên lớp thành công");
       state.isRefresh = true;
     });
 
     builder.addCase(getClassMember.fulfilled, (state, action) => {
-      console.log(action.payload);
+      console.log("class member", action.payload);
       state.specific = action.payload;
     });
   },

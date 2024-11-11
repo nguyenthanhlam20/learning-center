@@ -41,7 +41,7 @@ const SingleTestimonial = ({ testimonial }) => {
             <h5 className="mb-1 text-lg font-semibold text-dark dark:text-white lg:text-base xl:text-lg">
               {name}
             </h5>
-            <p className="text-sm text-body-color">{"Học viên tiếng Nhật"}</p>
+            <p className="text-sm text-body-color">{"Học viên tiếng Anh"}</p>
           </div>
         </div>
       </div>

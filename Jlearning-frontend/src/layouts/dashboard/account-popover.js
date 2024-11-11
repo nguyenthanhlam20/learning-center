@@ -1,23 +1,40 @@
-
-import { useCallback } from 'react';
-import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
-
-import BookmarkIcon from '@heroicons/react/24/solid/BookmarkIcon';
-import PowerIcon from '@heroicons/react/24/solid/PowerIcon';
-import KeyIcon from '@heroicons/react/24/solid/KeyIcon';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import UserIcon from '@heroicons/react/24/solid/UserCircleIcon';
-
-import { SvgIcon } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import authenSlice from '../../redux/authenSlice';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_CONSTANTS } from '../../constants/route.constants';
-import { ROLE } from '../../constants/constants';
-import courseSlice from '../../redux/courseSlice';
+import BookmarkIcon from "@heroicons/react/24/solid/BookmarkIcon";
+import KeyIcon from "@heroicons/react/24/solid/KeyIcon";
+import PowerIcon from "@heroicons/react/24/solid/PowerIcon";
+import UserIcon from "@heroicons/react/24/solid/UserCircleIcon";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import {
+  Box,
+  Divider,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popover,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ROLE } from "../../constants/constants";
+import { ROUTE_CONSTANTS } from "../../constants/route.constants";
+import authenSlice from "../../redux/authenSlice";
+import courseSlice from "../../redux/courseSlice";
+import {
+  AirplaneTicket,
+  AirplaneTicketRounded,
+  AirplaneTicketSharp,
+  Book,
+  BookOnlineSharp,
+  BookRounded,
+  CardMembership,
+  Class,
+  DoorFront,
+  ReadMore,
+  School,
+} from "@mui/icons-material";
 
 export const AccountPopover = (props) => {
-
   const { anchorEl, onClose, open } = props;
   const user = useSelector((state) => state.authen.user);
   const navigate = useNavigate();
@@ -30,47 +47,37 @@ export const AccountPopover = (props) => {
     navigate(path);
   });
 
-
-  const handleSignOut = useCallback(
-    () => {
-      onClose?.();
-      navigate('/');
-      dispatch(signOut());
-      dispatch(resetCourseData());
-    },
-    [onClose]
-  );
+  const handleSignOut = useCallback(() => {
+    onClose?.();
+    navigate("/");
+    dispatch(signOut());
+    dispatch(resetCourseData());
+  }, [onClose]);
 
   return (
     <Popover
       sx={{ mt: 3, mr: 2 }}
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
+        vertical: "bottom",
+        horizontal: "right",
       }}
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "left",
       }}
       onClose={onClose}
       open={open}
-      PaperProps={{ sx: { width: 200 } }}
+      PaperProps={{ sx: { width: 250 } }}
     >
       <Box
         sx={{
-
           py: 1.5,
-          px: 2
+          px: 2,
         }}
       >
-        <Typography variant="overline">
-          Tài khoản
-        </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
-        >
+        <Typography variant="overline">Tài khoản</Typography>
+        <Typography color="text.secondary" variant="body2">
           {user?.name}
         </Typography>
       </Box>
@@ -79,43 +86,71 @@ export const AccountPopover = (props) => {
         disablePadding
         dense
         sx={{
-          p: '8px',
-          '& > *': {
-            borderRadius: 1
-          }
+          p: "8px",
+          "& > *": {
+            borderRadius: 1,
+          },
         }}
       >
+        {user?.role_id === ROLE.ADMIN ? (
+          <></>
+        ) : (
+          <>
+            <MenuItem
+              onClick={() => redirectToPage(ROUTE_CONSTANTS.MY_COURSE_PAGE)}
+            >
+              <SvgIcon fontSize="small" color="primary" className="mr-3">
+                <BookRounded />
+              </SvgIcon>
+              Khóa học của tôi
+            </MenuItem>
 
-
-        {user?.role_id === ROLE.ADMIN ? <></> : <>
-
-          <MenuItem onClick={() => redirectToPage(ROUTE_CONSTANTS.MY_COURSE_PAGE)} >
-            <SvgIcon fontSize="small" color='primary' className='mr-3'>
-              <BookmarkIcon />
-            </SvgIcon>
-            Khóa học của tôi
-          </MenuItem>
-          <MenuItem onClick={() => redirectToPage(ROUTE_CONSTANTS.ACCOUNT_PAGE)}>
-            <SvgIcon color='primary' fontSize="small" className='mr-3'>
-              <UserIcon />
-            </SvgIcon>
-            Thông tin cá nhân
-          </MenuItem>
-          <MenuItem onClick={() => redirectToPage(ROUTE_CONSTANTS.PAYMENT_HISTORY)}>
-            <SvgIcon color='primary' fontSize="small" className='mr-3'>
-              <MonetizationOnIcon />
-            </SvgIcon>
-            Lịch sử giao dịch
-          </MenuItem>
-          <MenuItem onClick={() => redirectToPage(ROUTE_CONSTANTS.CHANGE_PASSWORD_PAGE)}>
-            <SvgIcon color='primary' fontSize="small" className='mr-3'>
-              <KeyIcon />
-            </SvgIcon>
-            Thay đổi mật khẩu
-          </MenuItem>
-        </>}
+            <MenuItem
+              onClick={() => redirectToPage(ROUTE_CONSTANTS.CLASS.MINE)}
+            >
+              <SvgIcon fontSize="small" color="primary" className="mr-3">
+                <School />
+              </SvgIcon>
+              Lớp học của tôi
+            </MenuItem>
+            <MenuItem
+              onClick={() => redirectToPage(ROUTE_CONSTANTS.MY_COURSE_PAGE)}
+            >
+              <SvgIcon fontSize="small" color="primary" className="mr-3">
+                <AirplaneTicketRounded />
+              </SvgIcon>
+              Phiếu đăng ký khóa học
+            </MenuItem>
+            <MenuItem
+              onClick={() => redirectToPage(ROUTE_CONSTANTS.ACCOUNT_PAGE)}
+            >
+              <SvgIcon color="primary" fontSize="small" className="mr-3">
+                <UserIcon />
+              </SvgIcon>
+              Thông tin cá nhân
+            </MenuItem>
+            <MenuItem
+              onClick={() => redirectToPage(ROUTE_CONSTANTS.PAYMENT_HISTORY)}
+            >
+              <SvgIcon color="primary" fontSize="small" className="mr-3">
+                <MonetizationOnIcon />
+              </SvgIcon>
+              Lịch sử giao dịch
+            </MenuItem>
+            <MenuItem
+              onClick={() =>
+                redirectToPage(ROUTE_CONSTANTS.CHANGE_PASSWORD_PAGE)
+              }
+            >
+              <SvgIcon color="primary" fontSize="small" className="mr-3">
+                <KeyIcon />
+              </SvgIcon>
+              Thay đổi mật khẩu
+            </MenuItem>
+          </>
+        )}
         <MenuItem onClick={handleSignOut}>
-          <SvgIcon color='primary' fontSize="small" className='mr-3'>
+          <SvgIcon color="primary" fontSize="small" className="mr-3">
             <PowerIcon />
           </SvgIcon>
           Đăng xuất
@@ -124,4 +159,3 @@ export const AccountPopover = (props) => {
     </Popover>
   );
 };
-

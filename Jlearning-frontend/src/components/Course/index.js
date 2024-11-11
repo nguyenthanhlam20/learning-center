@@ -16,7 +16,7 @@ const Course = () => {
     <CourseCarousel
       data={courses}
       title={"CÁC KHÓA HỌC TẠI SEED CENTER"}
-      paragraph={"Có rất nhiều khóa học từ N1-N5 đa dạng và phong phú"}
+      paragraph={"Có rất nhiều khóa học đa dạng và phong phú"}
     />
   );
 };

@@ -7,6 +7,14 @@ export const getClasses = createAsyncThunk("get-classes", async () => {
   return response;
 });
 
+export const getUserClasses = createAsyncThunk(
+  "get-user-classes",
+  async (email) => {
+    const response = await classServices.getUserClasses(email);
+    return response;
+  }
+);
+
 export const getClass = createAsyncThunk("get-class", async (classId) => {
   const response = await classServices.getClass(classId);
   return response;
@@ -33,6 +41,11 @@ const classSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getClasses.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.isRefresh = false;
+      console.log(action.payload);
+    });
+    builder.addCase(getUserClasses.fulfilled, (state, action) => {
       state.data = action.payload;
       state.isRefresh = false;
       console.log(action.payload);

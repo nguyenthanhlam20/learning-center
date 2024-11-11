@@ -10,8 +10,8 @@ const Video = () => {
     <section className="relative z-10 py-16 md:py-20 lg:py-28">
       <div className="container">
         <SectionTitle
-          title="Chúng Tôi Giúp Bạn Học Tốt Tiếng Nhật"
-          paragraph="Hãy chăm chỉ và kiên trì trong việc học tiếng Nhật, đừng sợ mắc sai lầm, hãy học từ những lỗi của mình, cố gắng khắc phục chúng"
+          title="Chúng Tôi Giúp Bạn Học Tốt Tiếng Anh"
+          paragraph="Hãy chăm chỉ và kiên trì trong việc học tiếng Anh, đừng sợ mắc sai lầm, hãy học từ những lỗi của mình, cố gắng khắc phục chúng"
           center
           mb="80px"
         />

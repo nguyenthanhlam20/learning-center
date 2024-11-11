@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getCourseById } from "../../redux/courseSlice";
 import CourseDetails from "./CourseDetails";
 
@@ -11,12 +11,13 @@ const CourseDetailPage = () => {
   const dispatch = useDispatch();
 
   const course = useSelector((state) => state.course.specific);
+  const user = useSelector((state) => state.authen.user);
 
   React.useEffect(() => {
     dispatch(getCourseById({ course_id: course_id }));
   }, []);
 
-  return <CourseDetails course={course} />;
+  return <CourseDetails course={course} user={user} />;
 };
 
 export default CourseDetailPage;

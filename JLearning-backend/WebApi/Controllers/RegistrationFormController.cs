@@ -4,6 +4,7 @@ using BusinessObjects.DTO.RegistrationForms;
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Constants;
 
 namespace WebApi.Controllers;
 
@@ -18,7 +19,7 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
     [HttpGet]
     public async Task<ActionResult<List<RegistrationFormDTO>>> GetRegistrationForms()
     {
-        var list = await _context.RegistrationForms.ToListAsync();
+        var list = await _context.RegistrationForms.Include(x => x.Class).Include(x => x.Course).Include(x => x.StudentEmailNavigation).ToListAsync();
         var map = _mapper.Map<List<RegistrationFormDTO>>(list);
         return map;
     }
@@ -63,6 +64,49 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
         return Ok(new ResponseDTO(false, "Đăng ký lớp thành công!"));
     }
 
+    [HttpGet("confirm/{id}")]
+    public async Task<IActionResult> Confirm(int id)
+    {
+        try
+        {
+            var register = await _context.RegistrationForms.FirstOrDefaultAsync(x => x.Id == id);
+            if (register is null) throw new Exception("Xác nhận phiếu đăng ký thất bại");
+
+            register.Status = (int)RegistrationStatus.Confirm;
+
+            await _context.SaveChangesAsync();
+            return Ok(new ResponseDTO(true, "Xác nhận phiếu đăng ký thành công"));
+        }
+        catch (Exception ex)
+        {
+
+            return Ok(new ResponseDTO(false, ex.Message));
+
+        }
+    }
+
+    [HttpPost("cancel")]
+    public async Task<IActionResult> Confirm([FromBody] CancelRegistrationDTO request)
+    {
+        try
+        {
+            var register = await _context.RegistrationForms.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (register is null) throw new Exception("Hủy phiếu đăng ký thất bại");
+
+            register.Status = (int)RegistrationStatus.Cancel;
+            register.Response = request.Reason;
+
+            await _context.SaveChangesAsync();
+            return Ok(new ResponseDTO(true, "Hủy phiếu đăng ký thành công"));
+        }
+        catch (Exception ex)
+        {
+
+            return Ok(new ResponseDTO(false, ex.Message));
+
+        }
+    }
+
     // POST: api/RegistrationForm
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
@@ -70,6 +114,23 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
     {
         try
         {
+            var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Email == registrationForm.StudentEmail);
+            if (account is null) return NotFound();
+
+            account.Name = registrationForm.Name;
+            account.Phone = registrationForm.Phone;
+            await _context.SaveChangesAsync();
+
+
+            var exist = await _context.RegistrationForms
+                .Where(x => x.ClassId == registrationForm.ClassId)
+                .Where(x => x.CourseId == registrationForm.CourseId)
+                .Where(x => x.StudentEmail == registrationForm.StudentEmail)
+                .Where(x => x.Status == 1)
+                .FirstOrDefaultAsync();
+
+            if (exist is not null) throw new Exception("Đơn đăng ký lớp học đã tồn tại.");
+
             var map = _mapper.Map<RegistrationForm>(registrationForm);
             if (map is not null)
             {
@@ -77,10 +138,10 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
                 await _context.SaveChangesAsync();
             }
         }
-        catch (DbUpdateException ex)
+        catch (Exception ex)
         {
             Console.Write(ex.ToString());
-            return Ok(new ResponseDTO(false, "Đăng ký lớp thất bại!"));
+            return Ok(new ResponseDTO(false, ex.Message));
         }
 
         return Ok(new ResponseDTO(true, "Đăng ký lớp thành công!"));

@@ -1,66 +1,14 @@
+import InfoIcon from "@mui/icons-material/Info";
+import { SvgIcon } from "@mui/material";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
-import { useDispatch, useSelector } from "react-redux";
-import { Box, CircularProgress, SvgIcon, Typography } from "@mui/material";
-import EyeIcon from "@heroicons/react/24/solid/EyeIcon";
-import InfoIcon from "@mui/icons-material/Info";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { getLessonsDone } from "../../redux/lessonSlice";
-import { getTestsDone } from "../../redux/testSlice";
-import React from "react";
-
-function CircularProgressWithLabel(props) {
-  return (
-    <Box sx={{ position: "relative", display: "inline-flex" }}>
-      <CircularProgress variant="determinate" {...props} />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: "absolute",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
 const CourseCard = ({ course }) => {
-  const userCourses = useSelector((state) => state.course.userCourses);
-  const courseFound = userCourses?.find(
-    (c) => c.course_id === course.course_id
-  );
-  const dispatch = useDispatch();
-  const lessonsDone = useSelector((state) => state.lesson.lessons_done);
-  const testsDone = useSelector((state) => state.test.tests_done);
-  const user = useSelector((state) => state.authen.user);
-
-  React.useEffect(() => {
-    dispatch(
-      getLessonsDone({ email: user?.email, course_id: course.course_id })
-    );
-    dispatch(getTestsDone({ email: user?.email, course_id: course.course_id }));
-  }, []);
-
-  const isBought =
-    (courseFound !== null && courseFound !== undefined) || course.price === 0
-      ? true
-      : false;
-
   const navigate = useNavigate();
   const {
     price,
-    duration,
+    level,
     description,
     course_name,
     course_avatar_url,
@@ -92,25 +40,24 @@ const CourseCard = ({ course }) => {
         className="wow fadeInUp relative z-10 h-full rounded-md bg-white px-8 py-10 shadow-signUp dark:bg-[#1D2144]"
         data-wow-delay=".1s"
       >
-        <div className="mb-5 flex items-center justify-between">
+        <div
+          className="mb-5 flex  justify-between"
+          style={{ alignItems: "baseline" }}
+        >
           <h3 className="price mb-2 text-2xl font-bold text-black dark:text-white">
-            {price === 0 ? (
-              <span className="text-red-600">FREE</span>
-            ) : (
-              <>
-                <span className="amount">{formattedPrice}</span>
-                <span className="time text-lg text-body-color">
-                  {" "}
-                  / {duration} tháng
-                </span>
-                {/* <CircularProgressWithLabel value={getProgress()} /> */}
-              </>
-            )}
+            <span className="amount">{formattedPrice}</span>
           </h3>
-          {/* <Link to={link}
-            className="mb-2 rounded-3xl text-center p-2  bg-lime  text-xl font-bold text-black dark:text-white">
-            N{level}
-          </Link> */}
+          <div
+            style={{
+              borderRadius: "5px",
+              padding: "5px 10px",
+              backgroundColor: "#0288d1",
+              color: "white",
+              fontSize: "13px",
+            }}
+          >
+            {level}
+          </div>
         </div>
         <Link to={link} className="relative mb-5 block h-[230px] w-full">
           <img
@@ -133,49 +80,15 @@ const CourseCard = ({ course }) => {
           {description}
         </p>
         <div className="row mb-1 mt-7 flex border-b border-body-color border-opacity-10 dark:border-white dark:border-opacity-10">
-          {isBought === true ? (
-            <>
-              <button
-                onClick={() => handleGoToCourse()}
-                className="mr-3 flex w-full items-center justify-center rounded-md bg-cteal p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
-              >
-                <SvgIcon sx={{ mr: 1 }}>
-                  <InfoIcon />
-                </SvgIcon>{" "}
-                Chi tiết
-              </button>
-              <button
-                onClick={() => handleBuyCourse()}
-                className="flex w-full items-center justify-center rounded-md  bg-primary p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
-              >
-                <SvgIcon sx={{ mr: 1 }}>
-                  <EyeIcon />
-                </SvgIcon>{" "}
-                Vào học
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => handleGoToCourse()}
-                className="mr-3 flex w-full items-center justify-center rounded-md bg-cteal p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
-              >
-                <SvgIcon sx={{ mr: 1 }}>
-                  <InfoIcon />
-                </SvgIcon>{" "}
-                Chi tiết
-              </button>
-              <button
-                onClick={() => handleBuyCourse()}
-                className="flex w-full items-center justify-center rounded-md  bg-primary p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
-              >
-                <SvgIcon>
-                  <AttachMoneyIcon />
-                </SvgIcon>{" "}
-                Mua
-              </button>
-            </>
-          )}
+          <button
+            onClick={() => handleGoToCourse()}
+            className="mr-3 flex w-full items-center justify-center rounded-md bg-cteal p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+          >
+            <SvgIcon sx={{ mr: 1 }}>
+              <InfoIcon />
+            </SvgIcon>
+            Chi tiết
+          </button>
         </div>
         <div className="absolute bottom-0 right-0 z-[-1]">
           <svg

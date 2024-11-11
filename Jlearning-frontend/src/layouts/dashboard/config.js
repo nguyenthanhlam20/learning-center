@@ -8,6 +8,14 @@ import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { SvgIcon } from "@mui/material";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
+import {
+  AirplaneTicketRounded,
+  CheckOutlined,
+  MessageRounded,
+  QuestionAnswer,
+  QuestionMarkRounded,
+  ShoppingBasket,
+} from "@mui/icons-material";
 
 export const adminRoutes = [
   {
@@ -52,6 +60,42 @@ export const adminRoutes = [
     icon: (
       <SvgIcon fontSize="small">
         <ReceiptLongIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quản lý phiếu đăng ký",
+    path: ROUTE_CONSTANTS.ADMIN.REGISTRATION_FORM.INDEX,
+    icon: (
+      <SvgIcon fontSize="small">
+        <AirplaneTicketRounded />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quản lý hóa đơn",
+    path: ROUTE_CONSTANTS.ADMIN_INVOICE_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBasket />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quản lý hỗ trợ",
+    path: ROUTE_CONSTANTS.ADMIN_SUPPORT_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <QuestionMarkCircleIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quản lý liên hệ",
+    path: ROUTE_CONSTANTS.ADMIN_CONTACT_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <MessageRounded />
       </SvgIcon>
     ),
   },

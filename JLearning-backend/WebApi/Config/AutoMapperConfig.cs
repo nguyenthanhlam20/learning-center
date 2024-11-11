@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
+using BusinessObjects.DTO.Accounts;
 using BusinessObjects.DTO.Calendar;
 using BusinessObjects.DTO.Classes;
 using BusinessObjects.DTO.ClassMembers;
@@ -15,10 +16,13 @@ namespace WebApi.Config
             var mapperConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<AccountDTO, Account>()
-                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender == 1 ? true : false));
+                    .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender == 1 ? true : false));
 
-                config.CreateMap<Account, AccountDTO>();
+                config.CreateMap<AddAccountDTO, Account>()
+                    .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender == 1 ? true : false));
 
+                config.CreateMap<Account, AccountDTO>()
+                    .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth!.Value.ToString("yyyy-MM-dd")));
 
                 config.CreateMap<BlogDetailDTO, BlogDetail>();
                 config.CreateMap<BlogDetail, BlogDetailDTO>();
@@ -91,10 +95,14 @@ namespace WebApi.Config
 
                 config.CreateMap<AddClassDTO, Class>();
 
-                config.CreateMap<ClassMember, ClassMemberDTO>();
+                config.CreateMap<ClassMember, ClassMemberDTO>()
+                    .ForMember(dest => dest.EnrollmentDate, opt => opt.MapFrom(src =>  src.EnrollmentDate!.Value.ToString("yyyy-MM-dd")))
+;
                 config.CreateMap<AddMemberClassDTO, ClassMember>();
 
-                config.CreateMap<RegistrationForm, RegistrationFormDTO>();
+                config.CreateMap<RegistrationForm, RegistrationFormDTO>()
+                            .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate!.Value.ToString("yyyy-MM-dd")));
+
                 config.CreateMap<AddRegistrationFormDTO, RegistrationForm>();
 
                 config.CreateMap<Calendar, CalendarDTO>();

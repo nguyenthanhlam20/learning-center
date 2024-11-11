@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using BusinessObjects.DTO.Classes;
+using System.Text.Json.Serialization;
 
 namespace BusinessObjects.DTO;
 public class CourseDTO
@@ -17,10 +18,9 @@ public class CourseDTO
     public double Price { get; set; }
     [JsonPropertyName("status")]
     public bool Status { get; set; }
+
     [JsonPropertyName("created_at")]
     public DateTime CreatedAt { get; set; }
-    [JsonPropertyName("chapters")]
-    public  ICollection<ChapterDTO>? Chapters { get; set; }
 
     [JsonPropertyName("number_of_slots")]
     public int? NumberOfSlots { get; set; }
@@ -30,4 +30,8 @@ public class CourseDTO
 
     [JsonPropertyName("level")]
     public string? Level { get; set; }
+
+
+    [JsonPropertyName("classes")]
+    public List<ClassDTO>? Classes {  get; set; }
 }

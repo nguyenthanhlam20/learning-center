@@ -37,6 +37,10 @@ export const ClassTable = (props) => {
     navigate(ROUTE_CONSTANTS.CLASS.EDIT + "?classId=" + classId);
   };
 
+  const navigateToClassMemberPage = (classId) => {
+    navigate(ROUTE_CONSTANTS.CLASS_MEMBER.INDEX + "?classId=" + classId);
+  };
+
   return (
     <>
       <Card
@@ -140,7 +144,9 @@ export const ClassTable = (props) => {
                             </SvgIcon>
                           </Button>
                           <Button
-                            onClick={() => handleEditClass(classes.classId)}
+                            onClick={() =>
+                              navigateToClassMemberPage(classes.classId)
+                            }
                             variant="contained"
                             className="bg-primary"
                             size="small"

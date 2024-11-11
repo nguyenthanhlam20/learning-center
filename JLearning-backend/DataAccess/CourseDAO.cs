@@ -2,141 +2,136 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DataAccess
+namespace DataAccess;
+public class CourseDAO
 {
-    public class CourseDAO
+    public static List<Course> GetCourses()
     {
-        public static List<Course> GetCourses()
+        var listCourses = new List<Course>();
+        try
         {
-            var listCourses = new List<Course>();
-            try
+            using var context = new JLearningContext();
+            listCourses = context.Courses
+                .Include(x => x.Chapters)
+                .ToList();
+            foreach (var list in listCourses)
             {
-                using (var context = new JLearningContext())
+                foreach (var chaps in list.Chapters)
                 {
-                    listCourses = context.Courses
-                        .Include(x => x.Chapters)
-                        .ToList();
-                    foreach (var list in listCourses)
+                    chaps.Lessons = context.Lessons.Where(x => x.ChapterId == chaps.ChapterId).ToList();
+                    chaps.Tests = context.Tests.Where(x => x.ChapterId == chaps.ChapterId).ToList();
+                    foreach (var item in chaps.Tests)
                     {
-                        foreach (var chaps in list.Chapters)
-                        {
-                            chaps.Lessons = context.Lessons.Where(x => x.ChapterId == chaps.ChapterId).ToList();
-                            chaps.Tests = context.Tests.Where(x => x.ChapterId == chaps.ChapterId).ToList();
-                            foreach (var item in chaps.Tests)
-                            {
-                                item.Questions = context.Questions.Where(x => x.TestId == item.TestId).ToList();
-                            }
-                        }
+                        item.Questions = context.Questions.Where(x => x.TestId == item.TestId).ToList();
                     }
                 }
             }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
-            }
-            return listCourses;
         }
-        public static Course FindCourseById(int id)
+        catch (Exception e)
         {
-            Course course;
-            try
-            {
-                using (var context = new JLearningContext())
-                {
-                    course = context.Courses.Include(u => u.Chapters).SingleOrDefault(x => x.CourseId == id);
-                    foreach (var chaps in course.Chapters)
-                    {
-                        chaps.Lessons = context.Lessons.Where(x => x.ChapterId == chaps.ChapterId).ToList();
-                        chaps.Tests = context.Tests.Where(x => x.ChapterId == chaps.ChapterId).ToList();
-                        foreach (var item in chaps.Tests)
-                        {
-                            item.Questions = context.Questions.Where(x => x.TestId == item.TestId).ToList();
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
 
-                throw new Exception(e.Message);
+        }
+        return listCourses;
+    }
+    public static Course? FindCourseById(int id)
+    {
+        try
+        {
+            using var context = new JLearningContext();
+            var course = context.Courses
+                .Include(u => u.Classes)
+                .SingleOrDefault(x => x.CourseId == id);
+
+
+            var classes = new List<Class>();
+            foreach (var item in course.Classes)
+            {
+                var account = context.Accounts.SingleOrDefault(x => x.Email == item.TeacherEmail);
+                var classMembers = context.ClassMembers.Where(x => x.ClassId == item.ClassId).ToList();
+
+                item.ClassMembers = classMembers;
+                item.TeacherEmailNavigation = account;
+                classes.Add(item);
             }
+
+            course.Classes = classes;
             return course;
         }
-        public static void CreateCourse(Course c)
+        catch (Exception e)
         {
-            try
+            return null;
+        }
+    }
+    public static void CreateCourse(Course c)
+    {
+        try
+        {
+            using (var context = new JLearningContext())
             {
-                using (var context = new JLearningContext())
-                {
-                    context.Courses.Add(c);
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
+                context.Courses.Add(c);
+                context.SaveChanges();
             }
         }
-        public static void UpdateCourse(Course c)
+        catch (Exception e)
         {
 
-            try
-            {
-                using (var context = new JLearningContext())
-                {
-                    context.Entry<Course>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
+        }
+    }
+    public static void UpdateCourse(Course c)
+    {
 
-                throw new Exception(e.Message);
+        try
+        {
+            using (var context = new JLearningContext())
+            {
+                context.Entry<Course>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.SaveChanges();
             }
         }
-        public static List<Course> FindCoursesByEmail(string email)
+        catch (Exception e)
         {
-            var listCourses = new List<Course>();
-            try
-            {
-                using (var context = new JLearningContext())
-                {
-                    var usercourse = context.UserCourses
-                   .Where(x => x.Email == email)
-                   .ToList();
 
-                    var courseIds = usercourse.Select(x => x.CourseId).ToList();
-
-                    listCourses = context.Courses
-                        .Where(x => courseIds.Contains(x.CourseId))
-                        .ToList();
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception(e.Message);
-            }
-            return listCourses;
         }
-
-        public static void CreateUserCourse(UserCourse uc)
+    }
+    public static List<Course> FindCoursesByEmail(string email)
+    {
+        var listCourses = new List<Course>();
+        try
         {
-            try
+            using (var context = new JLearningContext())
             {
-                using (var context = new JLearningContext())
-                {
-                    context.UserCourses.Add(uc);
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
+                var usercourse = context.UserCourses
+               .Where(x => x.Email == email)
+               .ToList();
 
-                Console.WriteLine("Error while trying to add new user course: " + e.Message);
+                var courseIds = usercourse.Select(x => x.CourseId).ToList();
+
+                listCourses = context.Courses
+                    .Where(x => courseIds.Contains(x.CourseId))
+                    .ToList();
             }
+        }
+        catch (Exception e)
+        {
+
+        }
+        return listCourses;
+    }
+
+    public static void CreateUserCourse(UserCourse uc)
+    {
+        try
+        {
+            using (var context = new JLearningContext())
+            {
+                context.UserCourses.Add(uc);
+                context.SaveChanges();
+            }
+        }
+        catch (Exception e)
+        {
+
+            Console.WriteLine("Error while trying to add new user course: " + e.Message);
         }
     }
 }

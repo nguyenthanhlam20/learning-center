@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo/logo.png";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
@@ -13,22 +13,18 @@ const Footer = () => {
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
               <div className="mb-12 max-w-[360px] lg:mb-16">
-              <div className="w-30 px-3 xl:mr-12">
-              <Link
-                to="/"
-                className={`flex items-center header-logo block `}
-              >
-                <img
-                  src={Logo}
-                  alt="logo"
-                  width={65}
-                  height={65}
-                />
-             <span className="ml-5 text-2xl font-bold" >JLearning</span>
-              </Link>
-            </div>
-                <p className="mt-5 mb-9 text-base font-medium leading-relaxed text-body-color">
-                Mọi thắc mắc cần được tư vấn, giải đáp về khoá học xin vui lòng liên hệ qua các trang mạng xã hội dưới đây
+                <div className="w-30 px-3 xl:mr-12">
+                  <Link
+                    to="/"
+                    className={`header-logo block flex items-center `}
+                  >
+                    <img src={Logo} alt="logo" width={65} height={65} />
+                    <span className="ml-5 text-2xl font-bold">Seed Center</span>
+                  </Link>
+                </div>
+                <p className="mb-9 mt-5 text-base font-medium leading-relaxed text-body-color">
+                  Mọi thắc mắc cần được tư vấn, giải đáp về khoá học xin vui
+                  lòng liên hệ qua các trang mạng xã hội dưới đây
                 </p>
                 <div className="flex items-center">
                   <Link
@@ -102,26 +98,16 @@ const Footer = () => {
                       to="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                     Trang chủ{" "}
+                      Trang chủ
                     </Link>
                   </li>
+
                   <li>
                     <Link
                       to="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      Tin tức{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      Khóa học{" "}
+                      Khóa học
                     </Link>
                   </li>
                 </ul>
@@ -136,20 +122,10 @@ const Footer = () => {
                 <ul>
                   <li>
                     <Link
-                      to="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      N1-N5{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
                       to={ROUTE_CONSTANTS.ERROR_PAGE}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                     Chính sách{" "}
+                      Chính sách
                     </Link>
                   </li>
                   <li>
@@ -157,8 +133,7 @@ const Footer = () => {
                       to="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      Điều khoản{" "}
+                      Điều khoản
                     </Link>
                   </li>
                 </ul>
@@ -176,8 +151,7 @@ const Footer = () => {
                       to="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                     Hỗ Trợ{" "}
+                      Hỗ Trợ
                     </Link>
                   </li>
                   <li>
@@ -185,17 +159,7 @@ const Footer = () => {
                       to="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      Liên Hệ{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      Giá Khóa Học{" "}
+                      Liên Hệ
                     </Link>
                   </li>
                 </ul>
@@ -203,7 +167,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      
+
         <div className="absolute right-0 top-14 z-[-1]">
           <svg
             width="55"
@@ -278,7 +242,7 @@ const Footer = () => {
             </defs>
           </svg>
         </div>
-        <div className="absolute left-0 bottom-24 z-[-1]">
+        <div className="absolute bottom-24 left-0 z-[-1]">
           <svg
             width="79"
             height="94"

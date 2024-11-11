@@ -35,7 +35,7 @@ namespace BusinessObjects.DTO
         public bool? ActiveStatus { get; set; }
 
         [JsonPropertyName("date_of_birth")]
-        public DateTime? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
 
         [JsonPropertyName("description")]
         public string? Description { get; set; }

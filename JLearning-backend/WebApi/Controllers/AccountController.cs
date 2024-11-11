@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
+using BusinessObjects.DTO.Accounts;
 using BusinessObjects.Models;
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -106,7 +107,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("insert")]
-        public IActionResult InsertAccount([FromBody] AccountDTO accountDTO)
+        public IActionResult InsertAccount([FromBody] AddAccountDTO accountDTO)
         {
             var account = repository.FindAccountByEmail(accountDTO.Email);
             if (account is not null) return BadRequest();

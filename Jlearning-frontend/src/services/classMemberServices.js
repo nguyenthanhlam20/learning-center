@@ -10,19 +10,16 @@ const classMemberServices = {
     );
     return response.data;
   },
-  getClassMembers: async (email) => {
-    const response = await axios.get(
-      API.MANAGE_CLASS_MEMBER + "/get-classMember?email=" + email
-    );
+  getClassMembers: async (classId) => {
+    const response = await axios.get(API.MANAGE_CLASS_MEMBER + "/" + classId);
     console.log("res", response);
     return response.data;
   },
 
-  getClassMember: async (email) => {
+  getClassMember: async ({ email, classId }) => {
     const response = await axios.get(
-      API.MANAGE_CLASS_MEMBER + "/get-classMember?email=" + email
+      `${API.MANAGE_CLASS_MEMBER}/find?email=${email}&classId=${classId}`
     );
-    console.log("res", response);
     return response.data;
   },
   insertClassMember: async (classMember) => {
