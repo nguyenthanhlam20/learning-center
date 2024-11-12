@@ -63,7 +63,6 @@ namespace WebApi
             }
             catch (Exception)
             {
-
                 Console.WriteLine("send mail error");
             }
         }

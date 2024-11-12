@@ -1,5 +1,5 @@
-import HandThumbUpIcon from "@heroicons/react/24/solid/HandThumbUpIcon";
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon";
+import { Check } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -19,21 +19,17 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { isEmpty } from "lodash";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import AppTextArea from "../../components/AppInput/AppTextArea";
 import Badge from "../../components/Badge";
 import { Scrollbar } from "../../components/ScrollBar";
-import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { Status } from "../../constants/status";
 import { cancelForm, confirmForm } from "../../redux/registrationFormSlice";
 import { getInitials } from "../../utils/get-initials";
 import getStatus from "../../utils/get-status";
-import { Check } from "@mui/icons-material";
-import AppInput from "../../components/AppInput/AppInput";
-import AppTextArea from "../../components/AppInput/AppTextArea";
-import { isEmpty } from "lodash";
-import { toast } from "react-toastify";
 
 export const RegistrationTable = (props) => {
   const dispatch = useDispatch();
@@ -102,10 +98,11 @@ export const RegistrationTable = (props) => {
       <Card
         sx={{
           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
+          maxHeight: 450,
         }}
       >
         <Scrollbar>
-          <Box sx={{ minWidth: 800, maxHeight: 450 }}>
+          <Box sx={{ maxHeight: 450 }}>
             <Table stickyHeader style={{ minWidth: "1470px" }}>
               <TableHead>
                 <TableRow>

@@ -10,10 +10,20 @@ export const getRegistrationForms = createAsyncThunk(
   }
 );
 
+export const getRegistrationFormsByUser = createAsyncThunk(
+  "get-registrationForms-byuser",
+  async (studentEmail) => {
+    const response = await registrationFormServices.getRegistrationFormsByUser(
+      studentEmail
+    );
+    return response;
+  }
+);
+
 export const getRegistrationForm = createAsyncThunk(
   "get-registrationForm",
-  async (email) => {
-    const response = await registrationFormServices.getRegistrationForm(email);
+  async (id) => {
+    const response = await registrationFormServices.getRegistrationForm(id);
     return response;
   }
 );
@@ -54,6 +64,11 @@ const registrationFormSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getRegistrationForms.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.isRefresh = false;
+      console.log("registration", action.payload);
+    });
+    builder.addCase(getRegistrationFormsByUser.fulfilled, (state, action) => {
       state.data = action.payload;
       state.isRefresh = false;
       console.log("registration", action.payload);

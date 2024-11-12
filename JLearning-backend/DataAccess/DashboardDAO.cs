@@ -1,5 +1,6 @@
 ﻿using BusinessObjects.DTO;
 using BusinessObjects.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Xml;
 
@@ -14,7 +15,11 @@ namespace DataAccess
                 int totalCourse = context.Courses.Count();
                 int totalBlog = context.Blogs.Count();
                 int totalUser = context.Accounts.Where(x => x.RoleId != 1).Count();
-                List<Payment> topPayment = context.Payments.OrderByDescending(x => x.Amount).ToList();
+                List<Payment> topPayment = context.Payments
+                    .Include(x => x.Course)
+                    .Include(x => x.Class)
+                    .Include(x => x.StudentEmailNavigation)
+                    .OrderByDescending(x => x.Amount).ToList();
 
 
 
@@ -44,14 +49,14 @@ namespace DataAccess
                     var pt = new 
                     {
                         course_id = p.CourseId,
-                        course_name = p.CourseName,
+                        course_name = p.Course!.CourseName,
                         payment_id = p.PaymentId,
-                        email =p.Email,
-                        address = p.Address,
+                        email =p.StudentEmail,
+                        address = p.StudentEmailNavigation!.Address,
                         emount = (double)p.Amount,
-                        created_date = p.CreatedDate,
-                        name = p.Name,
-                        phone = p.Phone,
+                        created_date = p.PaymentDate,
+                        name = p.StudentEmailNavigation.Name,
+                        phone = p.StudentEmailNavigation.Phone,
                     };
                     payments.Add(pt);
                 }

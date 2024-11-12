@@ -1,9 +1,5 @@
 ﻿using BusinessObjects.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
@@ -16,7 +12,11 @@ namespace DataAccess
             {
                 using (var context = new JLearningContext())
                 {
-                    listPayments = context.Payments.ToList();
+                    listPayments = context.Payments
+                        .Include(x => x.Class)
+                        .Include(x => x.Course)
+                        .Include(x => x.StudentEmailNavigation)
+                        .ToList();
                 }
             }
             catch (Exception e)
@@ -33,37 +33,76 @@ namespace DataAccess
             {
                 using (var context = new JLearningContext())
                 {
-                    listPayments = context.Payments.Where(p => p.Email == email).ToList();
+                    listPayments = context.Payments
+                         .Include(x => x.Class)
+                        .Include(x => x.Course)
+                        .Include(x => x.StudentEmailNavigation)
+                        .Where(p => p.StudentEmail == email).ToList();
                 }
             }
             catch (Exception e)
             {
 
-                throw new Exception(e.Message);
             }
             return listPayments;
         }
 
-        public static bool InsertPayment(Payment payment)
+        public static int InsertPayment(Payment payment)
         {
-            bool insertStatus = false;
             try
             {
-                using (var context = new JLearningContext())
+                using var context = new JLearningContext();
+                context.Payments.Add(payment);
+                if (context.SaveChanges() > 0)
                 {
-                    context.Payments.Add(payment);
-                    if (context.SaveChanges() > 0)
-                    {
-                        insertStatus = true;
-                    }
+                    return payment.PaymentId;
                 }
             }
             catch (Exception e)
             {
 
-                throw new Exception(e.Message);
             }
-            return insertStatus;
+            return 0;
+        }
+
+        public static Payment? GetPaymentById(int id)
+        {
+            try
+            {
+                using var context = new JLearningContext();
+                return context.Payments
+                    .Include(x => x.Course)
+                    .Include(x => x.Class)
+                    .Include(x => x.StudentEmailNavigation)
+                    .FirstOrDefault(x => x.PaymentId == id);
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            return null;
+        }
+
+        public static void UpdateRegisterStatus(int id)
+        {
+            try
+            {
+                using var context = new JLearningContext();
+
+                var register = context.RegistrationForms.FirstOrDefault(x => x.Id == id);
+                if (register is not null)
+                {
+                    register.Status = 4;
+                    context.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception e)
+            {
+
+
+            }
         }
     }
 }

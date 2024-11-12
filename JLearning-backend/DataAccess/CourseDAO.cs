@@ -122,11 +122,14 @@ public class CourseDAO
     {
         try
         {
-            using (var context = new JLearningContext())
+            using var context = new JLearningContext();
+            var any = context.UserCourses.Any(x =>  x.CourseId == uc.CourseId && x.Email == uc.Email);
+            if(!any)
             {
                 context.UserCourses.Add(uc);
                 context.SaveChanges();
             }
+
         }
         catch (Exception e)
         {

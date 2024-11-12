@@ -114,7 +114,9 @@ export const AccountPopover = (props) => {
               Lớp học của tôi
             </MenuItem>
             <MenuItem
-              onClick={() => redirectToPage(ROUTE_CONSTANTS.MY_COURSE_PAGE)}
+              onClick={() =>
+                redirectToPage(ROUTE_CONSTANTS.REGISTRATION_FORM.INDEX)
+              }
             >
               <SvgIcon fontSize="small" color="primary" className="mr-3">
                 <AirplaneTicketRounded />

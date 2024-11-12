@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
                   Thanh Toán Thành Công
                 </h3>
                 <p className="mb-10 text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed">
-                  Bây giờ bạn có thể try cập toàn bộ tài nguyên khóa học
+                  Bây giờ bạn đã được xếp vào lớp
                 </p>
                 <Link
                   to="/"

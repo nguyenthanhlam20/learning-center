@@ -26,6 +26,7 @@ import SmoothScrollUp from "../../components/Common/SmoothScrollUp";
 import FileUploader from "../../components/FileUploader";
 import authenSlice from "../../redux/authenSlice";
 import { updateInfo } from "../../redux/userSlice";
+import { Check } from "@mui/icons-material";
 
 const AccountPage = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const AccountPage = () => {
   const [values, setValues] = useState({
     name: user?.name,
     address: user?.address,
-    year_of_birth: user?.year_of_birth ? user?.year_of_birth : 1990,
+    date_of_birth: user?.date_of_birth,
     phone: user?.phone,
     email: user?.email,
     gender: user?.gender === true || user?.gender === 1 ? 1 : 0,
@@ -77,121 +78,86 @@ const AccountPage = () => {
         pageName="Thông tin cá nhân"
         description="Cập nhật thông tin cá nhân của bạn"
       />
-      <Container className="mb-24 mt-12 block" sx={{ height: 400 }}>
+      <Container className="mb-24 mt-12 block" sx={{ width: 700 }}>
         <Stack spacing={3}>
-          <div>
-            <Grid container spacing={3}>
-              <Grid xs={12} md={6} lg={4}>
-                <Card
-                  sx={{
-                    pt: 2,
-                    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-                  }}
-                  className=" flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
-                >
-                  <div className="flex w-full justify-center">
-                    <Avatar
-                      src={
-                        previewUrl == null
-                          ? values?.avatar_url != null
-                            ? values?.avatar_url
-                            : AvatarDefault
-                          : previewUrl
-                      }
-                      sx={{ width: 200, height: 200 }}
-                    />
-                  </div>
-                  <Divider className="h-4" />
-                  <FileUploader
-                    setDisableSubmit={setDisableSubmit}
-                    setCurrentFile={setCurrentFile}
-                    firebaseFolderName={"course/images"}
-                    setPreviewUrl={setPreviewUrl}
+          <Card
+            sx={{
+              ml: 3,
+              pt: 2,
+              boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+            }}
+          >
+            <CardContent sx={{ pb: 5 }}>
+              <Stack direction={"column"} spacing={2} className="w-full">
+                <div className="flex w-full justify-center">
+                  <Avatar
+                    src={
+                      previewUrl == null
+                        ? values?.avatar_url != null
+                          ? values?.avatar_url
+                          : AvatarDefault
+                        : previewUrl
+                    }
+                    sx={{ width: 200, height: 200 }}
                   />
-                </Card>
-              </Grid>
-              <Grid xs={12} md={6} lg={8}>
-                <Card
+                </div>
+                <Chip
                   sx={{
-                    ml: 3,
-                    pt: 2,
-                    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+                    borderRadius: 1,
+                    height: 36,
+                    paddingLeft: "8px",
+                    justifyContent: "left",
                   }}
-                >
-                  <CardContent className="h-[394px]" sx={{ pb: 5 }}>
-                    <CardHeader title="Thông tin cá nhân" />
-                    <Stack direction={"column"} spacing={2}>
-                      <Stack direction={"row"} spacing={2} className="w-full">
-                        <AppInput
-                          height={""}
-                          value={values.name}
-                          title={"name"}
-                          handleChangeValue={handleChangeValue}
-                          placeholder={"Tên đầy đủ"}
-                        />
-                        <AppInputPhone
-                          value={values.phone}
-                          title={"phone"}
-                          handleChangeValue={handleChangeValue}
-                          placeholder={"Số điện thoại"}
-                        />
-                      </Stack>
-                      <Stack className="w-full" direction={"row"} spacing={2}>
-                        <Chip
-                          sx={{
-                            borderRadius: 1,
-                            height: 36,
-                            paddingLeft: "8px",
-                            justifyContent: "left",
-                          }}
-                          className="w-full"
-                          color="default"
-                          icon={<EmailIcon />}
-                          label={"Email: " + values.email}
-                        />
-                        <AppDatePicker
-                          value={values.year_of_birth}
-                          title={"year_of_birth"}
-                          handleChangeValue={handleChangeValue}
-                          placeholder={"Ngày sinh"}
-                        />
-                      </Stack>
-                      <Stack direction={"row"} spacing={2}>
-                        <AppRadioButton
-                          value={values.gender}
-                          handleChangeValue={handleChangeValue}
-                        />
-                      </Stack>
-                      <Stack direction={"row"} spacing={2}>
-                        <AppTextArea
-                          height={"h-[120px]"}
-                          value={values.address}
-                          title={"address"}
-                          handleChangeValue={handleChangeValue}
-                          placeholder={"Địa chỉ"}
-                        />
-                      </Stack>
-                    </Stack>
-                  </CardContent>
-                  <Divider />
-                </Card>
-              </Grid>
-            </Grid>
-          </div>
-          <div className="flex w-full justify-end">
-            <Button
-              disabled={disableSubmit}
-              onClick={handleSubmitInfo}
-              color="primary"
-              variant="contained"
-              className="ml-3 w-[150px]"
-            >
-              <SvgIcon className="mr-2">
-                <HandThumbUpIcon />
-              </SvgIcon>{" "}
-              Lưu
-            </Button>
-          </div>
+                  className="w-full"
+                  color="default"
+                  icon={<EmailIcon />}
+                  label={"Email: " + values.email}
+                />
+                <AppInput
+                  value={values.name}
+                  title={"name"}
+                  handleChangeValue={handleChangeValue}
+                  placeholder={"Tên đầy đủ"}
+                />
+                <AppInputPhone
+                  value={values.phone}
+                  title={"phone"}
+                  handleChangeValue={handleChangeValue}
+                  placeholder={"Số điện thoại"}
+                />
+                <AppDatePicker
+                  value={values.date_of_birth}
+                  title={"date_of_birth"}
+                  handleChangeValue={handleChangeValue}
+                  placeholder={"Ngày sinh"}
+                />
+                <AppInput
+                  value={values.address}
+                  title={"address"}
+                  handleChangeValue={handleChangeValue}
+                  placeholder={"Địa chỉ"}
+                />
+                <AppRadioButton
+                  value={values.gender}
+                  handleChangeValue={handleChangeValue}
+                />
+                <Stack direction={"row"} justifyContent={"end"}>
+                  <Button
+                    disabled={disableSubmit}
+                    onClick={handleSubmitInfo}
+                    color="primary"
+                    variant="contained"
+                    className="ml-3 w-[150px]"
+                  >
+                    <SvgIcon className="mr-2">
+                      <Check />
+                    </SvgIcon>
+                    Lưu
+                  </Button>
+                </Stack>
+              </Stack>
+            </CardContent>
+          </Card>
         </Stack>
       </Container>
     </>

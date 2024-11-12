@@ -7,7 +7,9 @@ namespace Reporitories
     {
         List<Payment> GetPayments();
         List<Payment> GetPaymentsByUser(string email);
+        int InsertPayment(Payment payment);
+        Payment? GetPaymentById(int id);
 
-        bool InsertPayment(Payment payment);
+        void UpdateRegisterStatus(int id);
     }
 }

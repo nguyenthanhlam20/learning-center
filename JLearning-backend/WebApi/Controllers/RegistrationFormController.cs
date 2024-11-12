@@ -24,11 +24,28 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
         return map;
     }
 
+    [HttpGet("get-by-student")]
+    public async Task<ActionResult<List<RegistrationFormDTO>>> GetRegistrationFormsByStudent(string studentEmail)
+    {
+        var list = await _context.RegistrationForms
+            .Include(x => x.Class)
+            .Include(x => x.Course)
+            .Include(x => x.StudentEmailNavigation)
+            .Where(x => x.StudentEmail == studentEmail)
+            .ToListAsync();
+        var map = _mapper.Map<List<RegistrationFormDTO>>(list);
+        return map;
+    }
+
     // GET: api/RegistrationForm/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<RegistrationFormDTO>> GetRegistrationForm(string id)
+    public async Task<IActionResult> GetRegistrationForm(int id)
     {
-        var registrationForm = await _context.RegistrationForms.FindAsync(id);
+        var registrationForm = await _context.RegistrationForms
+            .Include(x => x.Class)
+            .Include(x => x.Course)
+            .Include(x => x.StudentEmailNavigation)
+            .FirstOrDefaultAsync(x => x.Id == id);
 
         if (registrationForm == null)
         {
@@ -36,7 +53,7 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
         }
         var map = _mapper.Map<RegistrationFormDTO>(registrationForm);
 
-        return map;
+        return Ok(map);
     }
 
     // PUT: api/RegistrationForm/5
@@ -126,10 +143,10 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
                 .Where(x => x.ClassId == registrationForm.ClassId)
                 .Where(x => x.CourseId == registrationForm.CourseId)
                 .Where(x => x.StudentEmail == registrationForm.StudentEmail)
-                .Where(x => x.Status == 1)
+                .Where(x => x.Status != 3)
                 .FirstOrDefaultAsync();
 
-            if (exist is not null) throw new Exception("Đơn đăng ký lớp học đã tồn tại.");
+            if (exist is not null) throw new Exception("Phiếu đăng ký lớp học đã tồn tại.");
 
             var map = _mapper.Map<RegistrationForm>(registrationForm);
             if (map is not null)

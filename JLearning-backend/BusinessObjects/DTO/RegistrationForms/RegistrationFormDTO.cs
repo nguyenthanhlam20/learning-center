@@ -10,6 +10,8 @@ public class RegistrationFormDTO
     public int CourseId { get; set; }
     public int? Status { get; set; }
     public string? CreatedDate { get; set; }
+    public string? Response { get; set; }
+
     public ClassDTO Class { get; set; } = null!;
     public CourseDTO Course { get; set; } = null!;
 

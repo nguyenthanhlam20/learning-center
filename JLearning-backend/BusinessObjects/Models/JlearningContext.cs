@@ -559,37 +559,40 @@ namespace BusinessObjects.Models
 
                 entity.Property(e => e.PaymentId).HasColumnName("payment_id");
 
-                entity.Property(e => e.Address).HasColumnName("address");
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("amount");
 
-                entity.Property(e => e.Amount).HasColumnName("amount");
+                entity.Property(e => e.ClassId).HasColumnName("class_id");
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
-                entity.Property(e => e.CourseName).HasColumnName("course_name");
-
-                entity.Property(e => e.CreatedDate)
+                entity.Property(e => e.PaymentDate)
                     .HasColumnType("date")
-                    .HasColumnName("created_date");
+                    .HasColumnName("payment_date");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.PaymentMethod)
                     .HasMaxLength(100)
-                    .HasColumnName("email");
+                    .HasColumnName("payment_method");
 
-                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.StudentEmail)
+                    .HasMaxLength(100)
+                    .HasColumnName("student_email");
 
-                entity.Property(e => e.Phone)
-                    .HasMaxLength(10)
-                    .HasColumnName("phone");
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Payments)
+                    .HasForeignKey(d => d.ClassId)
+                    .HasConstraintName("FK__Payment__class_i__151B244E");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__Payment__course___5FB337D6");
+                    .HasConstraintName("FK__Payment__course___160F4887");
 
-                entity.HasOne(d => d.EmailNavigation)
+                entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.Email)
-                    .HasConstraintName("FK__Payment__email__60A75C0F");
+                    .HasForeignKey(d => d.StudentEmail)
+                    .HasConstraintName("FK__Payment__student__17036CC0");
             });
 
             modelBuilder.Entity<Question>(entity =>

@@ -4,6 +4,7 @@ using BusinessObjects.DTO.Accounts;
 using BusinessObjects.DTO.Calendar;
 using BusinessObjects.DTO.Classes;
 using BusinessObjects.DTO.ClassMembers;
+using BusinessObjects.DTO.Payment;
 using BusinessObjects.DTO.RegistrationForms;
 using BusinessObjects.Models;
 
@@ -107,6 +108,9 @@ namespace WebApi.Config
 
                 config.CreateMap<Calendar, CalendarDTO>();
                 config.CreateMap<AddCalendarDTO, Calendar>();
+
+                config.CreateMap<InsertPaymentDTO, Payment>();
+                config.CreateMap<Payment, PaymentDTO>();
 
             });
 

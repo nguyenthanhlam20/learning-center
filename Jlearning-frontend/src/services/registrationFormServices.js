@@ -2,10 +2,8 @@ import { API } from "../constants";
 import axios from "axios";
 
 const registrationFormServices = {
-  getRegistrationForm: async (email) => {
-    const response = await axios.get(
-      API.MANAGE_REGISTRATION_FORM + "/get-registrationForm?email=" + email
-    );
+  getRegistrationForm: async (id) => {
+    const response = await axios.get(API.MANAGE_REGISTRATION_FORM + "/" + id);
     console.log("res", response);
     return response.data;
   },
@@ -13,6 +11,17 @@ const registrationFormServices = {
     console.log("get registration forms");
 
     const response = await axios.get(API.MANAGE_REGISTRATION_FORM);
+    console.log("res", response);
+    return response.data;
+  },
+  getRegistrationFormsByUser: async (studentEmail) => {
+    console.log("get registration forms");
+
+    const response = await axios.get(
+      API.MANAGE_REGISTRATION_FORM +
+        "/get-by-student?studentEmail=" +
+        studentEmail
+    );
     console.log("res", response);
     return response.data;
   },

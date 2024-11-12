@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { Status } from "../../constants/status";
 
 const CourseDetails = ({ course, user }) => {
-  console.log("user", user);
+  console.log("course", course);
   const dispatch = useDispatch();
   const formattedPrice = course?.price?.toLocaleString("vi-VN", {
     style: "currency",

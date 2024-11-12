@@ -10,6 +10,7 @@ namespace BusinessObjects.Models
             Calendars = new HashSet<Calendar>();
             ClassMembers = new HashSet<ClassMember>();
             Grades = new HashSet<Grade>();
+            Payments = new HashSet<Payment>();
             RegistrationForms = new HashSet<RegistrationForm>();
             StudentEmails = new HashSet<Account>();
         }
@@ -36,6 +37,7 @@ namespace BusinessObjects.Models
         public virtual ICollection<Calendar> Calendars { get; set; }
         public virtual ICollection<ClassMember> ClassMembers { get; set; }
         public virtual ICollection<Grade> Grades { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<RegistrationForm> RegistrationForms { get; set; }
 
         public virtual ICollection<Account> StudentEmails { get; set; }

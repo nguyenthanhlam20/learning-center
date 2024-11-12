@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BusinessObjects.DTO;
+using BusinessObjects.DTO.Payment;
 using BusinessObjects.Models;
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Reporitories;
 using System;
@@ -10,27 +12,39 @@ namespace WebApi.Controllers
 {
     [Route("api/payment")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentController(IMapper mapper) : ControllerBase
     {
         private IPaymentRepository repository = new PaymentRepository();
-        private IHttpContextAccessor httpContextAccessor;
 
-        private readonly IMapper _mapper;
-
-        // Get mapper singleton
-        public PaymentController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
-        {
-            _mapper = mapper;
-            this.httpContextAccessor = httpContextAccessor;
-        }
+        private readonly IMapper _mapper = mapper;
 
 
         // POST api/<LessonController>
         [HttpPost("insert")]
-        public ActionResult InsertPayment([FromBody]PaymentDTO paymentDTO)
+        public ActionResult InsertPayment([FromBody] InsertPaymentDTO paymentDTO)
         {
-            Payment payment = _mapper.Map<Payment>(paymentDTO);
+            var payment = _mapper.Map<Payment>(paymentDTO);
+            var paymentId = repository.InsertPayment(payment);
+            if (paymentId > 0)
+            {
+                SendOrderEmail(paymentId);
 
+                if (paymentDTO.RegisterId != null)
+                {
+                    repository.UpdateRegisterStatus(paymentDTO.RegisterId ?? 0);
+                }
+
+                return Ok(new ResponseDTO(true, "Thanh toán hóa đơn thành công"));
+            }
+            return Ok(new ResponseDTO(false, "Thanh toán hóa đơn thất bại"));
+
+        }
+
+
+        private void SendOrderEmail(int paymentId)
+        {
+            var payment = repository.GetPaymentById(paymentId);
+            var paymentDTO = _mapper.Map<PaymentDTO>(payment);
 
             string htmlBody = $@"
             <html>
@@ -95,11 +109,11 @@ namespace WebApi.Controllers
                         <table>
                             <tr>
                                 <th>Khách hàng</th>
-                                <td>{paymentDTO.Name}</td>
+                                <td>{paymentDTO.StudentEmailNavigation!.Name}</td>
                             </tr>
                             <tr>
                                 <th>Tên khóa học</th>
-                                <td>{paymentDTO.CourseName}</td>
+                                <td>{paymentDTO.Course!.CourseName}</td>
                             </tr>
                             <tr>
                                 <th>Giá</th>
@@ -111,42 +125,35 @@ namespace WebApi.Controllers
                             </tr>
                             <tr>
                                 <th>Nhà cung cấp</th>
-                                <td>{"JLearning Website"}</td>
+                                <td>{"Seed Center"}</td>
                             </tr>
                         </table>
                     </div>
                     <div class='invoice-footer'>
-                        <!-- Add your footer content here -->
-                        <p>Liên hệ: nguyenthanhlam7010@gmail.com</p>
                         <p>Cảm ơn vì đã tin tưởng và dùng dịch vụ của chúng tôi!</p>
                     </div>
                 </div>
             </body>
-            </html>";
+            </html>
+            ";
 
-            EmailServices.SendHtmlEmail(paymentDTO.Email, "Hóa Đơn Mua Khóa Học Tại JLearning Website", htmlBody);
-
-            repository.InsertPayment(payment);
-            return Ok();
+            EmailServices.SendHtmlEmail(paymentDTO.StudentEmail ?? "", "Hóa Đơn Mua Khóa Học Tại Seed Center", htmlBody);
         }
 
 
         // POST api/<LessonController>
         [HttpPost("create")]
-        public ActionResult CreatePayment([FromBody] PaymentDTO paymentDTO)
+        public ActionResult CreatePayment([FromBody] InsertPaymentDTO paymentDTO)
         {
-            Payment payment = _mapper.Map<Payment>(paymentDTO);
             string vnp_Returnurl = "http://localhost:3000/authen/payment/result"; //URL nhan ket qua tra ve 
             string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             string vnp_TmnCode = "BYWK6NZN";
             string vnp_HashSecret = "WIRKFXVKGQS9PJ9DOMCG7YZPYC20D3HR"; //Chuoi bi mat
 
-
-
             //Get payment input
             OrderInfo order = new OrderInfo();
             order.OrderId = DateTime.Now.Ticks; // Giả lập mã giao dịch hệ thống merchant gửi sang VNPAY
-            order.Amount = paymentDTO.Amount; // Giả lập số tiền thanh toán hệ thống merchant gửi sang VNPAY 100,000 VND
+            order.Amount = (double)paymentDTO.Amount; // Giả lập số tiền thanh toán hệ thống merchant gửi sang VNPAY 100,000 VND
             order.Status = "0"; //0: Trạng thái thanh toán "chờ thanh toán" hoặc "Pending" khởi tạo giao dịch chưa có IPN
             order.CreatedDate = DateTime.Now;
             //Save order to db

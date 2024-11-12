@@ -1,36 +1,23 @@
 ﻿
+using BusinessObjects.DTO.Classes;
 using System.Text.Json.Serialization;
 
 namespace BusinessObjects.DTO
 {
     public class PaymentDTO
     {
-        [JsonPropertyName("payment_id")]
         public int PaymentId { get; set; }
-
-        [JsonPropertyName("email")]
-        public string? Email { get; set; }
-
-        [JsonPropertyName("course_id")]
+        public string PaymentMethod { get; set; } = null!;
+        public int? ClassId { get; set; }
         public int? CourseId { get; set; }
-        
-        [JsonPropertyName("amount")]
-        public double Amount { get; set; }
-        
-        [JsonPropertyName("created_date")]
-        public DateTime? CreatedDate { get; set; }
-        
-        [JsonPropertyName("course_name")]
-        public string? CourseName { get; set; }
-        
-        [JsonPropertyName("phone")]
-        public string? Phone { get; set; }
-        
-        [JsonPropertyName("address")]
-        public string? Address { get; set; }
-        
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
+        public string? StudentEmail { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public virtual ClassDTO? Class { get; set; }
+        public virtual CourseDTO? Course { get; set; }
+
+        [JsonPropertyName("student")]
+        public virtual AccountDTO? StudentEmailNavigation { get; set; }
 
     }
 }
