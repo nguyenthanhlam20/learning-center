@@ -12,9 +12,10 @@ namespace WebApi.Controllers
 {
     [Route("api/payment")]
     [ApiController]
-    public class PaymentController(IMapper mapper) : ControllerBase
+    public class PaymentController(IMapper mapper, SeedCenterContext context) : ControllerBase
     {
         private IPaymentRepository repository = new PaymentRepository();
+        private readonly SeedCenterContext _context = context;
 
         private readonly IMapper _mapper = mapper;
 
@@ -23,21 +24,36 @@ namespace WebApi.Controllers
         [HttpPost("insert")]
         public ActionResult InsertPayment([FromBody] InsertPaymentDTO paymentDTO)
         {
-            var payment = _mapper.Map<Payment>(paymentDTO);
-            var paymentId = repository.InsertPayment(payment);
-            if (paymentId > 0)
+
+            try
             {
-                SendOrderEmail(paymentId);
+                var existAccount = _context.Accounts.Any(x => x.Email == paymentDTO.StudentEmail);
+                if (!existAccount) return Ok(new ResponseDTO(false, "Địa chỉ email không tồn tại trong hệ thống"));
 
-                if (paymentDTO.RegisterId != null)
+                var existPayment = _context.Payments.FirstOrDefault(x => x.StudentEmail == paymentDTO.StudentEmail
+                        && x.ClassId == paymentDTO.ClassId && x.CourseId == paymentDTO.CourseId);
+                if (existPayment != null) return Ok(new ResponseDTO(false, "Hóa đơn thanh toán đã tồn tại"));
+
+                var payment = _mapper.Map<Payment>(paymentDTO);
+                var paymentId = repository.InsertPayment(payment);
+                if (paymentId > 0)
                 {
-                    repository.UpdateRegisterStatus(paymentDTO.RegisterId ?? 0);
-                }
+                    SendOrderEmail(paymentId);
 
-                return Ok(new ResponseDTO(true, "Thanh toán hóa đơn thành công"));
+                    if (paymentDTO.RegisterId != null)
+                    {
+                        repository.UpdateRegisterStatus(paymentDTO.RegisterId ?? 0);
+                    }
+
+                    return Ok(new ResponseDTO(true, "Thanh toán hóa đơn thành công"));
+                }
+            }
+            catch (Exception)
+            {
+
+              
             }
             return Ok(new ResponseDTO(false, "Thanh toán hóa đơn thất bại"));
-
         }
 
 

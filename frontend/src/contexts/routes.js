@@ -43,6 +43,8 @@ import RegistrationFormPage from "../pages/user/registration-form";
 import EditRegistrationFormPage from "../pages/user/registration-form/edit";
 import MyClassPage from "../pages/user/class";
 import ListRegistrationPage from "../pages/admin/registration";
+import AddInvoicePage from "../pages/admin/invoice/add";
+import AdminStudentPage from "../pages/admin/students";
 
 export const routes = [
   {
@@ -315,6 +317,18 @@ export const routes = [
     path: ROUTE_CONSTANTS.ADMIN.REGISTRATION_FORM.INDEX,
     isPrivate: true,
     component: <ListRegistrationPage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.ADMIN.INVOICE.ADD,
+    isPrivate: true,
+    component: <AddInvoicePage />,
+    exact: true,
+  },
+  {
+    path: ROUTE_CONSTANTS.ADMIN.STUDENT_PAGE,
+    isPrivate: true,
+    component: <AdminStudentPage />,
     exact: true,
   },
 ];

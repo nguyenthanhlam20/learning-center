@@ -1,10 +1,13 @@
-import React, { useCallback, useState } from "react";
+import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon";
+import { SchoolOutlined } from "@mui/icons-material";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import BookIcon from "@mui/icons-material/Book";
 import {
   Button,
   Card,
   CardContent,
   CardHeader,
-  Chip,
   Container,
   Dialog,
   DialogContent,
@@ -15,17 +18,12 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { PaymentTable } from "../../sections/table/payment-table";
-import AppInput from "../../components/AppInput/AppInput";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import BookIcon from "@mui/icons-material/Book";
-import AlarmIcon from "@mui/icons-material/Alarm";
-import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon";
 import { Box } from "@mui/system";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AppInput from "../../components/AppInput/AppInput";
 import { getPaymentsByUser } from "../../redux/paymentSlice";
-import { SchoolOutlined } from "@mui/icons-material";
+import { PaymentTable } from "../../sections/table/payment-table";
 import Badge from "../Badge";
 
 const ListPayment = ({ user, courses }) => {
@@ -126,86 +124,79 @@ const ListPayment = ({ user, courses }) => {
     return result + id;
   };
 
-  const getTotalLesson = () => {
-    let count = 0;
-    if (currentCourse !== null) {
-      const chapters = currentCourse?.chapters;
-      for (let i = 0; i < chapters?.length; i++) {
-        count += chapters[i].lessons?.length;
-      }
-    }
-    return count;
-  };
-
   return (
-    <>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 5,
-          mb: 10,
-        }}
-      >
-        <Container maxWidth="xl">
-          <Stack spacing={2} sx={{ mt: 2 }}>
-            <Card sx={{ p: 2, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;" }}>
-              <Stack direction={"row"} spacing={2}>
-                <div className="w-96 ">
-                  <AppInput
-                    value={searchTerm.value}
-                    handleChangeValue={handleChangeSearchTerm}
-                    placeholder={"Tìm kiếm lịch sử giao dịch"}
-                    title={"value"}
-                  />
-                </div>
-                {searchTerm.value != "" ? (
-                  <Button
-                    onClick={handleClearSearch}
-                    variant="contained"
-                    size="medium"
-                    color="error"
+    <div className="relative w-full pb-40 pl-20 pr-20">
+      {payments?.length > 0 && (
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 5,
+            mb: 10,
+          }}
+        >
+          <Container maxWidth="xl">
+            <Stack spacing={2} sx={{ mt: 2 }}>
+              <Card
+                sx={{ p: 2, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;" }}
+              >
+                <Stack direction={"row"} spacing={2}>
+                  <div className="w-96 ">
+                    <AppInput
+                      value={searchTerm.value}
+                      handleChangeValue={handleChangeSearchTerm}
+                      placeholder={"Tìm kiếm lịch sử giao dịch"}
+                      title={"value"}
+                    />
+                  </div>
+                  {searchTerm.value != "" ? (
+                    <Button
+                      onClick={handleClearSearch}
+                      variant="contained"
+                      size="medium"
+                      color="error"
+                    >
+                      Xóa
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </Stack>
+              </Card>
+              {payments?.length > 0 ? (
+                <PaymentTable
+                  count={payments?.length}
+                  items={paymentsPagination}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  user={user}
+                  courses={courses}
+                  setIsOpenModal={setIsOpenModal}
+                  setCurrentPayment={setCurrentPayment}
+                />
+              ) : (
+                <>
+                  <Card
+                    sx={{
+                      p: 2,
+                      boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
+                      height: 525,
+                    }}
                   >
-                    Xóa
-                  </Button>
-                ) : (
-                  <></>
-                )}
-              </Stack>
-            </Card>
-            {payments?.length > 0 ? (
-              <PaymentTable
-                count={payments?.length}
-                items={paymentsPagination}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                user={user}
-                courses={courses}
-                setIsOpenModal={setIsOpenModal}
-                setCurrentPayment={setCurrentPayment}
-              />
-            ) : (
-              <>
-                <Card
-                  sx={{
-                    p: 2,
-                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
-                    height: 525,
-                  }}
-                >
-                  <CardContent>
-                    <div className="mt-[200px] h-full w-full text-center text-xl font-bold">
-                      Không tìm thấy kết quả
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
-            )}
-          </Stack>
-        </Container>
-      </Box>
+                    <CardContent>
+                      <div className="mt-[200px] h-full w-full text-center text-xl font-bold">
+                        Không tìm thấy kết quả
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
+            </Stack>
+          </Container>
+        </Box>
+      )}
 
       <Dialog fullWidth maxWidth="lg" open={isOpenModal}>
         <DialogTitle>
@@ -338,7 +329,7 @@ const ListPayment = ({ user, courses }) => {
           </Stack>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

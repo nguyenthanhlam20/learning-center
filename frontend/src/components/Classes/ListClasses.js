@@ -290,6 +290,7 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
                 page={page}
                 rowsPerPage={rowsPerPage}
                 title={capitalize(title)}
+                allowInsert={allowInsert}
               />
             ) : (
               <>

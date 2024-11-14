@@ -10,7 +10,7 @@ namespace DataAccess
             var listPayments = new List<Payment>();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     listPayments = context.Payments
                         .Include(x => x.Class)
@@ -31,7 +31,7 @@ namespace DataAccess
             var listPayments = new List<Payment>();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     listPayments = context.Payments
                          .Include(x => x.Class)
@@ -51,7 +51,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 context.Payments.Add(payment);
                 if (context.SaveChanges() > 0)
                 {
@@ -69,7 +69,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 return context.Payments
                     .Include(x => x.Course)
                     .Include(x => x.Class)
@@ -88,7 +88,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
 
                 var register = context.RegistrationForms.FirstOrDefault(x => x.Id == id);
                 if (register is not null)

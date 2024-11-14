@@ -7,29 +7,37 @@ namespace WebApi
     public class EmailServices
     {
 
-        private static string senderEmail = "nguyenthanhlam7010@gmail.com";
-        private static string senderName = "JLearning Website";
-        private static string senderPassword = "swttzsrgkdxcrwjs";
+        private static string senderEmail = "nguyenthanhlam1070@gmail.com";
+        private static string senderName = "Seed Center Website";
+        private static string senderPassword = "uuwq azae badg xvlc";
 
         public static void SendEmail(string recipientEmail, string subject, string body)
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(senderName, senderEmail));
-            message.To.Add(new MailboxAddress("", recipientEmail));
-
-            message.Subject = subject;
-
-            message.Body = new TextPart("plain")
+            try
             {
-                Text = body
-            };
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(senderName, senderEmail));
+                message.To.Add(new MailboxAddress("", recipientEmail));
 
-            using (var client = new SmtpClient())
+                message.Subject = subject;
+
+                message.Body = new TextPart("plain")
+                {
+                    Text = body
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                    client.Authenticate(senderEmail, senderPassword);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception)
             {
-                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                client.Authenticate(senderEmail, senderPassword);
-                client.Send(message);
-                client.Disconnect(true);
+
+
             }
         }
 
@@ -69,13 +77,15 @@ namespace WebApi
 
         public static void SendHtmlLinkEmail(string recipientEmail, string subject, string linkUrl)
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(senderName, senderEmail)); 
-            message.To.Add(new MailboxAddress("", recipientEmail)); 
+            try
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(senderName, senderEmail));
+                message.To.Add(new MailboxAddress("", recipientEmail));
 
-            message.Subject = subject;
+                message.Subject = subject;
 
-            var htmlBody = $@"
+                var htmlBody = $@"
             <html>
             <body>
                 <h3>Xin chào, đây là đường dẫn thay đổi mật khẩu của bạn!</h3>
@@ -84,22 +94,29 @@ namespace WebApi
             </body>
             </html>";
 
-            var body = new TextPart("html")
+                var body = new TextPart("html")
+                {
+                    Text = htmlBody
+                };
+
+                var multipart = new Multipart("alternative");
+                multipart.Add(body);
+
+                message.Body = multipart;
+
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                    client.Authenticate(senderEmail, senderPassword);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+
+            }
+            catch (Exception)
             {
-                Text = htmlBody
-            };
 
-            var multipart = new Multipart("alternative");
-            multipart.Add(body);
 
-            message.Body = multipart;
-
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                client.Authenticate(senderEmail, senderPassword);
-                client.Send(message);
-                client.Disconnect(true);
             }
         }
     }

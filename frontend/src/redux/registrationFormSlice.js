@@ -53,6 +53,11 @@ export const pendingForm = createAsyncThunk("pending-form", async (id) => {
   return response;
 });
 
+export const successForm = createAsyncThunk("success-form", async (id) => {
+  const response = await registrationFormServices.success(id);
+  return response;
+});
+
 const registrationFormSlice = createSlice({
   name: "registrationForm",
   initialState: {
@@ -118,7 +123,17 @@ const registrationFormSlice = createSlice({
       }
       state.isRefresh = true;
     });
-
+    builder.addCase(successForm.fulfilled, (state, action) => {
+      console.log(action.payload);
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+      state.isRefresh = true;
+    });
     builder.addCase(pendingForm.fulfilled, (state, action) => {
       console.log(action.payload);
       const { success, message } = action.payload;

@@ -64,7 +64,11 @@ export const ClassTableMini = ({ items }) => {
                     arrow
                     placement="top"
                   >
-                    <p>{classes.classMembers.length}</p>
+                    <p>
+                      {classes?.classMembers.length +
+                        "/" +
+                        classes?.numberOfStudent}
+                    </p>
                   </Tooltip>
                 </TableCell>
                 <TableCell>

@@ -9,9 +9,9 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClassController(JLearningContext context, IMapper mapper) : ControllerBase
+    public class ClassController(SeedCenterContext context, IMapper mapper) : ControllerBase
     {
-        private readonly JLearningContext _context = context;
+        private readonly SeedCenterContext _context = context;
         private readonly IMapper _mapper = mapper;
 
         // GET: api/Class
@@ -20,6 +20,7 @@ namespace WebApi.Controllers
         {
             var classes = await _context.Classes
                 .Include(x => x.Course)
+                .Include(x => x.ClassMembers)
                 .Include(x => x.TeacherEmailNavigation)
                 .Include(x => x.StaffEmailNavigation)
                 .ToListAsync();

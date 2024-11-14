@@ -15,7 +15,7 @@ namespace DataAccess
             var listContacts = new List<Contact>();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     listContacts = context.Contacts.ToList();
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             Contact c = new Contact();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     c = context.Contacts.SingleOrDefault(x => x.ContactId == id);
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Contacts.Add(c);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Entry<Contact>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();

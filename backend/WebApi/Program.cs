@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<JLearningContext>(options =>
+builder.Services.AddDbContext<SeedCenterContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
 });

@@ -33,11 +33,15 @@ export const ROUTE_CONSTANTS = {
   ADMIN_TEST_DETAILS: "/authen/test-details",
   ADMIN: {
     STAFF_PAGE: "/authen/staffs",
+    STUDENT_PAGE: "/authen/students",
     TEACHER_PAGE: "/authen/teachers",
     EDIT_ACCOUNT: "/authen/account/edit",
     REGISTRATION_FORM: {
       INDEX: "/authen/admin/registration-form",
       EDIT: "/authen/admin/registration-form/edit",
+    },
+    INVOICE: {
+      ADD: "/authen/admin/invoice/add",
     },
   },
   CLASS: {

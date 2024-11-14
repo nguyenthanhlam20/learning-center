@@ -10,7 +10,7 @@ namespace DataAccess
     {
         public static string GetData()
         {
-            using (var context = new JLearningContext())
+            using (var context = new SeedCenterContext())
             {
                 int totalCourse = context.Courses.Count();
                 int totalBlog = context.Accounts.Where(x => x.RoleId == 2).Count();

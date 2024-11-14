@@ -31,6 +31,7 @@ import {
   cancelForm,
   confirmForm,
   pendingForm,
+  successForm,
 } from "../../redux/registrationFormSlice";
 import { getInitials } from "../../utils/get-initials";
 import getStatus from "../../utils/get-status";
@@ -68,6 +69,10 @@ export const RegistrationTable = (props) => {
 
     handleChangeValue("id", register.id);
     setIsOpenModal(true);
+  };
+
+  const handleAddToClass = (id) => {
+    dispatch(successForm(id));
   };
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -200,13 +205,26 @@ export const RegistrationTable = (props) => {
                           )}
                           {register.status !== Status.COMPLETE &&
                             register.status !== Status.CANCEL && (
-                              <Button
-                                onClick={() => handleOpenModal(register)}
-                                color="error"
-                                size="small"
-                              >
-                                Hủy Phiếu
-                              </Button>
+                              <Stack direction={"row"} spacing={2}>
+                                {register.status !== Status.PENDING && (
+                                  <Button
+                                    onClick={() =>
+                                      handleAddToClass(register?.id)
+                                    }
+                                    color="success"
+                                    size="small"
+                                  >
+                                    Thêm vào lớp
+                                  </Button>
+                                )}
+                                <Button
+                                  onClick={() => handleOpenModal(register)}
+                                  color="error"
+                                  size="small"
+                                >
+                                  Hủy Phiếu
+                                </Button>
+                              </Stack>
                             )}
                         </Stack>
                       </TableCell>

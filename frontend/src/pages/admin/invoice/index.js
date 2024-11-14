@@ -11,6 +11,7 @@ const AdminInvoicePage = () => {
   const payments = useSelector((state) => state.payment.allPayments);
   const courses = useSelector((state) => state.course.data);
   const { setCurrentPage } = userSlice.actions;
+  const isRefresh = useSelector((state) => state.payment.isRefresh);
 
   React.useEffect(() => {
     dispatch(setCurrentPage("Quản lý hóa đơn"));
@@ -18,7 +19,7 @@ const AdminInvoicePage = () => {
 
   React.useEffect(() => {
     dispatch(getAllPayments());
-  }, []);
+  }, [isRefresh]);
 
   console.log(payments);
 

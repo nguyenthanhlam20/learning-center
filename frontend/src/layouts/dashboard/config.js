@@ -4,8 +4,10 @@ import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
 import QuestionMarkCircleIcon from "@heroicons/react/24/solid/QuestionMarkCircleIcon";
 import {
   AirplaneTicketRounded,
+  Feedback,
   Info,
   MessageRounded,
+  People,
   ShoppingBasket,
 } from "@mui/icons-material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -59,6 +61,15 @@ export const adminRoutes = [
     ),
   },
   {
+    title: "Quản lý học viên",
+    path: ROUTE_CONSTANTS.ADMIN.STUDENT_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <People />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Quản lý phiếu đăng ký",
     path: ROUTE_CONSTANTS.ADMIN.REGISTRATION_FORM.INDEX,
     icon: (
@@ -91,6 +102,15 @@ export const adminRoutes = [
     icon: (
       <SvgIcon fontSize="small">
         <MessageRounded />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Phản hồi của học viên",
+    path: ROUTE_CONSTANTS.ADMIN_FEEDBACK_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <Feedback />
       </SvgIcon>
     ),
   },
@@ -148,6 +168,15 @@ export const staffRoutes = [
     icon: (
       <SvgIcon fontSize="small">
         <MessageRounded />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Phản hồi của học viên",
+    path: ROUTE_CONSTANTS.ADMIN_FEEDBACK_PAGE,
+    icon: (
+      <SvgIcon fontSize="small">
+        <Feedback />
       </SvgIcon>
     ),
   },

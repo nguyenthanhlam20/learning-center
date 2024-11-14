@@ -1,9 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getRegistrationForms,
-  getRegistrationFormsByUser,
-} from "../../../redux/registrationFormSlice";
+import { getRegistrationFormsByUser } from "../../../redux/registrationFormSlice";
 import ListRegistration from "./ListRegistration";
 
 export default function RegistrationFormPage() {

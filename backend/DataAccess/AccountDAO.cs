@@ -10,7 +10,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 return context.Accounts.SingleOrDefault(x => x.Email == account.Email && x.Password == account.Password);
             }
             catch (Exception e)
@@ -25,7 +25,7 @@ namespace DataAccess
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 context.Accounts.Add(account);
 
                 if (context.SaveChanges() > 0)
@@ -45,7 +45,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Entry<Account>(a).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -61,7 +61,7 @@ namespace DataAccess
             bool status = false;
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Entry<Account>(a).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     if (context.SaveChanges() > 0)
@@ -76,11 +76,11 @@ namespace DataAccess
             }
             return status;
         }
-        public static Account FindAccountByEmail(string email)
+        public static Account? FindAccountByEmail(string email)
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 var account = context.Accounts
                     .Include(x => x.ClassTeacherEmailNavigations)
                     .Include(x => x.ClassStaffEmailNavigations)
@@ -102,14 +102,14 @@ namespace DataAccess
             {
                 Console.WriteLine(e.ToString());
             }
-            return new Account();
+            return null;
         }
 
         public static List<Account> FindByRole(int roleId)
         {
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 return context.Accounts.Where(x => x.RoleId == roleId).ToList();
             }
             catch (Exception e)
@@ -124,7 +124,7 @@ namespace DataAccess
             try
             {
                 account.Password = "Abc1234!";
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 context.Accounts.Add(account);
                 if (context.SaveChanges() > 0)
                 {
@@ -144,7 +144,7 @@ namespace DataAccess
             bool status = false;
             try
             {
-                using var context = new JLearningContext();
+                using var context = new SeedCenterContext();
                 context.Entry<Account>(account).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 if (context.SaveChanges() > 0)
                 {

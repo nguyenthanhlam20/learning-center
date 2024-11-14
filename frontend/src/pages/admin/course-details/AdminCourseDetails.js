@@ -30,15 +30,11 @@ import ArrowLeftIcon from "@heroicons/react/24/solid/ArrowLeftIcon";
 import { toast } from "react-toastify";
 import FileUploader from "../../../components/FileUploader";
 import AppSelect from "../../../components/AppInput/AppSelect";
+import { ClassTableMini } from "../../../sections/table/class-table-mini";
 
 const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [currentFile, setCurrentFile] = React.useState(null);
-  const [previewUrl, setPreviewUrl] = React.useState("");
-
-  const [disableSubmit, setDisableSubmit] = React.useState(false);
 
   const [values, setValues] = React.useState({
     course_id: course?.course_id,
@@ -61,16 +57,6 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
       status: course?.status,
     });
   }, [course, isRefreshSpecific]);
-
-  React.useEffect(() => {
-    if (currentFile !== null) {
-      setValues((prevValues) => ({
-        ...prevValues,
-        course_avatar_url: currentFile.url,
-      }));
-      setDisableSubmit(false);
-    }
-  }, [currentFile]);
 
   const handleChangeValue = (key, value) => {
     setValues((prevValues) => ({
@@ -131,11 +117,7 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
           >
             <img
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              src={
-                previewUrl !== "" && previewUrl !== undefined
-                  ? previewUrl
-                  : values.course_avatar_url
-              }
+              src={values?.course_avatar_url}
               alt="img-blur-shadow"
             />
           </div>
@@ -195,7 +177,6 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
           <Divider />
           <Stack direction={"row"} spacing={3} justifyContent={"end"}>
             <Button
-              disabled={disableSubmit}
               onClick={handleReturnToList}
               color="success"
               variant="contained"
@@ -203,18 +184,17 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
             >
               <SvgIcon className="mr-2">
                 <ArrowLeftIcon />
-              </SvgIcon>{" "}
+              </SvgIcon>
               Trở lại
             </Button>
             <Button
-              disabled={disableSubmit}
               variant="contained"
               onClick={handleUpdateCourse}
               className="w-full bg-primary"
             >
               <SvgIcon className="mr-2">
                 <HandThumbUpIcon />
-              </SvgIcon>{" "}
+              </SvgIcon>
               Lưu
             </Button>
           </Stack>
@@ -232,6 +212,7 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
           <Typography variant="h6" fontWeight={600} textAlign={"center"}>
             Danh sách lớp
           </Typography>
+          <ClassTableMini items={course?.classes} />
           <Divider />
         </Stack>
       </Box>

@@ -54,6 +54,7 @@ namespace WebApi.Controllers
         {
             // Map dto to account
             Account acc = _mapper.Map<Account>(accountDTO);
+            acc.RoleId = 4;
             bool status = repository.SignUp(acc);
 
             Console.Write(status);

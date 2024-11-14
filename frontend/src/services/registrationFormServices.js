@@ -56,6 +56,13 @@ const registrationFormServices = {
     );
     return response.data;
   },
+  success: async (id) => {
+    console.log("success: ", id);
+    const response = await axios.get(
+      API.MANAGE_REGISTRATION_FORM + "/success/" + id
+    );
+    return response.data;
+  },
 };
 
 export default registrationFormServices;

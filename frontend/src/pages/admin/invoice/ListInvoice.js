@@ -25,6 +25,8 @@ import { InvoiceTable } from "../../../sections/table/invoice-table";
 import { FileDownload, School, SchoolOutlined } from "@mui/icons-material";
 import { CSVLink } from "react-csv";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
 
 const ListInvoice = ({ data, user, courses }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -122,6 +124,11 @@ const ListInvoice = ({ data, user, courses }) => {
     const result = str.slice(0, str.length - idStr.length);
     return result + id;
   };
+
+  const navigate = useNavigate();
+
+  const handleAddInvoice = () => navigate(ROUTE_CONSTANTS.ADMIN.INVOICE.ADD);
+
   return (
     <>
       <Box
@@ -170,7 +177,12 @@ const ListInvoice = ({ data, user, courses }) => {
                       Xuất excel
                     </CSVLink>
                   </Button>
-                  <Button variant="contained" color="primary" size="medium">
+                  <Button
+                    onClick={handleAddInvoice}
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                  >
                     <SvgIcon sx={{ mr: 1 }}>
                       <PlusIcon />
                     </SvgIcon>

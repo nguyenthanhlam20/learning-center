@@ -18,6 +18,7 @@ const RegisterDialog = React.forwardRef(
     // Expose the openDialog method to the parent component
     React.useImperativeHandle(ref, () => ({
       openDialog: () => setOpen(true),
+      closeDialog: () => setOpen(false),
     }));
 
     const handleClose = () => {
@@ -26,7 +27,6 @@ const RegisterDialog = React.forwardRef(
 
     const handleClickYes = () => {
       handleSubmit();
-      setOpen(false);
     };
 
     return (

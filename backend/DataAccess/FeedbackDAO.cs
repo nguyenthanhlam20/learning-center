@@ -14,7 +14,7 @@ namespace DataAccess
             Feedback fb = null;
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     fb = context.Feedbacks.SingleOrDefault(x => x.CourseId == courseId && x.Email== email);
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             List<Feedback> fb = null;
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     fb = context.Feedbacks.ToList();
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Feedbacks.Add(fb);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Entry<Feedback>(fb).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();

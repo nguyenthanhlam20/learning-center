@@ -12,9 +12,9 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ClassMemberController(JLearningContext context, IMapper mapper) : ControllerBase
+public class ClassMemberController(SeedCenterContext context, IMapper mapper) : ControllerBase
 {
-    private readonly JLearningContext _context = context;
+    private readonly SeedCenterContext _context = context;
     private readonly IMapper _mapper = mapper;
 
     // GET: api/ClassMember

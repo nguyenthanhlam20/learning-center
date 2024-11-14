@@ -10,9 +10,9 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RegistrationFormController(JLearningContext context, IMapper mapper) : ControllerBase
+public class RegistrationFormController(SeedCenterContext context, IMapper mapper) : ControllerBase
 {
-    private readonly JLearningContext _context = context;
+    private readonly SeedCenterContext _context = context;
     private readonly IMapper _mapper = mapper;
 
     // GET: api/RegistrationForm
@@ -115,6 +115,41 @@ public class RegistrationFormController(JLearningContext context, IMapper mapper
 
             await _context.SaveChangesAsync();
             return Ok(new ResponseDTO(true, "Xác nhận phiếu đăng ký thành công"));
+        }
+        catch (Exception ex)
+        {
+
+            return Ok(new ResponseDTO(false, ex.Message));
+
+        }
+    }
+
+    [HttpGet("success/{id}")]
+    public async Task<IActionResult> Success(int id)
+    {
+        try
+        {
+            var register = await _context.RegistrationForms.FirstOrDefaultAsync(x => x.Id == id);
+            if (register is null) throw new Exception("Thêm học viên vào lớp thất bại ");
+
+
+            var existClassMember = await _context.ClassMembers
+                .FirstOrDefaultAsync(x => x.ClassId == register.ClassId && x.StudentEmail == register.StudentEmail);
+
+            if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
+            _context.ClassMembers.Add(new ClassMember()
+            {
+                ClassId = register.ClassId,
+                StudentEmail = register.StudentEmail,
+                EnrollmentDate = DateTime.Now,
+                Status = true
+
+            });
+
+            register.Status = (int)RegistrationStatus.Complete;
+
+            await _context.SaveChangesAsync();
+            return Ok(new ResponseDTO(true, "Thêm học viên vào lớp thành công"));
         }
         catch (Exception ex)
         {

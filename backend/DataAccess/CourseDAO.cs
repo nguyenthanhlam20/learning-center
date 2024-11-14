@@ -10,7 +10,7 @@ public class CourseDAO
         var listCourses = new List<Course>();
         try
         {
-            using var context = new JLearningContext();
+            using var context = new SeedCenterContext();
             listCourses = context.Courses
                 .Include(x => x.Classes)
                 .ToList();
@@ -26,7 +26,7 @@ public class CourseDAO
     {
         try
         {
-            using var context = new JLearningContext();
+            using var context = new SeedCenterContext();
             var course = context.Courses
                 .Include(u => u.Classes)
                 .SingleOrDefault(x => x.CourseId == id);
@@ -55,7 +55,7 @@ public class CourseDAO
     {
         try
         {
-            using (var context = new JLearningContext())
+            using (var context = new SeedCenterContext())
             {
                 context.Courses.Add(c);
                 context.SaveChanges();
@@ -71,7 +71,7 @@ public class CourseDAO
 
         try
         {
-            using (var context = new JLearningContext())
+            using (var context = new SeedCenterContext())
             {
                 context.Entry<Course>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
@@ -87,7 +87,7 @@ public class CourseDAO
         var listCourses = new List<Course>();
         try
         {
-            using (var context = new JLearningContext())
+            using (var context = new SeedCenterContext())
             {
                 var usercourse = context.UserCourses
                .Where(x => x.Email == email)
@@ -111,7 +111,7 @@ public class CourseDAO
     {
         try
         {
-            using var context = new JLearningContext();
+            using var context = new SeedCenterContext();
             var any = context.UserCourses.Any(x =>  x.CourseId == uc.CourseId && x.Email == uc.Email);
             if(!any)
             {

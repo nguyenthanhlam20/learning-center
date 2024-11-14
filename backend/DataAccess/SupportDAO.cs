@@ -15,7 +15,7 @@ namespace DataAccess
             var listSupports = new List<Support>();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     listSupports = context.Supports.ToList();
                 }
@@ -32,7 +32,7 @@ namespace DataAccess
             Support support = new Support();
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     support = context.Supports.SingleOrDefault(x => x.SupportId == id);
                 }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Supports.Add(support);
                     context.SaveChanges();
@@ -65,7 +65,7 @@ namespace DataAccess
 
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
                     context.Entry<Support>(support).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
@@ -81,7 +81,7 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new JLearningContext())
+                using (var context = new SeedCenterContext())
                 {
 
                     var sup = context.Supports.SingleOrDefault(x => x.SupportId == support.SupportId);

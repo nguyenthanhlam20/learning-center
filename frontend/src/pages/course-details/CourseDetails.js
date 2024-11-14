@@ -17,6 +17,8 @@ import RegisterDialog from "./register";
 import { insertRegistrationForm } from "../../redux/registrationFormSlice";
 import { useDispatch } from "react-redux";
 import { Status } from "../../constants/status";
+import { isEmpty } from "lodash";
+import { toast } from "react-toastify";
 
 const CourseDetails = ({ course, user }) => {
   console.log("course", course);
@@ -37,6 +39,21 @@ const CourseDetails = ({ course, user }) => {
     status: Status.PENDING,
     createdDate: new Date(),
   });
+
+  React.useEffect(() => {
+    setValues({
+      classId: "",
+      className: "",
+      courseId: course?.course_id,
+      name: user?.name ?? "",
+      phone: user?.phone ?? "",
+      studentEmail: user?.email,
+      courseName: course?.course_name,
+      status: Status.PENDING,
+      createdDate: new Date(),
+    });
+  }, [course]);
+
   console.log("values", values);
 
   const handleChangeValue = (key, value) => {
@@ -47,7 +64,18 @@ const CourseDetails = ({ course, user }) => {
   };
 
   const handleSubmit = () => {
+    if (isEmpty(values?.name?.trim())) {
+      toast.warning("Chưa nhập tên");
+      return;
+    }
+    if (isEmpty(values?.phone?.trim())) {
+      toast.warning("Chưa nhập số điện thoại");
+      return;
+    }
     dispatch(insertRegistrationForm(values));
+    if (dialogRef.current) {
+      dialogRef.current.closeDialog();
+    }
   };
 
   const handleOpenDialog = (classId, className) => {
@@ -144,7 +172,7 @@ const CourseDetails = ({ course, user }) => {
                     <TableCell>{row.startTime + " - " + row.endTime}</TableCell>
                     <TableCell>{row.daysOfWeek}</TableCell>
                     <TableCell>
-                      {row.classMembers.length + "/" + row.numberOfSlots}
+                      {row.classMembers.length + "/" + row.numberOfStudent}
                     </TableCell>
                     <TableCell>
                       <Button

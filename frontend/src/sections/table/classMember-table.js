@@ -100,11 +100,11 @@ export const ClassMemberTable = (props) => {
                     <TableRow hover key={classMember.student.email}>
                       <TableCell>
                         <Stack alignItems="center" direction="row" spacing={2}>
-                          <Avatar src={classMember.student.avatar_url}>
-                            {getInitials(classMember.student.name)}
+                          <Avatar src={classMember?.student?.avatar_url}>
+                            {getInitials(classMember?.student?.name)}
                           </Avatar>
                           <Typography variant="subtitle2">
-                            {classMember.student.name}
+                            {classMember?.student?.name}
                           </Typography>
                         </Stack>
                       </TableCell>

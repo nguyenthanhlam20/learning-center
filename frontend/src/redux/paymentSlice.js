@@ -55,7 +55,6 @@ const paymentSlice = createSlice({
       state.data = null;
       state.url = "";
       state.status = 0;
-      state.isRefresh = true;
 
       const { success, message } = action.payload;
       console.log(action.payload);
@@ -64,7 +63,7 @@ const paymentSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(getPaymentsByUser.fulfilled, (state, action) => {
       state.paymentByUsers = action.payload;
