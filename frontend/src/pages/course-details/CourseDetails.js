@@ -72,6 +72,11 @@ const CourseDetails = ({ course, user }) => {
       toast.warning("Chưa nhập số điện thoại");
       return;
     }
+    if (values?.phone?.trim().length !== 10) {
+      toast.warning("Số điện thoại không hợp lệ");
+      return;
+    }
+
     dispatch(insertRegistrationForm(values));
     if (dialogRef.current) {
       dialogRef.current.closeDialog();

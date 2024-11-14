@@ -20,8 +20,10 @@ const AdminStudentPage = () => {
     dispatch(getUsers(ROLE.USER));
   }, [dispatch, isRefreshCourse]);
 
+  const valid = accounts?.filter((x) => x.class_member?.length > 0);
+
   return (
-    <ListAccount data={accounts ?? []} roleId={ROLE.USER} title={"học viên"} />
+    <ListAccount data={valid ?? []} roleId={ROLE.USER} title={"học viên"} />
   );
 };
 

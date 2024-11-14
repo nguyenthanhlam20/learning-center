@@ -31,13 +31,15 @@ function EditClassMemberPage() {
   const navigate = useNavigate();
 
   const classMember = useSelector((state) => state.classMember.specific);
+  const isRefresh = useSelector((state) => state.classMember.isRefresh);
+
   const grade = classMember?.student?.grades?.find(
     (x) => x.classId === classMember.classId
   );
 
   React.useEffect(() => {
     dispatch(getClassMember({ email, classId }));
-  }, []);
+  }, [isRefresh]);
 
   useEffect(() => {
     setValues({
@@ -50,10 +52,9 @@ function EditClassMemberPage() {
     }
   }, [classMember]);
 
-  const dialogRef = useRef(null);
   const [values, setValues] = useState(classMember);
   const [score, setScore] = useState(
-    grade || {
+    grade ?? {
       classId: classId,
       studentEmail: email,
       gradeName: "Điểm cuối khóa",
@@ -106,6 +107,7 @@ function EditClassMemberPage() {
   const handleSubmitScore = () => {
     dispatch(addScore(score));
   };
+  const dialogRef = useRef(null);
 
   const handleOpenDialog = () => {
     if (dialogRef.current) {

@@ -188,13 +188,24 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
     {
         try
         {
+            var classes = await _context.Classes.Include(x => x.ClassMembers)
+                .FirstOrDefaultAsync(x => x.ClassId == registrationForm.ClassId);
+
+            if(classes is null) throw new Exception("Không tìm thấy lớp học");
+
+            var numberOfStudent = classes.ClassMembers.Count;
+            if(numberOfStudent >= classes.NumberOfStudent)
+            {
+                throw new Exception("Lớp đã đủ học viên.");
+            }
+
+
             var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Email == registrationForm.StudentEmail);
             if (account is null) return NotFound();
 
             account.Name = registrationForm.Name;
             account.Phone = registrationForm.Phone;
             await _context.SaveChangesAsync();
-
 
             var exist = await _context.RegistrationForms
                 .Where(x => x.ClassId == registrationForm.ClassId)

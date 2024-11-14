@@ -10,11 +10,12 @@ import {
   TableRow,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserClasses } from "../../../redux/classSlice";
 import Breadcrumb from "../../../components/Common/Breadcrumb";
 import SmoothScrollUp from "../../../components/Common/SmoothScrollUp";
+import ScoreDialog from "./score";
 
 const MyClassPage = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,25 @@ const MyClassPage = () => {
     }
   };
 
+  const [score, setScore] = useState();
+
   // Example usage:
   console.log(getStatus("2024-11-09", "2024-11-10"));
+  const dialogRef = useRef(null);
+
+  const handleOpenDialog = (classId) => {
+    var target = classes?.find((x) => x.classId === classId);
+
+    if (target !== undefined) {
+      var score = target?.grades?.find((x) => x.classId === classId);
+      console.log("target?.grades", target);
+      setScore(score);
+    }
+
+    if (dialogRef.current) {
+      dialogRef.current.openDialog();
+    }
+  };
 
   return (
     <>
@@ -125,9 +143,7 @@ const MyClassPage = () => {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={() =>
-                              handleOpenDialog(row.classId, row.className)
-                            }
+                            onClick={() => handleOpenDialog(row.classId)}
                           >
                             Xem điểm
                           </Button>
@@ -138,6 +154,7 @@ const MyClassPage = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+            <ScoreDialog score={score} ref={dialogRef} />
           </Stack>
         )}
       </div>

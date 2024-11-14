@@ -37,9 +37,11 @@ namespace WebApi.Controllers
                 .Include(x => x.TeacherEmailNavigation)
                 .Include(x => x.StaffEmailNavigation)
                 .Include(x => x.ClassMembers)
+                .Include(x => x.Grades)
                 .Where(x => x.ClassMembers.Any(m => m.StudentEmail == email))
                 .ToListAsync();
             var map = _mapper.Map<List<ClassDTO>>(classes);
+
             return map;
         }
 

@@ -219,19 +219,21 @@ const ListAccount = ({ data, roleId, title }) => {
                       Xuất excel
                     </CSVLink>
                   </Button>
-                  <Button
-                    onClick={() => {
-                      setIsOpenModal(true);
-                    }}
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                  >
-                    <SvgIcon sx={{ mr: 1 }}>
-                      <PlusIcon />
-                    </SvgIcon>
-                    Thêm mới
-                  </Button>
+                  {title !== "học viên" && (
+                    <Button
+                      onClick={() => {
+                        setIsOpenModal(true);
+                      }}
+                      variant="contained"
+                      color="primary"
+                      size="medium"
+                    >
+                      <SvgIcon sx={{ mr: 1 }}>
+                        <PlusIcon />
+                      </SvgIcon>
+                      Thêm mới
+                    </Button>
+                  )}
                 </Stack>
               </div>
             </Card>

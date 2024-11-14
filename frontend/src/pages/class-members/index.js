@@ -25,7 +25,7 @@ const AdminClassMemberPage = () => {
   const { setCurrentPage } = userSlice.actions;
 
   useEffect(() => {
-    const title = `Quản lý thành viên lớp - ${specificClass.className}`;
+    const title = `Quản lý thành viên lớp - ${specificClass?.className}`;
     dispatch(setCurrentPage(title));
   }, [dispatch, setCurrentPage, specificClass]);
 

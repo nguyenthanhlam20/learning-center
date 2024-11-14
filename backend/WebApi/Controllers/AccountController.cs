@@ -128,6 +128,8 @@ namespace WebApi.Controllers
             if (accounts is null) return NotFound();
 
             var acc = _mapper.Map<List<AccountDTO>>(accounts);
+
+
             return Ok(acc);
         }
 

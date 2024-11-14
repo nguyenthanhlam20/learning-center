@@ -110,7 +110,7 @@ namespace DataAccess
             try
             {
                 using var context = new SeedCenterContext();
-                return context.Accounts.Where(x => x.RoleId == roleId).ToList();
+                return context.Accounts.Include(x => x.ClassMembers).Where(x => x.RoleId == roleId).ToList();
             }
             catch (Exception e)
             {

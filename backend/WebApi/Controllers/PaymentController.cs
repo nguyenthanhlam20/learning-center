@@ -4,6 +4,8 @@ using BusinessObjects.DTO.Payment;
 using BusinessObjects.Models;
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Reporitories;
 using System;
 using static System.Net.Mime.MediaTypeNames;
@@ -27,6 +29,16 @@ namespace WebApi.Controllers
 
             try
             {
+                var account = _context.Accounts.FirstOrDefault(x => x.Email == paymentDTO.StudentEmail);
+                if (account is null) return NotFound();
+
+                account.Name = paymentDTO.StudentName;
+                account.Phone = paymentDTO.StudentPhone;
+                account.Address = paymentDTO.Address;
+                account.DateOfBirth = DateTime.TryParse(paymentDTO.DateOfBirth, out var result) ? result : DateTime.Now;
+                _context.SaveChanges();
+
+
                 var existAccount = _context.Accounts.Any(x => x.Email == paymentDTO.StudentEmail);
                 if (!existAccount) return Ok(new ResponseDTO(false, "Địa chỉ email không tồn tại trong hệ thống"));
 
@@ -43,6 +55,34 @@ namespace WebApi.Controllers
                     if (paymentDTO.RegisterId != null)
                     {
                         repository.UpdateRegisterStatus(paymentDTO.RegisterId ?? 0);
+
+                        var existClassMember = _context.ClassMembers
+                                .FirstOrDefault(x => x.ClassId == paymentDTO.ClassId
+                                && x.StudentEmail == paymentDTO.StudentEmail);
+                        if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
+                        _context.ClassMembers.Add(new ClassMember()
+                        {
+                            ClassId = paymentDTO.ClassId ?? 0,
+                            StudentEmail = paymentDTO.StudentEmail!,
+                            EnrollmentDate = DateTime.Now,
+                            Status = true
+                        });
+
+
+                        var existUserCourse = _context.UserCourses.Any(x => x.Email == paymentDTO.StudentEmail
+                        && x.CourseId == paymentDTO.CourseId);
+
+                        if(!existUserCourse)
+                        {
+                            _context.UserCourses.Add(new UserCourse()
+                            {
+                                CourseId = paymentDTO.CourseId ?? 0,
+                                Email = payment.StudentEmail!,
+                                EnrolledDate = DateTime.Now,
+                            });
+                        }
+
+                        _context.SaveChanges();
                     }
 
                     return Ok(new ResponseDTO(true, "Thanh toán hóa đơn thành công"));
@@ -51,7 +91,7 @@ namespace WebApi.Controllers
             catch (Exception)
             {
 
-              
+
             }
             return Ok(new ResponseDTO(false, "Thanh toán hóa đơn thất bại"));
         }

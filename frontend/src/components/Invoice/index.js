@@ -30,8 +30,8 @@ import AppInputPhone from "../AppInput/AppInputPhone";
 import AppTextArea from "../AppInput/AppTextArea";
 
 const Invoice = ({ data }) => {
-  console.log("data", data);
   const user = useSelector((state) => state.authen.user);
+  console.log("user", user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -58,9 +58,9 @@ const Invoice = ({ data }) => {
       studentEmail: data?.studentEmail,
       amount: data?.course?.price,
       paymentDate: new Date(),
-      studentName: user?.name,
-      studentPhone: user?.phone,
-      address: user?.address,
+      studentName: user?.name ?? "",
+      studentPhone: user?.phone ?? "",
+      address: user?.address ?? "",
       dateOfBirth: user?.date_of_birth,
     });
   }, [data]);
@@ -103,6 +103,11 @@ const Invoice = ({ data }) => {
 
     if (values.address.trim() === "") {
       toast.warning("Chưa nhập địa chỉ");
+      return;
+    }
+
+    if (values.dateOfBirth === null || values.dateOfBirth === undefined) {
+      toast.warning("Chưa chọn ngày sinh");
       return;
     }
 
@@ -239,7 +244,7 @@ const Invoice = ({ data }) => {
                         />
                         <AppDatePicker
                           value={values.dateOfBirth}
-                          title={"date_of_birth"}
+                          title={"dateOfBirth"}
                           handleChangeValue={handleChangeValue}
                           placeholder={"Ngày sinh"}
                         />

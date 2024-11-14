@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.DTO.Classes;
+using BusinessObjects.DTO.ClassMembers;
 using BusinessObjects.DTO.Grades;
 using System.Text.Json.Serialization;
 
@@ -49,6 +50,9 @@ namespace BusinessObjects.DTO
 
         [JsonPropertyName("classes")]
         public List<ClassDTO>? Classes { get; set; }
+
+        [JsonPropertyName("class_member")]
+        public List<ClassMemberDTO>? ClassMembers { get; set; }
 
     }
 }

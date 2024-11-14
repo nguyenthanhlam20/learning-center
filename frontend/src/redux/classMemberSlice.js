@@ -58,7 +58,7 @@ const classMemberSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(addScore.fulfilled, (state, action) => {
       const { success, message } = action.payload;
@@ -68,7 +68,7 @@ const classMemberSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
 
     builder.addCase(getClassMember.fulfilled, (state, action) => {

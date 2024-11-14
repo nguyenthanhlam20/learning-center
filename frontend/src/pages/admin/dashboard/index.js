@@ -83,7 +83,7 @@ const DashboardPage = () => {
             <Grid xs={12} lg={12} md={12} sm={12}>
               <OverviewSales sales={data?.total_money_by_course} />
             </Grid>
-            <Grid xs={12} lg={12} md={12} sm={12}>
+            {/* <Grid xs={12} lg={12} md={12} sm={12}>
               <OverviewLatestOrders
                 payments={data?.top_orders}
                 sx={{
@@ -91,7 +91,7 @@ const DashboardPage = () => {
                   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
                 }}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
       </Box>
