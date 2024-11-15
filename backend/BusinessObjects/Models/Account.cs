@@ -30,6 +30,7 @@ namespace BusinessObjects.Models
         public DateTime? DateOfBirth { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedDate { get; set; }
+
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<ClassMember> ClassMembers { get; set; }
         public virtual ICollection<Class> ClassStaffEmailNavigations { get; set; }

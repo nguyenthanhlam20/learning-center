@@ -17,6 +17,7 @@ import { ROLE } from "./constants/constants";
 import ErrorPage from "./pages/error";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ROUTE_CONSTANTS } from "./constants/route.constants";
 function App() {
   let user = useSelector((state) => state.authen.user);
   console.log(user);
@@ -27,8 +28,14 @@ function App() {
           key={route.path}
           path={route.path}
           element={
-            route.isPrivate && !user ? (
-              <Navigate to="/signin" />
+            route.isPrivate ? (
+              !user ? (
+                <Navigate to="/signin" />
+              ) : route?.roles?.includes(user?.role_id) ? (
+                route.component
+              ) : (
+                <Navigate to={ROUTE_CONSTANTS.ERROR_PAGE} />
+              )
             ) : (
               route.component
             )

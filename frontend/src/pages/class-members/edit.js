@@ -43,12 +43,23 @@ function EditClassMemberPage() {
 
   useEffect(() => {
     setValues({
-      ...classMember.student,
-      enrollmentDate: classMember.enrollmentDate,
-      classId: classMember.classId,
+      ...classMember?.student,
+      enrollmentDate: classMember?.enrollmentDate,
+      classId: classMember?.classId,
     });
     if (grade !== undefined) {
       setScore(grade);
+    } else {
+      setScore({
+        classId: classId,
+        studentEmail: email,
+        gradeName: "Điểm cuối khóa",
+        listening: 0,
+        speaking: 0,
+        writing: 0,
+        reading: 0,
+        overall: 0,
+      });
     }
   }, [classMember]);
 

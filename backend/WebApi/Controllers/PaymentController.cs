@@ -2,13 +2,8 @@
 using BusinessObjects.DTO;
 using BusinessObjects.DTO.Payment;
 using BusinessObjects.Models;
-using DataAccess;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Reporitories;
-using System;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WebApi.Controllers
 {
@@ -60,14 +55,21 @@ namespace WebApi.Controllers
                                 .FirstOrDefault(x => x.ClassId == paymentDTO.ClassId
                                 && x.StudentEmail == paymentDTO.StudentEmail);
                         if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
-                        _context.ClassMembers.Add(new ClassMember()
-                        {
-                            ClassId = paymentDTO.ClassId ?? 0,
-                            StudentEmail = paymentDTO.StudentEmail!,
-                            EnrollmentDate = DateTime.Now,
-                            Status = true
-                        });
 
+                        if (existClassMember is not null)
+                        {
+                            existClassMember.Status = true;
+                        }
+                        else
+                        {
+                            _context.ClassMembers.Add(new ClassMember()
+                            {
+                                ClassId = paymentDTO.ClassId ?? 0,
+                                StudentEmail = paymentDTO.StudentEmail!,
+                                EnrollmentDate = DateTime.Now,
+                                Status = true
+                            });
+                        }
 
                         var existUserCourse = _context.UserCourses.Any(x => x.Email == paymentDTO.StudentEmail
                         && x.CourseId == paymentDTO.CourseId);

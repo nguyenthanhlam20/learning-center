@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace BusinessObjects.DTO
 {
@@ -17,11 +12,16 @@ namespace BusinessObjects.DTO
         public string CourseName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        [JsonPropertyName("duration")]
-        public int Duration { get; set; }
+        [JsonPropertyName("number_of_slots")]
+        public int NumberOfSlots { get; set; }
         [JsonPropertyName("price")]
         public double Price { get; set; }
         [JsonPropertyName("status")]
         public bool Status { get; set; }
+        [JsonPropertyName("level")]
+        public string? Level { get; set; }
+
+        [JsonPropertyName("code")]
+        public string? Code { get; set; }
     }
 }

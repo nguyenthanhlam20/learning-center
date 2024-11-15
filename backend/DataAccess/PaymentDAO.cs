@@ -52,11 +52,33 @@ namespace DataAccess
             try
             {
                 using var context = new SeedCenterContext();
-                context.Payments.Add(payment);
-                if (context.SaveChanges() > 0)
+
+
+                var exist = context.Payments
+                    .FirstOrDefault(x => x.StudentEmail == payment.StudentEmail 
+                    && x.CourseId == payment.CourseId
+                    && x.ClassId == payment.ClassId);
+
+                if(exist is not null)
                 {
-                    return payment.PaymentId;
+                    exist.Amount = payment.Amount;
+                    exist.PaymentMethod = payment.PaymentMethod;
+                    exist.PaymentDate = payment.PaymentDate;   
+                    if (context.SaveChanges() > 0)
+                    {
+                        return exist.PaymentId;
+                    }
                 }
+                else
+                {
+                    context.Payments.Add(payment);
+                    if (context.SaveChanges() > 0)
+                    {
+                        return payment.PaymentId;
+                    }
+                }
+
+               
             }
             catch (Exception e)
             {

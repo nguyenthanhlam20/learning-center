@@ -18,6 +18,7 @@ import AvatarDefault from "../../assets/images/avatar_default.jpeg";
 import { ArrowBack } from "@mui/icons-material";
 import { ClassTableMini } from "../../sections/table/class-table-mini";
 import dayjs from "dayjs";
+import { ROLE } from "../../constants/constants";
 
 function EditAccount() {
   const user = useSelector((state) => state.authen.user);
@@ -203,13 +204,13 @@ function EditAccount() {
           p={2}
         >
           <Typography variant="h6" fontWeight={600}>
-            Danh sách các lớp phụ trách
+            Danh sách các lớp
           </Typography>
           <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={tabIndex}>
               <TabList onChange={handleChange} aria-label="class tab">
                 <Tab label="Lớp đã kết thúc" value="1" wrapped />
-                <Tab label="Lớp đang phụ trách" value="2" wrapped />
+                <Tab label={"Lớp đang diễn ra"} value="2" wrapped />
                 <Tab label="Lớp sắp diên ra" value="3" wrapped />
               </TabList>
               <TabPanel value="1" sx={{ padding: 0 }}>
@@ -227,7 +228,7 @@ function EditAccount() {
               <TabPanel value="2" sx={{ padding: 0 }}>
                 {ongoingClasses.length > 0 ? (
                   <Stack spacing={2} mt={2}>
-                    <span>Danh sách các lớp đang phụ trách</span>
+                    <span>{"Danh sách các lớp đang diễn ra"}</span>
                     <ClassTableMini items={ongoingClasses} />
                   </Stack>
                 ) : (

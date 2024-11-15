@@ -84,6 +84,7 @@ namespace DataAccess
                 var account = context.Accounts
                     .Include(x => x.ClassTeacherEmailNavigations)
                     .Include(x => x.ClassStaffEmailNavigations)
+                    .Include(x => x.ClassMembers)
                     .Include(x => x.Grades)
                     .SingleOrDefault(x => x.Email == email);
 

@@ -1,3 +1,4 @@
+import { Avatar, Stack } from "@mui/material";
 import RatingStar from "../Star";
 const defaultAvatar =
   "https://yt3.googleusercontent.com/ytc/AL5GRJUCfVHiY_T0o_KOKqH85MEsTZoEFs0uE4anTUdN5A=s900-c-k-c0x00ffffff-no-rj;";
@@ -8,10 +9,9 @@ const starIcon = (
 );
 
 const SingleTestimonial = ({ testimonial }) => {
-  const { star, course_name, name, user_avatar_url, message } = testimonial;
-
+  console.log("testimonial", testimonial);
   let ratingIcons = [];
-  for (let index = 0; index < star; index++) {
+  for (let index = 0; index < testimonial?.star; index++) {
     ratingIcons.push(
       <span key={index} className="text-yellow">
         {starIcon}
@@ -26,24 +26,24 @@ const SingleTestimonial = ({ testimonial }) => {
         data-wow-delay=".1s"
       >
         <div className="mb-5 flex items-center justify-between space-x-1">
-          <span style={{ display: "block" }}>{course_name}</span>
-          <RatingStar disabled={true} value={star} />
+          <span style={{ display: "block" }}>
+            {testimonial?.course?.course_name}
+          </span>
+          <RatingStar disabled={true} value={testimonial?.star} />
         </div>
 
         <p className="mb-8 h-36 overflow-auto border-b border-body-color border-opacity-10 pb-8 text-base leading-relaxed text-body-color dark:border-white dark:border-opacity-10 dark:text-white">
-          “{message}“
+          “{testimonial?.message}“
         </p>
-        <div className="flex items-center">
-          <div className="relative mr-4 h-[50px] w-full max-w-[50px] overflow-hidden rounded-full">
-            <img src={defaultAvatar} alt={name} fill />
-          </div>
+        <Stack direction={"row"} spacing={2} alignItems={"center"}>
+          <Avatar src={testimonial?.emailNavigation?.avatar_url} alt="avatar" />
           <div className="w-full">
             <h5 className="mb-1 text-lg font-semibold text-dark dark:text-white lg:text-base xl:text-lg">
-              {name}
+              {testimonial?.emailNavigation?.name}
             </h5>
             <p className="text-sm text-body-color">{"Học viên tiếng Anh"}</p>
           </div>
-        </div>
+        </Stack>
       </div>
     </div>
   );

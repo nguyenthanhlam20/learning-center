@@ -22,7 +22,7 @@ const classServices = {
     return response.data;
   },
   editClass: async (data) => {
-    console.log("insert new class", data);
+    console.log("edit class", data);
     const response = await axios.put(
       API.MANAGE_CLASS + "/" + data.classId,
       data

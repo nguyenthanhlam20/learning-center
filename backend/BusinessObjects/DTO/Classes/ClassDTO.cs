@@ -23,7 +23,7 @@ public class ClassDTO
     public CourseDTO? Course { get; set; }
     public AccountDTO? StaffEmailNavigation { get; set; }
     public AccountDTO? TeacherEmailNavigation { get; set; }
-    public IList<ClassMemberDTO>? ClassMembers { get; set; }
+    public List<ClassMemberDTO>? ClassMembers { get; set; }
     public IList<Grade>? Grades { get; set; }
     public IList<RegistrationFormDTO>? RegistrationForms { get; set; }
     public IList<AccountDTO>? StudentEmails { get; set; }

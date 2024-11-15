@@ -3,6 +3,7 @@ using BusinessObjects.DTO;
 using BusinessObjects.DTO.Accounts;
 using BusinessObjects.DTO.Classes;
 using BusinessObjects.DTO.ClassMembers;
+using BusinessObjects.DTO.Feedback;
 using BusinessObjects.DTO.Grades;
 using BusinessObjects.DTO.Payment;
 using BusinessObjects.DTO.RegistrationForms;
@@ -28,7 +29,7 @@ namespace WebApi.Config
                 config.CreateMap<ContactDTO, Contact>();
                 config.CreateMap<Contact, ContactDTO>();
 
-                config.CreateMap<FeedbackDTO, Feedback>();
+                config.CreateMap<AddFeedbackDTO, Feedback>();
                 config.CreateMap<Feedback, FeedbackDTO>();
 
                 // Support
@@ -68,6 +69,7 @@ namespace WebApi.Config
                 config.CreateMap<InsertPaymentDTO, Payment>();
                 config.CreateMap<Payment, PaymentDTO>();
 
+                config.CreateMap<GradeDTO, Grade>();
                 config.CreateMap<AddGradeDTO, Grade>();
                 config.CreateMap<Grade, GradeDTO>();
             });

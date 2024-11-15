@@ -70,7 +70,7 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
     room: "",
     status: true,
     daysOfWeek: "",
-    startTime: dayjs(new Date().toString()),
+    startTime: dayjs(new Date().toString()).subtract(30, "minute"),
     endTime: dayjs(new Date().toString()),
   });
 
@@ -79,6 +79,14 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
       ...prevValues,
       [key]: value,
     }));
+
+    if (key === "courseId") {
+      const target = courses.find((x) => x.course_id === value);
+      console.log("target", target);
+      if (target !== undefined) {
+        handleChangeValue("numberOfSlots", target?.number_of_slots);
+      }
+    }
   };
 
   const { setCurrentPage } = userSlice.actions;
@@ -114,11 +122,6 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
       return;
     }
 
-    if (isEmpty(values.room.trim())) {
-      toast.warning("Chưa nhập phòng học");
-      return;
-    }
-
     if (isEmpty(values.startDate.trim())) {
       toast.warning("Chưa chọn ngày bắt đầu");
       return;
@@ -126,6 +129,38 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
 
     if (isEmpty(values.endDate.trim())) {
       toast.warning("Chưa chọn ngày kết thúc");
+      return;
+    }
+
+    const today = new dayjs();
+    const start = new dayjs(values.startDate);
+    const end = new dayjs(values.endDate);
+
+    if (end <= today) {
+      toast.warning("Ngày kết thúc phải ở trong tương lai");
+      return;
+    }
+
+    if (end <= start) {
+      toast.warning("Ngày kết thúc phải sau ngày bắt đầu");
+      return;
+    }
+
+    const startTime = new dayjs(values.startTime);
+    const endTime = new dayjs(values.endTime);
+
+    if (endTime <= startTime) {
+      toast.warning("Thời gian kết thúc phải sau thời gian bắt đầu");
+      return;
+    }
+
+    if (endTime?.diff(startTime, "minute") < 30) {
+      toast.warning("Khoảng thời gian học phải ít nhất 30 phút");
+      return;
+    }
+
+    if (isEmpty(values.room.trim())) {
+      toast.warning("Chưa nhập phòng học");
       return;
     }
 

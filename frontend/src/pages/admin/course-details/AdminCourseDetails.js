@@ -1,35 +1,21 @@
+import ArrowLeftIcon from "@heroicons/react/24/solid/ArrowLeftIcon";
+import HandThumbUpIcon from "@heroicons/react/24/solid/HandThumbUpIcon";
+import { Button, Divider, Stack, SvgIcon, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { isEmpty } from "lodash";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AppCheckBox from "../../../components/AppInput/AppCheckBox";
 import AppInput from "../../../components/AppInput/AppInput";
-import CourseChapter from "../../../components/Course/CourseChapter";
-import CourseChapterModal from "../../../components/Course/CourseChapterModal";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import HandThumbUpIcon from "@heroicons/react/24/solid/HandThumbUpIcon";
-
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Grid,
-  Stack,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
-import React from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
-import { useDispatch } from "react-redux";
-import { updateCourse } from "../../../redux/courseSlice";
-import { ACTION_TYPE, levels } from "../../../constants/constants";
-import { Box } from "@mui/system";
-import AppTextArea from "../../../components/AppInput/AppTextArea";
-import AppInputNumber from "../../../components/AppInput/AppInputNumber";
 import AppInputCurrency from "../../../components/AppInput/AppInputCurrency";
-import ArrowLeftIcon from "@heroicons/react/24/solid/ArrowLeftIcon";
-import { toast } from "react-toastify";
-import FileUploader from "../../../components/FileUploader";
+import AppInputNumber from "../../../components/AppInput/AppInputNumber";
 import AppSelect from "../../../components/AppInput/AppSelect";
+import AppTextArea from "../../../components/AppInput/AppTextArea";
+import { levels } from "../../../constants/constants";
+import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
+import { updateCourse } from "../../../redux/courseSlice";
 import { ClassTableMini } from "../../../sections/table/class-table-mini";
 
 const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
@@ -41,9 +27,11 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
     course_avatar_url: course?.course_avatar_url,
     course_name: course?.course_name,
     description: course?.description,
-    duration: String(course?.duration),
     price: String(course?.price),
     status: course?.status,
+    level: course?.level,
+    code: course?.code,
+    number_of_slots: course?.number_of_slots ?? 1,
   });
 
   React.useEffect(() => {
@@ -52,9 +40,11 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
       course_avatar_url: course?.course_avatar_url,
       course_name: course?.course_name,
       description: course?.description,
-      duration: String(course?.duration),
       price: String(course?.price),
       status: course?.status,
+      level: course?.level,
+      code: course?.code,
+      number_of_slots: course?.number_of_slots ?? 1,
     });
   }, [course, isRefreshSpecific]);
 
@@ -66,29 +56,35 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
   };
 
   const handleUpdateCourse = () => {
-    if (values.course_name.trim() === "") {
+    console.log("values", values);
+    if (isEmpty(values?.code)) {
+      toast.warning("Chưa nhập mã khóa học");
+      return;
+    }
+    if (isEmpty(values.course_name)) {
       toast.warning("Chưa nhập tên khóa học");
       return;
     }
 
-    if (
-      values.duration.trim() === "" ||
-      parseInt(values.duration.trim()) === 0
-    ) {
-      toast.warning("Chưa thời gian học");
+    if (values.number_of_slots === 0) {
+      toast.warning("Số buổi học phải > 0");
       return;
     }
-    if (values.price.trim() === "") {
+    if (isEmpty(String(values.price))) {
       toast.warning("Chưa nhập giá tiền");
       return;
     }
 
-    if (values.description.trim() === "") {
-      toast.warning("Chưa nhập giá tiền");
+    if (isEmpty(values.description)) {
+      toast.warning("Chưa nhập mô tả khóa học");
       return;
     }
-    if (values.course_avatar_url.trim() === "") {
+    if (isEmpty(values.course_avatar_url)) {
       toast.warning("Chưa chọn ảnh khóa học");
+      return;
+    }
+    if (isEmpty(values.level)) {
+      toast.warning("Chưa chọn cấp độ");
       return;
     }
 
@@ -99,9 +95,6 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
     navigate(ROUTE_CONSTANTS.ADMIN_COURSE_PAGE);
   };
 
-  const handleCloseAddModal = () => {
-    setIsAddChapter(false);
-  };
   return (
     <Stack className="my-5 ml-72 p-4" direction={"row"} gap={3}>
       <Box
@@ -134,8 +127,8 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
             placeholder={"Code"}
           />
           <AppInput
-            value={values?.avatar_url}
-            title={"avatar_url"}
+            value={values?.course_avatar_url}
+            title={"course_avatar_url"}
             handleChangeValue={handleChangeValue}
             placeholder={"Ảnh khóa học"}
           />
@@ -212,8 +205,13 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
           <Typography variant="h6" fontWeight={600} textAlign={"center"}>
             Danh sách lớp
           </Typography>
-          <ClassTableMini items={course?.classes} />
-          <Divider />
+          {course?.classes.length > 0 ? (
+            <ClassTableMini items={course?.classes} />
+          ) : (
+            <Typography textAlign={"center"} color={"red"}>
+              Chưa có lớp học.
+            </Typography>
+          )}
         </Stack>
       </Box>
     </Stack>

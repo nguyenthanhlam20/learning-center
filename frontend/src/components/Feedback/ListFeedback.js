@@ -18,12 +18,7 @@ const ListFeedback = ({ data }) => {
   const [feedbacksPagination, setFeedbacksPagination] = useState(
     feedbacks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
-  const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
-
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-  };
 
   const handlePageChange = useCallback((value) => {
     setPage(value);
@@ -50,7 +45,9 @@ const ListFeedback = ({ data }) => {
 
   React.useEffect(() => {
     const result = data.filter((feedback) =>
-      feedback?.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+      feedback?.emailNavigation?.name
+        ?.toLowerCase()
+        .includes(searchTerm.value.toLowerCase())
     );
     setFeedbacks(result);
     setPage(0);
@@ -67,6 +64,8 @@ const ListFeedback = ({ data }) => {
       value: "",
     });
   };
+
+  console.log("feedbacksPagination", feedbacksPagination);
   return (
     <>
       <Box
@@ -103,7 +102,7 @@ const ListFeedback = ({ data }) => {
                 )}
               </Stack>
             </Card>
-            {feedbacks.length > 0 ? (
+            {feedbacks?.length > 0 ? (
               <FeedbackTable
                 count={feedbacks.length}
                 items={feedbacksPagination}

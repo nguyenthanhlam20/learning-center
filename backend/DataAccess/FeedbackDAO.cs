@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +10,21 @@ namespace DataAccess
 {
     public class FeedBackDAO
     {
-        public static Feedback FindFeedBackById(int? courseId, string email)
+        public static Feedback? FindFeedBackById(int? courseId, int classId, string email)
         {
-            Feedback fb = null;
+            Feedback? fb = null;
             try
             {
-                using (var context = new SeedCenterContext())
-                {
-                    fb = context.Feedbacks.SingleOrDefault(x => x.CourseId == courseId && x.Email== email);
-                }
+                using var context = new SeedCenterContext();
+                fb = context.Feedbacks
+                    .Include(x => x.Course)
+                    .Include(x => x.Class)
+                    .Include(x => x.EmailNavigation)
+                    .SingleOrDefault(x => x.CourseId == courseId && x.ClassId == classId && x.Email == email);
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                throw;
             }
             return fb;
         }
@@ -34,13 +36,15 @@ namespace DataAccess
             {
                 using (var context = new SeedCenterContext())
                 {
-                    fb = context.Feedbacks.ToList();
+                    fb = context.Feedbacks
+                        .Include(x => x.Course)
+                    .Include(x => x.Class)
+                    .Include(x => x.EmailNavigation).ToList();
                 }
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                throw;
             }
             return fb;
         }
@@ -48,16 +52,25 @@ namespace DataAccess
         {
             try
             {
-                using (var context = new SeedCenterContext())
+                using var context = new SeedCenterContext();
+
+                var exist = context.Feedbacks.FirstOrDefault(x => x.ClassId == fb.ClassId && x.CourseId == fb.CourseId && x.Email == fb.Email);
+
+                if (exist is not null)
+                {
+                    exist.Star = fb.Star;
+                    exist.Message = fb.Message;
+                }
+                else
                 {
                     context.Feedbacks.Add(fb);
-                    context.SaveChanges();
                 }
+
+                context.SaveChanges();
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                throw;
             }
         }
         public static void UpdateFeedback(Feedback fb)
@@ -73,8 +86,7 @@ namespace DataAccess
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                throw;
             }
         }
     }

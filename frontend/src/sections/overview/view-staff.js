@@ -1,4 +1,4 @@
-import BookOpenIcon from "@heroicons/react/24/solid/BookOpenIcon";
+import { WorkRounded } from "@mui/icons-material";
 import {
   Avatar,
   Card,
@@ -7,8 +7,9 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
-export const CourseOverView = (props) => {
+export const OverviewStaffs = (props) => {
   const { value, sx } = props;
 
   return (
@@ -18,17 +19,17 @@ export const CourseOverView = (props) => {
           <Stack spacing={2} direction={"row"} alignItems={"center"}>
             <Avatar
               sx={{
-                backgroundColor: "warning.main",
+                backgroundColor: "violet",
                 height: 42,
                 width: 42,
               }}
             >
               <SvgIcon>
-                <BookOpenIcon />
+                <WorkRounded />
               </SvgIcon>
             </Avatar>
             <Typography color="text.secondary" gutterBottom variant="overline">
-              Khóa học
+              Nhân viên
             </Typography>
           </Stack>
           <Typography textAlign={"center"} variant="h5">
@@ -38,4 +39,9 @@ export const CourseOverView = (props) => {
       </CardContent>
     </Card>
   );
+};
+
+OverviewStaffs.propTypes = {
+  value: PropTypes.string,
+  sx: PropTypes.object,
 };

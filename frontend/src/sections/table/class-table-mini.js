@@ -49,7 +49,7 @@ export const ClassTableMini = ({ items }) => {
           </TableRow>
         </TableHead>
         <TableBody sx={{ overflow: "auto" }}>
-          {items.map((classes) => {
+          {items?.map((classes) => {
             return (
               <TableRow hover key={classes.className}>
                 <TableCell>
@@ -65,7 +65,7 @@ export const ClassTableMini = ({ items }) => {
                     placement="top"
                   >
                     <p>
-                      {classes?.classMembers.length +
+                      {classes?.classMembers?.length +
                         "/" +
                         classes?.numberOfStudent}
                     </p>

@@ -80,6 +80,7 @@ export const ClassDetails = ({
         />
 
         <AppInputNumber
+          disabled={true}
           value={values?.numberOfSlots}
           title={"numberOfSlots"}
           handleChangeValue={handleChangeValue}

@@ -2,6 +2,7 @@
 using BusinessObjects.DTO;
 using BusinessObjects.DTO.Accounts;
 using BusinessObjects.DTO.Classes;
+using BusinessObjects.DTO.ClassMembers;
 using BusinessObjects.Models;
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +12,15 @@ namespace WebApi.Controllers
 {
     [Route("api/account")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController(SeedCenterContext context, IMapper mapper) : ControllerBase
     {
 
         // Repository
         private IAccountRepository repository = new AccountRepository();
+        private readonly SeedCenterContext _context = context;
 
         // Mapper
-        private readonly IMapper _mapper;
-
-        // Get mapper singleton
-        public AccountController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
+        private readonly IMapper _mapper = mapper;
 
         [HttpPost]
         [Route("signin")]
@@ -88,13 +84,20 @@ namespace WebApi.Controllers
         [HttpPut("update-info")]
         public ActionResult UpdateInfo([FromBody] AccountDTO accountDTO)
         {
-            var account = repository.FindAccountByEmail(accountDTO.Email);
-            if (account == null) return NotFound();
-            Account acc = _mapper.Map<Account>(accountDTO);
-            acc.RoleId = account.RoleId;
-            acc.Password = account.Password;
-            repository.UpdateAccount(acc);
-            return Ok();
+            try
+            {
+                var account = repository.FindAccountByEmail(accountDTO.Email);
+                if (account == null) return NotFound();
+                Account acc = _mapper.Map<Account>(accountDTO);
+                acc.RoleId = account.RoleId;
+                acc.Password = account.Password;
+                repository.UpdateAccount(acc);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("update")]
@@ -143,18 +146,52 @@ namespace WebApi.Controllers
             var acc = _mapper.Map<AccountDTO>(account);
             var staffClasses = _mapper.Map<List<ClassDTO>>(account.ClassStaffEmailNavigations);
             var teacherClasses = _mapper.Map<List<ClassDTO>>(account.ClassTeacherEmailNavigations);
+            var classMembers = new List<ClassDTO>();
+
+            var members = account.ClassMembers;
+            foreach (var member in members)
+            {
+                var specificClass = _context.Classes.FirstOrDefault(c => c.ClassId == member.ClassId);
+                if (specificClass is not null)
+                {
+                    classMembers.Add(_mapper.Map<ClassDTO>(specificClass));
+                }
+            }
+
+
 
             var classes = new List<ClassDTO>();
-            if(staffClasses.Any())
+
+            if (classMembers.Any())
+            {
+                classes.AddRange(classMembers);
+            }
+            if (staffClasses.Any())
             {
                 classes.AddRange(staffClasses);
             }
 
-            if(teacherClasses.Any())
+            if (teacherClasses.Any())
             {
                 classes.AddRange(teacherClasses);
             }
-            acc.Classes = classes;
+
+
+            var final = new List<ClassDTO>();
+
+            foreach (var clazz in classes)
+            {
+                var items = _context.ClassMembers.Where(x => x.ClassId == clazz.ClassId).ToList();
+
+                if (items != null && items?.Count > 0)
+                {
+                    clazz.ClassMembers = _mapper.Map<List<ClassMemberDTO>>(items);
+                    final.Add(clazz);
+                }
+            }
+
+
+            acc.Classes = final;
 
             return Ok(acc);
         }

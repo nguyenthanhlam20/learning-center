@@ -177,7 +177,7 @@ const ListInvoice = ({ data, user, courses }) => {
                       Xuất excel
                     </CSVLink>
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={handleAddInvoice}
                     variant="contained"
                     color="primary"
@@ -187,7 +187,7 @@ const ListInvoice = ({ data, user, courses }) => {
                       <PlusIcon />
                     </SvgIcon>
                     Thêm mới
-                  </Button>
+                  </Button> */}
                 </Stack>
               </Stack>
             </Card>

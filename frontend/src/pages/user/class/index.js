@@ -16,12 +16,19 @@ import { getUserClasses } from "../../../redux/classSlice";
 import Breadcrumb from "../../../components/Common/Breadcrumb";
 import SmoothScrollUp from "../../../components/Common/SmoothScrollUp";
 import ScoreDialog from "./score";
+import dayjs from "dayjs";
+import FeedbackDialog from "./feedback";
+import { getFeedbackById, insertFeedback } from "../../../redux/feedbackSlice";
+import { toast } from "react-toastify";
+import { isEmpty } from "lodash";
 
 const MyClassPage = () => {
   const dispatch = useDispatch();
 
   const classes = useSelector((state) => state.classes.data);
   const user = useSelector((state) => state.authen.user);
+  const specific = useSelector((state) => state.feedback.specific);
+  const isRefresh = useSelector((state) => state.feedback.isRefresh);
 
   useEffect(() => {
     dispatch(getUserClasses(user?.email));
@@ -61,6 +68,89 @@ const MyClassPage = () => {
     }
   };
 
+  const [feedback, setFeedback] = useState({
+    email: user?.email,
+    classId: 0,
+    courseId: 0,
+    star: 0,
+    message: "",
+    courseName: "",
+    className: "",
+  });
+  const dialogFeedbackRef = useRef(null);
+
+  useEffect(() => {
+    if (specific !== undefined && specific !== null) {
+      console.log("specific", specific);
+
+      setFeedback(specific);
+    }
+  }, [specific]);
+
+  const handleChangeValue = (key, value) => {
+    setFeedback((prevValues) => {
+      return {
+        ...prevValues,
+        [key]: value,
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (isRefresh) {
+      if (dialogFeedbackRef.current) {
+        dialogFeedbackRef.current.closeDialog();
+      }
+    }
+  }, [isRefresh]);
+  const handleSubmit = () => {
+    if (feedback?.star < 0 || feedback.star > 5) {
+      toast.warning("Số sao phải nằm trong khoảng 0-5");
+      return;
+    }
+    if (isEmpty(feedback?.message)) {
+      toast.warning("Chưa điền nội dung đánh giá");
+      return;
+    }
+    dispatch(
+      insertFeedback({
+        email: feedback?.email,
+        classId: feedback.classId,
+        courseId: feedback.courseId,
+        star: feedback.star,
+        message: feedback.message,
+      })
+    );
+
+    if (dialogFeedbackRef.current) {
+      dialogFeedbackRef.current.openDialog();
+    }
+  };
+  const handleOpenFeedbackDialog = (
+    courseId,
+    classId,
+    email,
+    courseName,
+    className
+  ) => {
+    console.log("course", courseName);
+
+    setFeedback((prevValues) => {
+      return {
+        ...prevValues,
+        classId: classId,
+        courseId: courseId,
+        courseName: courseName,
+        className: className,
+      };
+    });
+
+    dispatch(getFeedbackById({ courseId, classId, email }));
+    if (dialogFeedbackRef.current) {
+      dialogFeedbackRef.current.openDialog();
+    }
+  };
+  console.log("feedback", feedback);
   return (
     <>
       <SmoothScrollUp />
@@ -99,7 +189,9 @@ const MyClassPage = () => {
                     <TableCell sx={{ fontWeight: "bold" }}>
                       Trạng thái
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>Hành động</TableCell>
+                    <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                      Hành động
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -108,6 +200,12 @@ const MyClassPage = () => {
                       row.startDate,
                       row.endDate
                     );
+
+                    const startTime =
+                      dayjs().format("YYYY-MM-DD") + " " + row?.startTime;
+
+                    const endTime =
+                      dayjs().format("YYYY-MM-DD") + " " + row?.endTime;
                     return (
                       <TableRow>
                         <TableCell>
@@ -120,7 +218,9 @@ const MyClassPage = () => {
                         <TableCell>{row.startDate}</TableCell>
                         <TableCell>{row.endDate}</TableCell>
                         <TableCell>
-                          {row.startTime + " - " + row.endTime}
+                          {dayjs(startTime).format("HH:mm A") +
+                            " - " +
+                            dayjs(endTime).format("HH:mm A")}
                         </TableCell>
                         <TableCell>{row.daysOfWeek}</TableCell>
                         <TableCell>
@@ -140,13 +240,36 @@ const MyClassPage = () => {
                           </span>
                         </TableCell>
                         <TableCell>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => handleOpenDialog(row.classId)}
+                          <Stack
+                            direction={"row"}
+                            spacing={2}
+                            justifyContent={"center"}
                           >
-                            Xem điểm
-                          </Button>
+                            {status === "Đã hoàn thành" && (
+                              <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                  handleOpenFeedbackDialog(
+                                    row.courseId,
+                                    row.classId,
+                                    user?.email,
+                                    row?.course?.course_name,
+                                    row?.className
+                                  )
+                                }
+                              >
+                                Đánh giá
+                              </Button>
+                            )}
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => handleOpenDialog(row.classId)}
+                            >
+                              Xem điểm
+                            </Button>
+                          </Stack>
                         </TableCell>
                       </TableRow>
                     );
@@ -155,6 +278,12 @@ const MyClassPage = () => {
               </Table>
             </TableContainer>
             <ScoreDialog score={score} ref={dialogRef} />
+            <FeedbackDialog
+              ref={dialogFeedbackRef}
+              values={feedback}
+              handleSubmit={handleSubmit}
+              handleChangeValue={handleChangeValue}
+            />
           </Stack>
         )}
       </div>

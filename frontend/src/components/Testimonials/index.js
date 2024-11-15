@@ -1,17 +1,13 @@
+import React from "react";
 import Carousel from "react-material-ui-carousel";
 import SectionTitle from "../Common/SectionTitle";
 import SingleTestimonial from "./SingleTestimonial";
-import React from "react";
 
-import Avatar1 from "../../assets/images/blog/author-01.png";
-import Avatar2 from "../../assets/images/blog/author-02.png";
-import Avatar3 from "../../assets/images/blog/author-03.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getFeedbacks } from "../../redux/feedbackSlice";
 
-
 const Testimonials = () => {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const feedbacks = useSelector((state) => state.feedback.data);
 
   React.useEffect(() => {
@@ -25,12 +21,9 @@ const dispatch = useDispatch();
 
   for (let i = 0; i < totalPage; i++) {
     pageList.push(i);
-
   }
 
   const [currentPage, setCurrentPage] = React.useState(1);
-
-
 
   return (
     <section className="relative z-10 bg-primary/[.03] py-16 md:py-20 lg:py-28">
@@ -51,23 +44,28 @@ const dispatch = useDispatch();
             index={currentPage - 1}
           >
             {pageList.map((pageNumber) => {
-
               let startIndex = pageNumber * 3;
               let endIndex = startIndex + 3;
               if (endIndex > totalTestimonials) endIndex = totalTestimonials;
 
-              return <div key={"item-" + pageNumber} className={` w-full h-full duration-700 ease-in-out grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3 `}>
-                {feedbacks.slice(startIndex, endIndex).map((testimonial) => (
-                  <SingleTestimonial key={testimonial.id} testimonial={testimonial} />
-                ))}
-              </div>
-
+              return (
+                <div
+                  key={"item-" + pageNumber}
+                  className={` grid h-full w-full grid-cols-1 gap-x-8 gap-y-10 duration-700 ease-in-out md:grid-cols-2 md:gap-x-6 lg:gap-x-8 xl:grid-cols-3 `}
+                >
+                  {feedbacks.slice(startIndex, endIndex).map((testimonial) => (
+                    <SingleTestimonial
+                      key={testimonial.id}
+                      testimonial={testimonial}
+                    />
+                  ))}
+                </div>
+              );
             })}
           </Carousel>
         </div>
-
       </div>
-      <div className="absolute top-5 right-0 z-[-1]">
+      <div className="absolute right-0 top-5 z-[-1]">
         <svg
           width="238"
           height="531"
@@ -121,7 +119,7 @@ const dispatch = useDispatch();
           </defs>
         </svg>
       </div>
-      <div className="absolute left-0 bottom-5 z-[-1]">
+      <div className="absolute bottom-5 left-0 z-[-1]">
         <svg
           width="279"
           height="106"

@@ -40,11 +40,11 @@ export default function EditClassPage() {
     setValues({
       ...specificClass,
       startTime: dayjs(
-        `${today} ${specificClass.startTime}`,
+        `${today} ${specificClass?.startTime}`,
         "YYYY-MM-DD HH:mm:ss"
       ),
       endTime: dayjs(
-        `${today} ${specificClass.endTime}`,
+        `${today} ${specificClass?.endTime}`,
         "YYYY-MM-DD HH:mm:ss"
       ),
     });
@@ -55,10 +55,10 @@ export default function EditClassPage() {
   const [values, setValues] = useState({
     ...specificClass,
     startTime: dayjs(
-      `${today} ${specificClass.startTime}`,
+      `${today} ${specificClass?.startTime}`,
       "YYYY-MM-DD HH:mm:ss"
     ),
-    endTime: dayjs(`${today} ${specificClass.endTime}`, "YYYY-MM-DD HH:mm:ss"),
+    endTime: dayjs(`${today} ${specificClass?.endTime}`, "YYYY-MM-DD HH:mm:ss"),
   });
 
   const handleChangeValue = (key, value) => {
@@ -78,11 +78,6 @@ export default function EditClassPage() {
       return;
     }
 
-    if (isEmpty(values.room.trim())) {
-      toast.warning("Chưa nhập phòng học");
-      return;
-    }
-
     if (isEmpty(values.startDate.trim())) {
       toast.warning("Chưa chọn ngày bắt đầu");
       return;
@@ -90,6 +85,33 @@ export default function EditClassPage() {
 
     if (isEmpty(values.endDate.trim())) {
       toast.warning("Chưa chọn ngày kết thúc");
+      return;
+    }
+
+    const today = new dayjs();
+    const start = new dayjs(values.startDate);
+    const end = new dayjs(values.endDate);
+
+    if (end <= start) {
+      toast.warning("Ngày kết thúc phải sau ngày bắt đầu");
+      return;
+    }
+
+    const startTime = new dayjs(values.startTime);
+    const endTime = new dayjs(values.endTime);
+
+    if (endTime <= startTime) {
+      toast.warning("Thời gian kết thúc phải sau thời gian bắt đầu");
+      return;
+    }
+
+    if (endTime?.diff(startTime, "minute") < 30) {
+      toast.warning("Khoảng thời gian học phải ít nhất 30 phút");
+      return;
+    }
+
+    if (isEmpty(values.room.trim())) {
+      toast.warning("Chưa nhập phòng học");
       return;
     }
 
@@ -115,6 +137,8 @@ export default function EditClassPage() {
         endTime: dayjs(values.endTime.toDate()).format("HH:mm:ss"),
       })
     );
+
+    navigate(ROUTE_CONSTANTS.CLASS.INDEX);
   };
   return (
     <Stack direction={"row"} spacing={3} className="my-4 ml-72 p-4">

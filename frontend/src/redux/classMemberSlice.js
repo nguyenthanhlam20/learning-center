@@ -74,6 +74,7 @@ const classMemberSlice = createSlice({
     builder.addCase(getClassMember.fulfilled, (state, action) => {
       console.log("class member", action.payload);
       state.specific = action.payload;
+      state.isRefresh = false;
     });
   },
 });

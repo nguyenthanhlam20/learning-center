@@ -71,9 +71,27 @@ public class CourseDAO
 
         try
         {
-            using (var context = new SeedCenterContext())
+            using var context = new SeedCenterContext();
+
+
+            var exist = context.Courses.FirstOrDefault(x => x.CourseId == c.CourseId);
+            if(exist is not null)
             {
-                context.Entry<Course>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                exist.CourseName = c.CourseName;
+                exist.Code = c.Code;
+                exist.Price = c.Price;
+                exist.CourseAvatarUrl = c.CourseAvatarUrl;
+                exist.Level = c.Level;
+                exist.Description = c.Description;
+                exist.Status = c.Status;
+                exist.NumberOfSlots = c.NumberOfSlots;
+
+                var slots = context.Classes.Where(x => x.CourseId == exist.CourseId).ToList();
+
+                slots.ForEach(x => x.NumberOfSlots = c.NumberOfSlots ?? 1);
+
+                
+
                 context.SaveChanges();
             }
         }

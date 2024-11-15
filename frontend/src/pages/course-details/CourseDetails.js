@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
@@ -19,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { Status } from "../../constants/status";
 import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 const CourseDetails = ({ course, user }) => {
   console.log("course", course);
@@ -142,57 +144,81 @@ const CourseDetails = ({ course, user }) => {
           >
             Danh sách lớp
           </h6>
-          <TableContainer
-            component={Paper}
-            sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
-          >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#fafafa" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>Mã lớp</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Tên lớp</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Giảng viên</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    Ngày bắt đầu
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    Ngày kết thúc
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    Thời gian học{" "}
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Buổi học</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Còn lại</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Hành động</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {course?.classes?.map((row) => (
-                  <TableRow>
-                    <TableCell>{course?.code + "-00" + row.classId}</TableCell>
-                    <TableCell>{row?.className}</TableCell>
-                    <TableCell>{row?.teacherEmailNavigation?.name}</TableCell>
-                    <TableCell>{row.startDate}</TableCell>
-                    <TableCell>{row.endDate}</TableCell>
-                    <TableCell>{row.startTime + " - " + row.endTime}</TableCell>
-                    <TableCell>{row.daysOfWeek}</TableCell>
-                    <TableCell>
-                      {row.classMembers.length + "/" + row.numberOfStudent}
+
+          {course?.classes?.length > 0 ? (
+            <TableContainer
+              component={Paper}
+              sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
+            >
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: "#fafafa" }}>
+                    <TableCell sx={{ fontWeight: "bold" }}>Mã lớp</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Tên lớp</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Giảng viên
                     </TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() =>
-                          handleOpenDialog(row.classId, row.className)
-                        }
-                      >
-                        Đăng ký
-                      </Button>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Ngày bắt đầu
                     </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Ngày kết thúc
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      Thời gian học{" "}
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Buổi học</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Còn lại</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>Hành động</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {course?.classes?.map((row) => {
+                    const startTime =
+                      dayjs().format("YYYY-MM-DD") + " " + row?.startTime;
+
+                    const endTime =
+                      dayjs().format("YYYY-MM-DD") + " " + row?.endTime;
+                    return (
+                      <TableRow>
+                        <TableCell>
+                          {course?.code + "-00" + row.classId}
+                        </TableCell>
+                        <TableCell>{row?.className}</TableCell>
+                        <TableCell>
+                          {row?.teacherEmailNavigation?.name}
+                        </TableCell>
+                        <TableCell>{row.startDate}</TableCell>
+                        <TableCell>{row.endDate}</TableCell>
+                        <TableCell>
+                          {dayjs(startTime).format("HH:mm A") +
+                            " - " +
+                            dayjs(endTime).format("HH:mm A")}
+                        </TableCell>
+                        <TableCell>{row.daysOfWeek}</TableCell>
+                        <TableCell>
+                          {row.classMembers.length + "/" + row.numberOfStudent}
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            onClick={() =>
+                              handleOpenDialog(row.classId, row.className)
+                            }
+                          >
+                            Đăng ký
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Typography color={"red"} textAlign={"center"}>
+              Hiện tại chưa mở lớp.
+            </Typography>
+          )}
         </Stack>
       </Stack>
 

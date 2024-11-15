@@ -20,6 +20,7 @@ import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { People, PeopleOutline } from "@mui/icons-material";
 import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export const ClassTable = (props) => {
   const {
@@ -35,6 +36,7 @@ export const ClassTable = (props) => {
 
   const navigate = useNavigate();
   const handleEditClass = (classId) => {
+    console.log("classId", classId);
     navigate(ROUTE_CONSTANTS.CLASS.EDIT + "?classId=" + classId);
   };
 
@@ -79,6 +81,11 @@ export const ClassTable = (props) => {
               </TableHead>
               <TableBody sx={{ overflow: "auto" }}>
                 {items.map((classes) => {
+                  const startTime =
+                    dayjs().format("YYYY-MM-DD") + " " + classes?.startTime;
+
+                  const endTime =
+                    dayjs().format("YYYY-MM-DD") + " " + classes?.endTime;
                   return (
                     <TableRow hover key={classes.className}>
                       <TableCell>
@@ -133,7 +140,9 @@ export const ClassTable = (props) => {
                       </TableCell>
                       <TableCell>{classes.daysOfWeek}</TableCell>
                       <TableCell>
-                        {classes.startTime + " - " + classes.endTime}
+                        {dayjs(startTime).format("HH:mm A") +
+                          " - " +
+                          dayjs(endTime).format("HH:mm A")}
                       </TableCell>
                       <TableCell>{classes.room}</TableCell>
                       <TableCell>

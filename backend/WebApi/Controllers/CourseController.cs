@@ -10,19 +10,14 @@ namespace WebApi.Controllers
 {
     [Route("api/course")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class CourseController(IMapper mapper) : ControllerBase
     {
         // Repository
         private ICourseRepository repository = new CourseRepository();
 
         // Mapper
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper = mapper;
 
-        // Get mapper singleton
-        public CourseController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
         // GET: api/<CourseController>
         [HttpGet("get")]
         public ActionResult<IEnumerable<CourseDTO>> GetCourses()
@@ -52,7 +47,7 @@ namespace WebApi.Controllers
         }
 
         // PUT api/<CourseController>/5
-        [HttpPut("update")]
+        [HttpPost("update")]
         public ActionResult UpdateCourse(UpdateCourseDTO courseDTO)
         {
             Console.WriteLine("update course by id: " + courseDTO.CourseId);

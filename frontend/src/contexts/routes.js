@@ -45,6 +45,7 @@ import MyClassPage from "../pages/user/class";
 import ListRegistrationPage from "../pages/admin/registration";
 import AddInvoicePage from "../pages/admin/invoice/add";
 import AdminStudentPage from "../pages/admin/students";
+import { ROLE } from "../constants/constants";
 
 export const routes = [
   {
@@ -64,31 +65,17 @@ export const routes = [
     isPrivate: true,
     component: <ChangePasswordPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
-  {
-    path: ROUTE_CONSTANTS.BLOG_DETAILS_PAGE,
-    isPrivate: false,
-    component: <BlogDetailsPage />,
-    exact: true,
-  },
-  {
-    path: ROUTE_CONSTANTS.ADMIN_TEST_PAGE,
-    isPrivate: true,
-    component: <AdminTestPage />,
-    exact: true,
-  },
+
   {
     path: ROUTE_CONSTANTS.PAYMENT_HISTORY,
     isPrivate: true,
     component: <PaymentHistoryPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
-  {
-    path: ROUTE_CONSTANTS.ADMIN_TEST_DETAILS,
-    isPrivate: true,
-    component: <AdminTestDetailsPage />,
-    exact: true,
-  },
+
   {
     path: ROUTE_CONSTANTS.SETING_PAGE,
     isPrivate: true,
@@ -100,18 +87,21 @@ export const routes = [
     isPrivate: true,
     component: <PaymentPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_FEEDBACK_PAGE,
     isPrivate: true,
     component: <AdminFeedbackPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_SUPPORT_PAGE,
     isPrivate: true,
     component: <AdminSupportPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.COURSE_PAGE,
@@ -124,24 +114,22 @@ export const routes = [
     isPrivate: true,
     component: <CourseDetailPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
-  {
-    path: ROUTE_CONSTANTS.LESSON_VIEW_PAGE,
-    isPrivate: true,
-    component: <LessonViewPage />,
-    exact: true,
-  },
+
   {
     path: ROUTE_CONSTANTS.MY_COURSE_PAGE,
     isPrivate: true,
     component: <MyCoursePage />,
     exact: true,
+    roles: [ROLE.USER],
   },
   {
     path: ROUTE_CONSTANTS.ACCOUNT_PAGE,
     isPrivate: true,
     component: <AccountPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN.EDIT_ACCOUNT,
@@ -154,54 +142,43 @@ export const routes = [
     isPrivate: true,
     component: <PaymentResultPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_INVOICE_PAGE,
     isPrivate: true,
     component: <AdminInvoicePage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
-  {
-    path: ROUTE_CONSTANTS.BLOG_PAGE,
-    isPrivate: false,
-    component: <BlogPage />,
-    exact: true,
-  },
+
   {
     path: ROUTE_CONSTANTS.SUPPORT_PAGE,
     isPrivate: false,
     component: <SupportPage />,
     exact: true,
   },
-  {
-    path: ROUTE_CONSTANTS.ADMIN_BLOG_PAGE,
-    isPrivate: true,
-    component: <AdminBlogPage />,
-    exact: true,
-  },
-  {
-    path: ROUTE_CONSTANTS.ADMIN_BLOG_DETAILS_PAGE,
-    isPrivate: true,
-    component: <AdminBlogDetailsPage />,
-    exact: true,
-  },
+
   {
     path: ROUTE_CONSTANTS.ADMIN_COURSE_DETAILS,
     isPrivate: true,
     component: <AdminCourseDetailsPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_COURSE_PAGE,
     isPrivate: true,
     component: <AdminCoursesPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_CONTACT_PAGE,
     isPrivate: true,
     component: <AdminContactPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.CONTACT_PAGE,
@@ -239,36 +216,28 @@ export const routes = [
     isPrivate: true,
     component: <AdminStaffPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN.TEACHER_PAGE,
     isPrivate: true,
     component: <AdminTeacherPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.CLASS.INDEX,
     isPrivate: true,
     component: <AdminClassPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
   {
     path: ROUTE_CONSTANTS.CLASS.EDIT,
     isPrivate: true,
     component: <EditClassPage />,
     exact: true,
-  },
-  {
-    path: ROUTE_CONSTANTS.CALENDAR.ADD,
-    isPrivate: true,
-    component: <AddCalendarPage />,
-    exact: true,
-  },
-  {
-    path: ROUTE_CONSTANTS.CALENDAR.EDIT,
-    isPrivate: true,
-    component: <EditCalendarPage />,
-    exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
 
   {
@@ -276,6 +245,7 @@ export const routes = [
     isPrivate: true,
     component: <AdminClassMemberPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
 
   {
@@ -283,6 +253,7 @@ export const routes = [
     isPrivate: true,
     component: <EditClassMemeberPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
 
   {
@@ -290,6 +261,7 @@ export const routes = [
     isPrivate: true,
     component: <RegistrationFormPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
 
   {
@@ -297,6 +269,7 @@ export const routes = [
     isPrivate: true,
     component: <EditRegistrationFormPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
 
   {
@@ -311,6 +284,7 @@ export const routes = [
     isPrivate: true,
     component: <MyClassPage />,
     exact: true,
+    roles: [ROLE.USER],
   },
 
   {
@@ -318,6 +292,7 @@ export const routes = [
     isPrivate: true,
     component: <ListRegistrationPage />,
     exact: true,
+    roles: [ROLE.ADMIN, ROLE.STAFF],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN.INVOICE.ADD,
@@ -330,5 +305,6 @@ export const routes = [
     isPrivate: true,
     component: <AdminStudentPage />,
     exact: true,
+    roles: [ROLE.STAFF, ROLE.ADMIN],
   },
 ];

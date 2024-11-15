@@ -15,29 +15,26 @@ export const OverviewNews = (props) => {
   return (
     <Card sx={sx}>
       <CardContent>
-        <Stack
-          alignItems="flex-start"
-          direction="row"
-          justifyContent="space-between"
-          spacing={3}
-        >
-          <Stack spacing={1}>
-            <Typography color="text.secondary" variant="overline">
+        <Stack spacing={2}>
+          <Stack spacing={2} direction={"row"} alignItems={"center"}>
+            <Avatar
+              sx={{
+                backgroundColor: "primary.main",
+                height: 42,
+                width: 42,
+              }}
+            >
+              <SvgIcon>
+                <NewspaperIcon />
+              </SvgIcon>
+            </Avatar>
+            <Typography color="text.secondary" gutterBottom variant="overline">
               Giảng viên
             </Typography>
-            <Typography variant="h5">{value}</Typography>
           </Stack>
-          <Avatar
-            sx={{
-              backgroundColor: "primary.main",
-              height: 56,
-              width: 56,
-            }}
-          >
-            <SvgIcon>
-              <NewspaperIcon />
-            </SvgIcon>
-          </Avatar>
+          <Typography textAlign={"center"} variant="h5">
+            {value}
+          </Typography>
         </Stack>
       </CardContent>
     </Card>
