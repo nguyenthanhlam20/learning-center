@@ -114,12 +114,12 @@ namespace WebApi.Controllers
                 _context.Classes.Add(map);
                 await _context.SaveChangesAsync();
 
-                return Ok(new ResponseDTO(true, "Thêm m?i l?p h?c thành công!"));
+                return Ok(new ResponseDTO(true, "Thêm mới lớp học thành công!"));
             }
             catch (Exception ex)
             {
 
-                return Ok(new ResponseDTO(false, "Thêm m?i l?p h?c th?t b?i!"));
+                return Ok(new ResponseDTO(false, "Thêm mới lớp học thất bại!"));
             }
         }
 
@@ -136,7 +136,7 @@ namespace WebApi.Controllers
             @class.Status = false;
             await _context.SaveChangesAsync();
 
-            return Ok(new ResponseDTO(true, "C?p nh?t tr?ng thái l?p thành công!"));
+            return Ok(new ResponseDTO(true, "Cập nhật trạng thái lớp thành công!"));
         }
     }
 }

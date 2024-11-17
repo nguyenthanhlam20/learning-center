@@ -48,6 +48,7 @@ export const ROUTE_CONSTANTS = {
     INDEX: "/authen/classes",
     EDIT: "/authen/classes/edit",
     MINE: "/authen/classes/mine",
+    COURSE_CLASSES: "/authen/course-classes/mine",
   },
   CALENDAR: {
     ADD: "/authen/calendar/add",

@@ -5,6 +5,7 @@ import AppDatePicker from "../AppInput/AppDatePicker";
 import AppInput from "../AppInput/AppInput";
 import AppRadioButton from "../AppInput/AppRadioButton";
 import AppTextArea from "../AppInput/AppTextArea";
+import AppInputPhone from "../AppInput/AppInputPhone";
 
 export const ClassMemberDetails = ({ handleChangeValue, values, width }) => {
   return (
@@ -69,7 +70,7 @@ export const ClassMemberDetails = ({ handleChangeValue, values, width }) => {
             handleChangeValue={handleChangeValue}
             placeholder={"Email"}
           />
-          <AppInput
+          <AppInputPhone
             value={values?.phone}
             title={"phone"}
             handleChangeValue={handleChangeValue}

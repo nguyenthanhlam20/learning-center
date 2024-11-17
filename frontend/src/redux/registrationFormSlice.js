@@ -91,7 +91,7 @@ const registrationFormSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
 
     builder.addCase(getRegistrationForm.fulfilled, (state, action) => {

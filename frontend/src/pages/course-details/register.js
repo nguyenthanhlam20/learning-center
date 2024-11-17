@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Stack } from "@mui/system";
 import * as React from "react";
 import AppInput from "../../components/AppInput/AppInput";
+import AppInputPhone from "../../components/AppInput/AppInputPhone";
 
 // Use forwardRef to allow the parent component to access the openDialog method
 const RegisterDialog = React.forwardRef(
@@ -43,7 +44,7 @@ const RegisterDialog = React.forwardRef(
               placeholder={"Họ và tên"}
             />
 
-            <AppInput
+            <AppInputPhone
               value={values?.phone}
               title={"phone"}
               handleChangeValue={handleChangeValue}

@@ -44,10 +44,14 @@ const ListFeedback = ({ data }) => {
   }, []);
 
   React.useEffect(() => {
-    const result = data.filter((feedback) =>
-      feedback?.emailNavigation?.name
-        ?.toLowerCase()
-        .includes(searchTerm.value.toLowerCase())
+    const result = data.filter(
+      (feedback) =>
+        feedback?.course?.course_name
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) ||
+        feedback?.class?.className
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase())
     );
     setFeedbacks(result);
     setPage(0);

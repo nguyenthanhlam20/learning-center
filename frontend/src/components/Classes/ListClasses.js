@@ -118,7 +118,7 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
 
   const handleSubmitClass = () => {
     if (isEmpty(values.className.trim())) {
-      toast.warning("Chưa nhập tên " + title);
+      toast.warning("Chưa nhập tên ");
       return;
     }
 

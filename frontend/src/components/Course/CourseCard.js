@@ -4,7 +4,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, isBought }) => {
   const navigate = useNavigate();
   const {
     price,
@@ -14,7 +14,13 @@ const CourseCard = ({ course }) => {
     course_avatar_url,
     course_id,
   } = course;
-  const link = ROUTE_CONSTANTS.COURSE_DETAILS_PAGE + "?course_id=" + course_id;
+  const link =
+    (isBought === true
+      ? ROUTE_CONSTANTS.CLASS.COURSE_CLASSES
+      : ROUTE_CONSTANTS.COURSE_DETAILS_PAGE) +
+    "?course_id=" +
+    course_id;
+
   const formattedPrice = price.toLocaleString("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -22,16 +28,6 @@ const CourseCard = ({ course }) => {
 
   const handleGoToCourse = () => {
     navigate(link);
-  };
-
-  const handleBuyCourse = () => {
-    if (isBought) {
-      navigate(
-        ROUTE_CONSTANTS.LESSON_VIEW_PAGE + "?course_id=" + course.course_id
-      );
-    } else {
-      navigate(ROUTE_CONSTANTS.PAYMENT + "?course_id=" + course.course_id);
-    }
   };
 
   return (

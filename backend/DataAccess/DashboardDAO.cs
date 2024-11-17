@@ -29,7 +29,7 @@ namespace DataAccess
                 double totalAmount = (double)topPayment.Sum(x => x.Amount);
 
 
-                List<Course> courses = context.Courses.Where(x => x.CourseId != 31).ToList();
+                List<Course> courses = context.Courses.ToList();
                 List<object> totalMoneyByCourses = new List<object>();
 
                 foreach (Course course in courses)

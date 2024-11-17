@@ -126,77 +126,73 @@ const ListPayment = ({ user, courses }) => {
 
   return (
     <div className="relative w-full pb-40 pl-20 pr-20">
-      {payments?.length > 0 && (
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 5,
-            mb: 10,
-          }}
-        >
-          <Container maxWidth="xl">
-            <Stack spacing={2} sx={{ mt: 2 }}>
-              <Card
-                sx={{ p: 2, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;" }}
-              >
-                <Stack direction={"row"} spacing={2}>
-                  <div className="w-96 ">
-                    <AppInput
-                      value={searchTerm.value}
-                      handleChangeValue={handleChangeSearchTerm}
-                      placeholder={"Tìm kiếm lịch sử giao dịch"}
-                      title={"value"}
-                    />
-                  </div>
-                  {searchTerm.value != "" ? (
-                    <Button
-                      onClick={handleClearSearch}
-                      variant="contained"
-                      size="medium"
-                      color="error"
-                    >
-                      Xóa
-                    </Button>
-                  ) : (
-                    <></>
-                  )}
-                </Stack>
-              </Card>
-              {payments?.length > 0 ? (
-                <PaymentTable
-                  count={payments?.length}
-                  items={paymentsPagination}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                  user={user}
-                  courses={courses}
-                  setIsOpenModal={setIsOpenModal}
-                  setCurrentPayment={setCurrentPayment}
-                />
-              ) : (
-                <>
-                  <Card
-                    sx={{
-                      p: 2,
-                      boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
-                      height: 525,
-                    }}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 5,
+          mb: 10,
+        }}
+      >
+        <Container maxWidth="xl">
+          <Stack spacing={2} sx={{ mt: 2 }}>
+            <Card sx={{ p: 2, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;" }}>
+              <Stack direction={"row"} spacing={2}>
+                <div className="w-96 ">
+                  <AppInput
+                    value={searchTerm.value}
+                    handleChangeValue={handleChangeSearchTerm}
+                    placeholder={"Tìm kiếm lịch sử giao dịch"}
+                    title={"value"}
+                  />
+                </div>
+                {searchTerm.value != "" ? (
+                  <Button
+                    onClick={handleClearSearch}
+                    variant="contained"
+                    size="medium"
+                    color="error"
                   >
-                    <CardContent>
-                      <div className="mt-[200px] h-full w-full text-center text-xl font-bold">
-                        Không tìm thấy kết quả
-                      </div>
-                    </CardContent>
-                  </Card>
-                </>
-              )}
-            </Stack>
-          </Container>
-        </Box>
-      )}
+                    Xóa
+                  </Button>
+                ) : (
+                  <></>
+                )}
+              </Stack>
+            </Card>
+            {payments?.length > 0 ? (
+              <PaymentTable
+                count={payments?.length}
+                items={paymentsPagination}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                user={user}
+                courses={courses}
+                setIsOpenModal={setIsOpenModal}
+                setCurrentPayment={setCurrentPayment}
+              />
+            ) : (
+              <>
+                <Card
+                  sx={{
+                    p: 2,
+                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
+                    height: 525,
+                  }}
+                >
+                  <CardContent>
+                    <div className="mt-[200px] h-full w-full text-center text-xl font-bold">
+                      Không tìm thấy kết quả
+                    </div>
+                  </CardContent>
+                </Card>
+              </>
+            )}
+          </Stack>
+        </Container>
+      </Box>
 
       <Dialog fullWidth maxWidth="lg" open={isOpenModal}>
         <DialogTitle>

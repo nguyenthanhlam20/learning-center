@@ -21,6 +21,9 @@ import Breadcrumb from "../../components/Common/Breadcrumb";
 import SmoothScrollUp from "../../components/Common/SmoothScrollUp";
 import authenSlice from "../../redux/authenSlice";
 import { updateInfo } from "../../redux/userSlice";
+import { isEmpty } from "lodash";
+import { toast } from "react-toastify";
+import { isValidPhoneNumber } from "../../helpers/validation";
 
 const AccountPage = () => {
   const dispatch = useDispatch();
@@ -28,6 +31,7 @@ const AccountPage = () => {
   const { setUser } = authenSlice.actions;
 
   const [values, setValues] = useState({
+    ...user,
     name: user?.name,
     address: user?.address,
     date_of_birth: user?.date_of_birth,
@@ -38,6 +42,21 @@ const AccountPage = () => {
   });
 
   const handleSubmitInfo = () => {
+    if (isEmpty(values.name.trim())) {
+      toast.warning("Chưa nhập tên");
+      return;
+    }
+
+    if (isEmpty(values.phone.trim())) {
+      toast.warning("Chưa nhập số điện thoại");
+      return;
+    }
+
+    if (!isValidPhoneNumber(values.phone.trim())) {
+      toast.warning("Số điện thoại không hợp lệ");
+      return;
+    }
+
     dispatch(updateInfo(values));
     dispatch(setUser(values));
   };

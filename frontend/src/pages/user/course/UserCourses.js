@@ -17,7 +17,11 @@ const UserCourses = ({ userCourses }) => {
         >
           {userCourses &&
             userCourses?.map((course, key) => (
-              <CourseCard key={"course-card-" + key} course={course} />
+              <CourseCard
+                key={"course-card-" + key}
+                course={course}
+                isBought={true}
+              />
             ))}
         </div>
       </div>

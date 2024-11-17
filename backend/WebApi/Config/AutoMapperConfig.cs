@@ -23,6 +23,9 @@ namespace WebApi.Config
                 config.CreateMap<AddAccountDTO, Account>()
                     .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender == 1 ? true : false));
 
+                config.CreateMap<UpdateAccountDTO, Account>()
+                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender == 1 ? true : false));
+
                 config.CreateMap<Account, AccountDTO>()
                     .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth!.Value.ToString("yyyy-MM-dd")));
 

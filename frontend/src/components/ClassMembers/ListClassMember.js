@@ -25,6 +25,7 @@ import AppInput from "../AppInput/AppInput";
 import { ClassMemberDetails } from "./ClassMemberDetails";
 import { CSVLink } from "react-csv";
 import { FileDownload } from "@mui/icons-material";
+import { isValidPhoneNumber, validateEmail } from "../../helpers/validation";
 
 const ListClassMember = ({ data, roleId, title, classId }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -96,22 +97,32 @@ const ListClassMember = ({ data, roleId, title, classId }) => {
 
   const handleSubmitClassMember = () => {
     if (isEmpty(values.name.trim())) {
-      toast.warning("Chưa nhập tên " + title);
+      toast.warning("Chưa nhập tên ");
       return;
     }
 
     if (isEmpty(values.address.trim())) {
-      toast.warning("Chưa địa chỉ " + title);
+      toast.warning("Chưa nhập địa chỉ ");
       return;
     }
 
     if (isEmpty(values.email.trim())) {
-      toast.warning("Chưa nhập địa chỉ email " + title);
+      toast.warning("Chưa nhập địa chỉ email ");
+      return;
+    }
+
+    if (!validateEmail(values.email.trim())) {
+      toast.warning("Địa chỉ email không hợp lệ");
       return;
     }
 
     if (isEmpty(values.phone.trim())) {
-      toast.warning("Chưa nhập số điện thoại " + title);
+      toast.warning("Chưa nhập số điện thoại ");
+      return;
+    }
+
+    if (!isValidPhoneNumber(values.phone.trim())) {
+      toast.warning("Số điện thoại không hợp lệ");
       return;
     }
 

@@ -46,6 +46,7 @@ import ListRegistrationPage from "../pages/admin/registration";
 import AddInvoicePage from "../pages/admin/invoice/add";
 import AdminStudentPage from "../pages/admin/students";
 import { ROLE } from "../constants/constants";
+import MyCourseClassesPage from "../pages/user/class/course-classes";
 
 export const routes = [
   {
@@ -287,6 +288,13 @@ export const routes = [
     roles: [ROLE.USER],
   },
 
+  {
+    path: ROUTE_CONSTANTS.CLASS.COURSE_CLASSES,
+    isPrivate: true,
+    component: <MyCourseClassesPage />,
+    exact: true,
+    roles: [ROLE.USER],
+  },
   {
     path: ROUTE_CONSTANTS.ADMIN.REGISTRATION_FORM.INDEX,
     isPrivate: true,

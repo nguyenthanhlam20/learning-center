@@ -21,6 +21,7 @@ import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { addScore, getClassMember } from "../../redux/classMemberSlice";
 import { updateInfo } from "../../redux/userSlice";
 import AddGradeDialog from "./add-grade";
+import AppInputPhone from "../../components/AppInput/AppInputPhone";
 
 function EditClassMemberPage() {
   const location = useLocation();
@@ -196,7 +197,7 @@ function EditClassMemberPage() {
               handleChangeValue={handleChangeValue}
               placeholder={"Email"}
             />
-            <AppInput
+            <AppInputPhone
               value={values?.phone}
               title={"phone"}
               handleChangeValue={handleChangeValue}

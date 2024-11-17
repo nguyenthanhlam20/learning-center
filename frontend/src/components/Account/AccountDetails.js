@@ -6,6 +6,7 @@ import AppInput from "../AppInput/AppInput";
 import AppRadioButton from "../AppInput/AppRadioButton";
 import AppTextArea from "../AppInput/AppTextArea";
 import { isEmpty } from "lodash";
+import AppInputPhone from "../AppInput/AppInputPhone";
 
 export const AccountDetails = ({ handleChangeValue, values, width }) => {
   return (
@@ -70,7 +71,7 @@ export const AccountDetails = ({ handleChangeValue, values, width }) => {
             handleChangeValue={handleChangeValue}
             placeholder={"Email"}
           />
-          <AppInput
+          <AppInputPhone
             value={values?.phone}
             title={"phone"}
             handleChangeValue={handleChangeValue}

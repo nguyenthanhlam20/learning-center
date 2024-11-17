@@ -1,8 +1,7 @@
-
 import { CONTACT_CONSTANTS } from "../../constants/constants";
 import ContactInformation from "./Information";
-import React from "react";
-import { toast } from 'react-toastify';
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { insertContact } from "../../redux/contactSlice";
 import { SvgIcon } from "@mui/material";
@@ -11,7 +10,6 @@ import { validateEmail } from "../../helpers/validation";
 
 const Contact = () => {
   const dispatch = useDispatch();
-
   const [fullname, setFullname] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -26,8 +24,18 @@ const Contact = () => {
       toast.warning("Email không hợp lệ");
       return;
     }
-    dispatch(insertContact({ name: fullname, email: email, request_message: message, request_date: new Date() }));
+    dispatch(
+      insertContact({
+        name: fullname,
+        email: email,
+        request_message: message,
+        request_date: new Date(),
+      })
+    );
 
+    setFullname("");
+    setMessage("");
+    setEmail("");
   };
 
   return (
@@ -36,7 +44,7 @@ const Contact = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
             <div
-              className="wow fadeInUp mb-12 rounded-md bg-primary/[3%] py-11 px-8 dark:bg-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
+              className="wow fadeInUp mb-12 rounded-md bg-primary/[3%] px-8 py-11 dark:bg-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
               data-wow-delay=".15s
               "
             >
@@ -57,9 +65,10 @@ const Contact = () => {
                     </label>
                     <input
                       type="text"
+                      value={fullname}
                       onChange={(e) => setFullname(e.target.value)}
                       placeholder={CONTACT_CONSTANTS.ENTER_NAME}
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                      className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                     />
                   </div>
                 </div>
@@ -72,11 +81,11 @@ const Contact = () => {
                       {CONTACT_CONSTANTS.EMAIL}
                     </label>
                     <input
+                      value={email}
                       type="email"
                       onChange={(e) => setEmail(e.target.value)}
-
                       placeholder={CONTACT_CONSTANTS.ENTER_EMAIL}
-                      className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                      className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                     />
                   </div>
                 </div>
@@ -90,21 +99,23 @@ const Contact = () => {
                     </label>
                     <textarea
                       name="message"
+                      value={message}
                       rows={5}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder={CONTACT_CONSTANTS.ENTER_MESSAGE}
-                      className="w-full resize-none rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                      className="w-full resize-none rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                     ></textarea>
                   </div>
                 </div>
                 <div className="w-full px-4">
                   <button
                     onClick={handleSendMessage}
-                    className="rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
+                    className="rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+                  >
                     <SvgIcon sx={{ mr: 1 }}>
                       <HandThumbUpIcon />
-
-                    </SvgIcon>  Gửi
+                    </SvgIcon>{" "}
+                    Gửi
                   </button>
                 </div>
               </div>

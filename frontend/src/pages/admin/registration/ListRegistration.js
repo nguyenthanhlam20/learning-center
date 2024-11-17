@@ -53,10 +53,20 @@ const ListRegistration = ({ data }) => {
     setRegistrationsPagination(registration.slice(0, endIndex));
   };
   React.useEffect(() => {
-    const result = data.filter((course) =>
-      new String(course?.courseId)
-        .toLowerCase()
-        .includes(searchTerm.value.toLowerCase())
+    const result = data.filter(
+      (course) =>
+        course?.student?.name
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) ||
+        course?.student?.email
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) ||
+        course?.class?.className
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) ||
+        course?.course?.course_name
+          ?.toLowerCase()
+          .includes(searchTerm.value.toLowerCase())
     );
     setRegistrations(result);
     setPage(0);

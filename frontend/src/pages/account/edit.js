@@ -19,6 +19,9 @@ import { ArrowBack } from "@mui/icons-material";
 import { ClassTableMini } from "../../sections/table/class-table-mini";
 import dayjs from "dayjs";
 import { ROLE } from "../../constants/constants";
+import { isValidPhoneNumber } from "../../helpers/validation";
+import { toast } from "react-toastify";
+import AppInputPhone from "../../components/AppInput/AppInputPhone";
 
 function EditAccount() {
   const user = useSelector((state) => state.authen.user);
@@ -68,8 +71,6 @@ function EditAccount() {
     setValues(account);
   }, [account]);
 
-  console.log("classes", account?.classes);
-
   const [values, setValues] = useState(account);
 
   const handleChangeValue = (key, value) => {
@@ -84,6 +85,30 @@ function EditAccount() {
   };
 
   const handleSubmitAccount = () => {
+    if (isEmpty(values.name.trim())) {
+      toast.warning("Chưa nhập tên");
+      return;
+    }
+
+    if (isEmpty(values.address.trim())) {
+      toast.warning("Chưa nhập địa chỉ");
+      return;
+    }
+
+    if (isEmpty(values.email.trim())) {
+      toast.warning("Chưa nhập địa chỉ email");
+      return;
+    }
+
+    if (isEmpty(values.phone.trim())) {
+      toast.warning("Chưa nhập số điện thoại");
+      return;
+    }
+
+    if (!isValidPhoneNumber(values.phone.trim())) {
+      toast.warning("Số điện thoại không hợp lệ");
+      return;
+    }
     dispatch(updateInfo(values));
   };
   return (
@@ -146,7 +171,7 @@ function EditAccount() {
               handleChangeValue={handleChangeValue}
               placeholder={"Email"}
             />
-            <AppInput
+            <AppInputPhone
               value={values?.phone}
               title={"phone"}
               handleChangeValue={handleChangeValue}

@@ -15,8 +15,8 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { capitalize, isEmpty } from "lodash";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import userSlice, { insertUser } from "../../redux/userSlice";
 import { AccountTable } from "../../sections/table/account-table";
@@ -24,6 +24,7 @@ import AppInput from "../AppInput/AppInput";
 import { AccountDetails } from "./AccountDetails";
 import { CSVLink } from "react-csv";
 import { FileDownload } from "@mui/icons-material";
+import { isValidPhoneNumber, validateEmail } from "../../helpers/validation";
 
 const ListAccount = ({ data, roleId, title }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -32,6 +33,8 @@ const ListAccount = ({ data, roleId, title }) => {
   const [accountsPagination, setAccountsPagination] = useState(
     accounts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
+  const isRefresh = useSelector((state) => state.user.isRefresh);
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
 
@@ -91,42 +94,61 @@ const ListAccount = ({ data, roleId, title }) => {
 
   const handleSubmitAccount = () => {
     if (isEmpty(values.name.trim())) {
-      toast.warning("Chưa nhập tên " + title);
+      toast.warning("Chưa nhập tên ");
       return;
     }
 
     if (isEmpty(values.address.trim())) {
-      toast.warning("Chưa địa chỉ " + title);
+      toast.warning("Chưa nhập địa chỉ ");
       return;
     }
 
     if (isEmpty(values.email.trim())) {
-      toast.warning("Chưa nhập địa chỉ email " + title);
+      toast.warning("Chưa nhập địa chỉ email ");
+      return;
+    }
+
+    if (!validateEmail(values.email.trim())) {
+      toast.warning("Địa chỉ email không hợp lệ");
       return;
     }
 
     if (isEmpty(values.phone.trim())) {
-      toast.warning("Chưa nhập số điện thoại " + title);
+      toast.warning("Chưa nhập số điện thoại ");
+      return;
+    }
+
+    console.log(
+      "isValidPhoneNumber(values.phone.trim()",
+      isValidPhoneNumber(values.phone.trim())
+    );
+
+    if (!isValidPhoneNumber(values.phone.trim())) {
+      toast.warning("Số điện thoại không hợp lệ");
       return;
     }
 
     dispatch(insertUser(values));
-    setValues({
-      avatar_url: "",
-      name: "",
-      email: "",
-      address: "",
-      date_of_birth: "",
-      gender: 1,
-      phone: "",
-      description: "",
-      status: true,
-      role_id: roleId,
-    });
-
-    setIsOpenModal(false);
-    // console.log(values);
   };
+
+  useEffect(() => {
+    if (isRefresh === true) {
+      setValues({
+        avatar_url: "",
+        name: "",
+        email: "",
+        address: "",
+        date_of_birth: "",
+        gender: 1,
+        phone: "",
+        description: "",
+        status: true,
+        role_id: roleId,
+      });
+
+      setIsOpenModal(false);
+    }
+  }, [isRefresh]);
 
   const handleChangeSearchTerm = (key, value) => {
     setSearchTerm({
@@ -145,8 +167,10 @@ const ListAccount = ({ data, roleId, title }) => {
     setAccountsPagination(accounts.slice(0, endIndex));
   };
   React.useEffect(() => {
-    const result = data.filter((account) =>
-      account?.email.toLowerCase().includes(searchTerm.value.toLowerCase())
+    const result = data.filter(
+      (account) =>
+        account?.email.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+        account?.name.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
     setAccounts(result);
     setPage(0);

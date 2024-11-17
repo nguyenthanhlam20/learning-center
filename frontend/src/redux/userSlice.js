@@ -76,8 +76,14 @@ const userSlice = createSlice({
       console.log(action.payload);
     });
     builder.addCase(insertUser.fulfilled, (state, action) => {
-      toast.success("Thêm mới người dùng thành công");
-      state.isRefresh = true;
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+      state.isRefresh = success;
     });
     builder.addCase(updateRole.fulfilled, (state, action) => {
       toast.success("Phân quyền người dùng thành công");

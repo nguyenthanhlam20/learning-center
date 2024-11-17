@@ -23,7 +23,13 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
     [HttpGet]
     public async Task<ActionResult<List<RegistrationFormDTO>>> GetRegistrationForms()
     {
-        var list = await _context.RegistrationForms.Include(x => x.Class).Include(x => x.Course).Include(x => x.StudentEmailNavigation).ToListAsync();
+        var list = await _context.RegistrationForms
+            .Include(x => x.Class)
+            .Include(x => x.Course)
+            .Include(x => x.StudentEmailNavigation)
+            .OrderBy(x => x.Status)
+            .ThenByDescending(x => x.CreatedDate)
+            .ToListAsync();
         var map = _mapper.Map<List<RegistrationFormDTO>>(list);
         return map;
     }

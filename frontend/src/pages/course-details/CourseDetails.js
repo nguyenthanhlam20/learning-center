@@ -21,6 +21,7 @@ import { Status } from "../../constants/status";
 import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import { isValidPhoneNumber } from "../../helpers/validation";
 
 const CourseDetails = ({ course, user }) => {
   console.log("course", course);
@@ -74,7 +75,8 @@ const CourseDetails = ({ course, user }) => {
       toast.warning("Chưa nhập số điện thoại");
       return;
     }
-    if (values?.phone?.trim().length !== 10) {
+
+    if (!isValidPhoneNumber(values.phone.trim())) {
       toast.warning("Số điện thoại không hợp lệ");
       return;
     }

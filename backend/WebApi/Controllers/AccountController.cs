@@ -24,7 +24,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("signin")]
-        public IActionResult SignIn([FromBody] AccountDTO account)
+        public IActionResult SignIn([FromBody] AddAccountDTO account)
         {
             // Map dto to account
             Account acc = _mapper.Map<Account>(account);
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("signup")]
-        public IActionResult SignUp([FromBody] AccountDTO accountDTO)
+        public IActionResult SignUp([FromBody] AddAccountDTO accountDTO)
         {
             // Map dto to account
             Account acc = _mapper.Map<Account>(accountDTO);
@@ -64,7 +64,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("change-password")]
-        public IActionResult ChangePassword([FromBody] AccountDTO accountDTO)
+        public IActionResult ChangePassword([FromBody] UpdateAccountDTO accountDTO)
         {
             // Map dto to account
             Account account = repository.FindAccountByEmail(accountDTO.Email);
@@ -82,7 +82,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("update-info")]
-        public ActionResult UpdateInfo([FromBody] AccountDTO accountDTO)
+        public ActionResult UpdateInfo([FromBody] UpdateAccountDTO accountDTO)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("update")]
-        public ActionResult UpdateRole([FromBody] AccountDTO accountDTO)
+        public ActionResult UpdateRole([FromBody] AddAccountDTO accountDTO)
         {
             var account = repository.FindAccountByEmail(accountDTO.Email);
             if (account == null) return NotFound();
@@ -114,14 +114,24 @@ namespace WebApi.Controllers
         [HttpPost("insert")]
         public IActionResult InsertAccount([FromBody] AddAccountDTO accountDTO)
         {
-            var account = repository.FindAccountByEmail(accountDTO.Email);
-            if (account is not null) return BadRequest();
+            try
+            {
+                var account = repository.FindAccountByEmail(accountDTO.Email);
+                if (account is not null) return Ok(new ResponseDTO(false, "Tài khoản email đã tồn tại trong hệ thống"));
 
-            Account acc = _mapper.Map<Account>(accountDTO);
-            var success = repository.InsertAccount(acc);
+                Account acc = _mapper.Map<Account>(accountDTO);
+                var success = repository.InsertAccount(acc);
 
-            if (success == true) return Ok();
-            return BadRequest();
+                if (success == true) 
+                    return Ok(new ResponseDTO(true, "Thêm mới người dùng thành công"));
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok(new ResponseDTO(false, "Thêm mới người dùng thất bại"));
+
         }
 
         [HttpGet("get-users")]
