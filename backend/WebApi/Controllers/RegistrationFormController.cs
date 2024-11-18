@@ -37,14 +37,22 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
     [HttpGet("get-by-student")]
     public async Task<ActionResult<List<RegistrationFormDTO>>> GetRegistrationFormsByStudent(string studentEmail)
     {
-        var list = await _context.RegistrationForms
+        try
+        {
+            var list = await _context.RegistrationForms
             .Include(x => x.Class)
             .Include(x => x.Course)
             .Include(x => x.StudentEmailNavigation)
             .Where(x => x.StudentEmail == studentEmail)
             .ToListAsync();
-        var map = _mapper.Map<List<RegistrationFormDTO>>(list);
-        return map;
+            var map = _mapper.Map<List<RegistrationFormDTO>>(list);
+            return map;
+        }
+        catch (Exception ex)
+        {
+
+            return new List<RegistrationFormDTO>();
+        }
     }
 
     // GET: api/RegistrationForm/5
@@ -272,6 +280,24 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
                 .FirstOrDefaultAsync(x => x.ClassId == registrationForm.ClassId);
 
             if (classes is null) throw new Exception("Không tìm thấy lớp học");
+            var forms = await _context.RegistrationForms
+                .Include(x => x.Class)
+                .Where(x => x.StudentEmail == registrationForm.StudentEmail)
+                .Where(x => x.Status != 3)
+                .Where(x => x.ClassId != registrationForm.ClassId).ToListAsync();
+
+            var others = new List<Class>();
+
+            foreach (var item in forms)
+            {
+                others.Add(item.Class);
+            }
+
+            var result = HaveTimeConflictWithOthers(classes, others);
+            if (result.Item1)
+            {
+                throw new Exception("Lớp học đăng ký bị trùng lịch với " + result.Item2);
+            }
 
             var numberOfStudent = classes.ClassMembers.Count;
             if (numberOfStudent >= classes.NumberOfStudent)
@@ -328,8 +354,54 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
         return NoContent();
     }
 
-    private bool RegistrationFormExists(string id)
+    private (bool, string) HaveTimeConflictWithOthers(Class class1, List<Class> classes)
     {
-        return _context.RegistrationForms.Any(e => e.StudentEmail == id);
+        foreach (var otherClass in classes)
+        {
+            if (HaveTimeConflict(class1, otherClass))
+            {
+                return (true, otherClass.ClassName); // Conflict found
+            }
+        }
+        return (false, ""); // No conflict with any class
+    }
+
+    // Check if class1 has a time conflict with another specific class
+    private bool HaveTimeConflict(Class class1, Class class2)
+    {
+        // Check if the date ranges overlap
+        if (!(class1.StartDate > class2.EndDate || class1.EndDate < class2.StartDate))
+        {
+            // Check if any days of the week overlap
+            var days1 = class1!.DaysOfWeek!.Split(',').Select(day => day.Trim());
+            var days2 = class2!.DaysOfWeek!.Split(',').Select(day => day.Trim());
+
+            if (days1.Intersect(days2).Any()) // There is at least one overlapping day
+            {
+                // Check if time slots overlap
+                foreach (var day in days1.Intersect(days2))
+                {
+                    // Compare the times for this day
+                    if (IsTimeConflict(class1.StartTime, class1.EndTime, class2.StartTime, class2.EndTime))
+                    {
+                        return true; // Conflict found
+                    }
+                }
+            }
+        }
+        return false; // No conflict
+    }
+
+    private bool IsTimeConflict(TimeSpan? start1, TimeSpan? end1, TimeSpan? start2, TimeSpan? end2)
+    {
+        // Ensure the times are not null before comparing
+        if (start1.HasValue && end1.HasValue && start2.HasValue && end2.HasValue)
+        {
+            // Check if the time ranges overlap
+            return start1 < end2 && start2 < end1;
+        }
+
+        // If any time is null, we assume no conflict for this logic
+        return false;
     }
 }

@@ -67,14 +67,18 @@ namespace DataAccess
 
 
                 List<object> members = new List<object>();
-                var distinctClassMember = context.Accounts.Where(x => x.RoleId == 4 && x.ActiveStatus == true).ToList();
+                var distinctClassMember = context.Accounts
+                    .Include(x => x.ClassMembers)
+                    .Where(x => x.RoleId == 4 && x.ActiveStatus == true)
+                    .Where(x => x.ClassMembers.Any())
+                    .ToList();
                 foreach (var item in distinctClassMember)
                 {
                     var total = context.Payments.Where(x => x.StudentEmail == item.Email).Sum(x => x.Amount);
 
                     members.Add(new
                     {
-                        name = item.Email,
+                        name = item.Name,
                         email = item.Email,
                         phone = item.Email,
                         total

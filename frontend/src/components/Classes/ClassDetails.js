@@ -15,11 +15,13 @@ export const ClassDetails = ({
   courses,
   width = 900,
   direction = "row",
+  isDisabled,
 }) => {
   return (
     <Stack spacing={2} width={width}>
       <Stack direction={direction} gap={3}>
         <AppInput
+          disabled={isDisabled}
           value={values?.className}
           title={"className"}
           handleChangeValue={handleChangeValue}
@@ -28,6 +30,7 @@ export const ClassDetails = ({
       </Stack>
       <Stack direction={direction} gap={3}>
         <AppDatePicker
+          disabled={isDisabled}
           value={values?.startDate}
           title={"startDate"}
           handleChangeValue={handleChangeValue}
@@ -35,6 +38,7 @@ export const ClassDetails = ({
         />
 
         <AppDatePicker
+          disabled={isDisabled}
           value={values?.endDate}
           title={"endDate"}
           handleChangeValue={handleChangeValue}
@@ -43,6 +47,7 @@ export const ClassDetails = ({
       </Stack>
       <Stack direction={direction} gap={3}>
         <AppTimePicker
+          disabled={isDisabled}
           value={values?.startTime}
           title={"startTime"}
           handleChangeValue={handleChangeValue}
@@ -50,6 +55,7 @@ export const ClassDetails = ({
         />
 
         <AppTimePicker
+          disabled={isDisabled}
           value={values?.endTime}
           title={"endTime"}
           handleChangeValue={handleChangeValue}
@@ -58,6 +64,7 @@ export const ClassDetails = ({
       </Stack>
       <Stack direction={direction} gap={3}>
         <AppInput
+          disabled={isDisabled}
           value={values?.room}
           title={"room"}
           handleChangeValue={handleChangeValue}
@@ -65,6 +72,7 @@ export const ClassDetails = ({
         />
 
         <AppInput
+          disabled={isDisabled}
           value={values?.daysOfWeek}
           title={"daysOfWeek"}
           handleChangeValue={handleChangeValue}
@@ -73,6 +81,7 @@ export const ClassDetails = ({
       </Stack>
       <Stack direction={direction} gap={3}>
         <AppInputNumber
+          disabled={isDisabled}
           value={values?.numberOfStudent}
           title={"numberOfStudent"}
           handleChangeValue={handleChangeValue}
@@ -89,6 +98,7 @@ export const ClassDetails = ({
       </Stack>
 
       <AppSelect
+        disabled={isDisabled}
         value={values?.courseId}
         data={courses}
         title={"courseId"}
@@ -99,6 +109,7 @@ export const ClassDetails = ({
       />
 
       <AppSelect
+        disabled={isDisabled}
         value={values?.staffEmail}
         data={staffs}
         title={"staffEmail"}
@@ -109,6 +120,7 @@ export const ClassDetails = ({
         handleChangeValue={handleChangeValue}
       />
       <AppSelect
+        disabled={isDisabled}
         value={values?.teacherEmail}
         data={teachers}
         title={"teacherEmail"}
@@ -119,6 +131,7 @@ export const ClassDetails = ({
         handleChangeValue={handleChangeValue}
       />
       <AppCheckBox
+        disabled={isDisabled}
         value={values?.status}
         handleChangeValue={handleChangeValue}
         title={"status"}

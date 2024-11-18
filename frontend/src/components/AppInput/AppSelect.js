@@ -9,6 +9,7 @@ const AppSelect = ({
   itemKey = "",
   placeholder,
   handleChangeValue,
+  disabled,
 }) => {
   // console.log("datd: ", data);
   return (
@@ -17,6 +18,7 @@ const AppSelect = ({
         {placeholder}
       </InputLabel>
       <Select
+        disabled={disabled}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         label={placeholder}

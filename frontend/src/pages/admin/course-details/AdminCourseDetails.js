@@ -4,7 +4,7 @@ import { Button, Divider, Stack, SvgIcon, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { isEmpty } from "lodash";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AppCheckBox from "../../../components/AppInput/AppCheckBox";
@@ -13,7 +13,7 @@ import AppInputCurrency from "../../../components/AppInput/AppInputCurrency";
 import AppInputNumber from "../../../components/AppInput/AppInputNumber";
 import AppSelect from "../../../components/AppInput/AppSelect";
 import AppTextArea from "../../../components/AppInput/AppTextArea";
-import { levels } from "../../../constants/constants";
+import { levels, ROLE } from "../../../constants/constants";
 import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
 import { updateCourse } from "../../../redux/courseSlice";
 import { ClassTableMini } from "../../../sections/table/class-table-mini";
@@ -21,6 +21,8 @@ import { ClassTableMini } from "../../../sections/table/class-table-mini";
 const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.authen.user);
+  const isDisabled = user?.role_id !== ROLE.ADMIN;
 
   const [values, setValues] = React.useState({
     course_id: course?.course_id,
@@ -115,36 +117,42 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
             />
           </div>
           <AppInput
+            disabled={isDisabled}
             value={values?.course_name}
             title={"course_name"}
             handleChangeValue={handleChangeValue}
             placeholder={"Tên khóa học"}
           />
           <AppInput
+            disabled={isDisabled}
             value={values?.code}
             title={"code"}
             handleChangeValue={handleChangeValue}
             placeholder={"Code"}
           />
           <AppInput
+            disabled={isDisabled}
             value={values?.course_avatar_url}
             title={"course_avatar_url"}
             handleChangeValue={handleChangeValue}
             placeholder={"Ảnh khóa học"}
           />
           <AppInputCurrency
+            disabled={isDisabled}
             value={values?.price}
             title={"price"}
             handleChangeValue={handleChangeValue}
             placeholder={"Giá (vnd)"}
           />
           <AppInputNumber
+            disabled={isDisabled}
             value={values?.number_of_slots}
             title={"number_of_slots"}
             handleChangeValue={handleChangeValue}
             placeholder={"Số buổi học"}
           />
           <AppSelect
+            disabled={isDisabled}
             value={values?.level}
             data={levels}
             title={"level"}
@@ -155,6 +163,7 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
           />
 
           <AppTextArea
+            disabled={isDisabled}
             height={"h-[170px]"}
             value={values?.description}
             title={"description"}
@@ -162,6 +171,7 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
             placeholder={"Mô tả khóa học"}
           />
           <AppCheckBox
+            disabled={isDisabled}
             value={values?.status}
             handleChangeValue={handleChangeValue}
             title={"status"}
@@ -180,16 +190,18 @@ const AdminCourseDetails = ({ course, isRefreshSpecific }) => {
               </SvgIcon>
               Trở lại
             </Button>
-            <Button
-              variant="contained"
-              onClick={handleUpdateCourse}
-              className="w-full bg-primary"
-            >
-              <SvgIcon className="mr-2">
-                <HandThumbUpIcon />
-              </SvgIcon>
-              Lưu
-            </Button>
+            {!isDisabled && (
+              <Button
+                variant="contained"
+                onClick={handleUpdateCourse}
+                className="w-full bg-primary"
+              >
+                <SvgIcon className="mr-2">
+                  <HandThumbUpIcon />
+                </SvgIcon>
+                Lưu
+              </Button>
+            )}
           </Stack>
         </Stack>
       </Box>

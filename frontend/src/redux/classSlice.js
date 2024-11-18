@@ -63,7 +63,7 @@ const classSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(editClass.fulfilled, (state, action) => {
       const { success, message } = action.payload;
@@ -73,7 +73,7 @@ const classSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(getClass.fulfilled, (state, action) => {
       console.log(action.payload);

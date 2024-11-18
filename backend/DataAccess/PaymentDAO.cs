@@ -16,6 +16,7 @@ namespace DataAccess
                         .Include(x => x.Class)
                         .Include(x => x.Course)
                         .Include(x => x.StudentEmailNavigation)
+                        .OrderByDescending(x => x.PaymentId)
                         .ToList();
                 }
             }

@@ -1,4 +1,10 @@
-const AppCheckBox = ({ value, handleChangeValue, placeholder, title }) => {
+const AppCheckBox = ({
+  value,
+  handleChangeValue,
+  placeholder,
+  title,
+  disabled,
+}) => {
   return (
     <>
       <div className="inline-flex  items-center p-0 ">
@@ -8,6 +14,7 @@ const AppCheckBox = ({ value, handleChangeValue, placeholder, title }) => {
           data-ripple-dark="true"
         >
           <input
+            disabled={disabled}
             id="login"
             type="checkbox"
             checked={value === true ? "checked" : ""}

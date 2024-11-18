@@ -96,7 +96,9 @@ export const ClassTable = (props) => {
                           arrow
                           placement="top"
                         >
-                          <p>{classes.classCode + "-00" + classes.classId}</p>
+                          <p>
+                            {classes?.course?.code + "-00" + classes.classId}
+                          </p>
                         </Tooltip>
                       </TableCell>
                       <TableCell>

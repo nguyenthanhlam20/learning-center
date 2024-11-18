@@ -16,7 +16,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import AppInput from "../../components/AppInput/AppInput";
 import { CourseProfileDetails } from "../../components/Course/CourseProfileDetails";
@@ -24,6 +24,7 @@ import { insertCourse } from "../../redux/courseSlice";
 import userSlice from "../../redux/userSlice";
 import { CourseTable } from "../../sections/table/course-table";
 import { isEmpty } from "lodash";
+import { ROLE } from "../../constants/constants";
 
 const ListCourse = ({ data }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -34,6 +35,9 @@ const ListCourse = ({ data }) => {
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
+
+  const user = useSelector((state) => state.authen.user);
+  const isDisabled = user?.role_id !== ROLE.ADMIN;
 
   const [values, setValues] = useState({
     avatar_url: "",
@@ -204,18 +208,20 @@ const ListCourse = ({ data }) => {
                     <></>
                   )}
                 </Stack>
-                <Button
-                  onClick={() => {
-                    setIsOpenModal(true);
-                  }}
-                  variant="contained"
-                  color="primary"
-                >
-                  <SvgIcon sx={{ mr: 1 }}>
-                    <PlusIcon />
-                  </SvgIcon>
-                  Thêm mới khóa học
-                </Button>
+                {!isDisabled && (
+                  <Button
+                    onClick={() => {
+                      setIsOpenModal(true);
+                    }}
+                    variant="contained"
+                    color="primary"
+                  >
+                    <SvgIcon sx={{ mr: 1 }}>
+                      <PlusIcon />
+                    </SvgIcon>
+                    Thêm mới khóa học
+                  </Button>
+                )}
               </div>
             </Card>
             {courses.length > 0 ? (
@@ -226,6 +232,7 @@ const ListCourse = ({ data }) => {
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                isDisabled={isDisabled}
               />
             ) : (
               <>

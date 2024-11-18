@@ -13,8 +13,9 @@ public class CourseDAO
             using var context = new SeedCenterContext();
             listCourses = context.Courses
                 .Include(x => x.Classes)
+                .OrderByDescending(x => x.CourseId)
                 .ToList();
-           
+
         }
         catch (Exception e)
         {
@@ -31,19 +32,21 @@ public class CourseDAO
                 .Include(u => u.Classes)
                 .SingleOrDefault(x => x.CourseId == id);
 
-
+            if (course is null) return null;
             var classes = new List<Class>();
             foreach (var item in course.Classes)
             {
                 var account = context.Accounts.SingleOrDefault(x => x.Email == item.TeacherEmail);
                 var classMembers = context.ClassMembers.Where(x => x.ClassId == item.ClassId).ToList();
+                var registrationForms = context.RegistrationForms.Where(x => x.ClassId == item.ClassId).ToList();
 
                 item.ClassMembers = classMembers;
                 item.TeacherEmailNavigation = account;
+                item.RegistrationForms = registrationForms;
                 classes.Add(item);
             }
-
             course.Classes = classes;
+
             return course;
         }
         catch (Exception e)
@@ -75,7 +78,7 @@ public class CourseDAO
 
 
             var exist = context.Courses.FirstOrDefault(x => x.CourseId == c.CourseId);
-            if(exist is not null)
+            if (exist is not null)
             {
                 exist.CourseName = c.CourseName;
                 exist.Code = c.Code;
@@ -90,7 +93,7 @@ public class CourseDAO
 
                 slots.ForEach(x => x.NumberOfSlots = c.NumberOfSlots ?? 1);
 
-                
+
 
                 context.SaveChanges();
             }
@@ -130,8 +133,8 @@ public class CourseDAO
         try
         {
             using var context = new SeedCenterContext();
-            var any = context.UserCourses.Any(x =>  x.CourseId == uc.CourseId && x.Email == uc.Email);
-            if(!any)
+            var any = context.UserCourses.Any(x => x.CourseId == uc.CourseId && x.Email == uc.Email);
+            if (!any)
             {
                 context.UserCourses.Add(uc);
                 context.SaveChanges();

@@ -165,14 +165,14 @@ export const routes = [
     isPrivate: true,
     component: <AdminCourseDetailsPage />,
     exact: true,
-    roles: [ROLE.ADMIN, ROLE.STAFF],
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_COURSE_PAGE,
     isPrivate: true,
     component: <AdminCoursesPage />,
     exact: true,
-    roles: [ROLE.ADMIN, ROLE.STAFF],
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
   {
     path: ROUTE_CONSTANTS.ADMIN_CONTACT_PAGE,
@@ -238,7 +238,7 @@ export const routes = [
     isPrivate: true,
     component: <EditClassPage />,
     exact: true,
-    roles: [ROLE.ADMIN, ROLE.STAFF],
+    roles: [ROLE.ADMIN, ROLE.STAFF, ROLE.TEACHER],
   },
 
   {

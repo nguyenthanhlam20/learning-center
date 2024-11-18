@@ -71,6 +71,9 @@ const registrationFormSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
+    setIsRefresh: (state, action) => {
+      state.isRefresh = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getRegistrationForms.fulfilled, (state, action) => {
@@ -109,7 +112,7 @@ const registrationFormSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
 
     builder.addCase(confirmForm.fulfilled, (state, action) => {
@@ -121,7 +124,7 @@ const registrationFormSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(successForm.fulfilled, (state, action) => {
       console.log(action.payload);
@@ -132,7 +135,7 @@ const registrationFormSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
     builder.addCase(pendingForm.fulfilled, (state, action) => {
       console.log(action.payload);
@@ -143,7 +146,7 @@ const registrationFormSlice = createSlice({
       } else {
         toast.error(message);
       }
-      state.isRefresh = true;
+      state.isRefresh = success;
     });
   },
 });

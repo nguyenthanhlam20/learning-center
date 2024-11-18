@@ -15,21 +15,26 @@ import { useState } from "react";
 import Breadcrumb from "../../components/Common/Breadcrumb";
 import SmoothScrollUp from "../../components/Common/SmoothScrollUp";
 import RegisterDialog from "./register";
-import { insertRegistrationForm } from "../../redux/registrationFormSlice";
-import { useDispatch } from "react-redux";
+import registrationFormSlice, {
+  insertRegistrationForm,
+} from "../../redux/registrationFormSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Status } from "../../constants/status";
 import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { isValidPhoneNumber } from "../../helpers/validation";
+import Badge from "../../components/Badge";
 
 const CourseDetails = ({ course, user }) => {
   console.log("course", course);
   const dispatch = useDispatch();
+
   const formattedPrice = course?.price?.toLocaleString("vi-VN", {
     style: "currency",
     currency: "VND",
   });
+
   const dialogRef = React.useRef(null);
   const [values, setValues] = useState({
     classId: "",
@@ -84,8 +89,13 @@ const CourseDetails = ({ course, user }) => {
     dispatch(insertRegistrationForm(values));
     if (dialogRef.current) {
       dialogRef.current.closeDialog();
+      // window.location.reload();
     }
   };
+
+  React.useEffect(() => {
+    document.getElementById("scroll-to").scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   const handleOpenDialog = (classId, className) => {
     handleChangeValue("classId", classId);
@@ -94,6 +104,17 @@ const CourseDetails = ({ course, user }) => {
       dialogRef.current.openDialog();
     }
   };
+  const isRefresh = useSelector((state) => state.registrationForm.isRefresh);
+
+  const { setIsRefresh } = registrationFormSlice.actions;
+
+  console.log("isRefresh", isRefresh);
+  React.useEffect(() => {
+    if (isRefresh === true) {
+      window.location.reload();
+      dispatch(setIsRefresh(false));
+    }
+  }, [isRefresh]);
 
   return (
     <>
@@ -103,6 +124,7 @@ const CourseDetails = ({ course, user }) => {
         description={"Xem thông tin về khóa học"}
       />
       <Stack
+        id="scroll-to"
         sx={{
           width: "100%",
           padding: "100px",
@@ -171,7 +193,9 @@ const CourseDetails = ({ course, user }) => {
                     </TableCell>
                     <TableCell sx={{ fontWeight: "bold" }}>Buổi học</TableCell>
                     <TableCell sx={{ fontWeight: "bold" }}>Còn lại</TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>Hành động</TableCell>
+                    <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                      Hành động
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -181,6 +205,15 @@ const CourseDetails = ({ course, user }) => {
 
                     const endTime =
                       dayjs().format("YYYY-MM-DD") + " " + row?.endTime;
+
+                    console.log("rows", row);
+                    const isRegistered = row?.registrationForms?.find(
+                      (x) =>
+                        x?.studentEmail === user?.email &&
+                        x?.classId === row?.classId &&
+                        x?.status !== Status.CANCEL
+                    );
+
                     return (
                       <TableRow>
                         <TableCell>
@@ -201,14 +234,18 @@ const CourseDetails = ({ course, user }) => {
                         <TableCell>
                           {row.classMembers.length + "/" + row.numberOfStudent}
                         </TableCell>
-                        <TableCell>
-                          <Button
-                            onClick={() =>
-                              handleOpenDialog(row.classId, row.className)
-                            }
-                          >
-                            Đăng ký
-                          </Button>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          {isRegistered ? (
+                            <Badge text={"Đã đăng ký"} color={"#0288d1"} />
+                          ) : (
+                            <Button
+                              onClick={() =>
+                                handleOpenDialog(row.classId, row.className)
+                              }
+                            >
+                              Đăng ký
+                            </Button>
+                          )}
                         </TableCell>
                       </TableRow>
                     );

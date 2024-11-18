@@ -22,6 +22,7 @@ import { addScore, getClassMember } from "../../redux/classMemberSlice";
 import { updateInfo } from "../../redux/userSlice";
 import AddGradeDialog from "./add-grade";
 import AppInputPhone from "../../components/AppInput/AppInputPhone";
+import { ROLE } from "../../constants/constants";
 
 function EditClassMemberPage() {
   const location = useLocation();
@@ -37,6 +38,9 @@ function EditClassMemberPage() {
   const grade = classMember?.student?.grades?.find(
     (x) => x.classId === classMember.classId
   );
+
+  const user = useSelector((state) => state.authen.user);
+  const isDisabled = user?.role_id !== ROLE.TEACHER;
 
   React.useEffect(() => {
     dispatch(getClassMember({ email, classId }));
@@ -253,14 +257,16 @@ function EditClassMemberPage() {
             <Typography variant="h6" fontWeight={600}>
               Điểm môn học
             </Typography>
-            <Button
-              onClick={handleOpenDialog}
-              color="primary"
-              variant="contained"
-              size="small"
-            >
-              <SvgIcon>{grade ? <PencilIcon /> : <PlusIcon />}</SvgIcon>
-            </Button>
+            {!isDisabled && (
+              <Button
+                onClick={handleOpenDialog}
+                color="primary"
+                variant="contained"
+                size="small"
+              >
+                <SvgIcon>{grade ? <PencilIcon /> : <PlusIcon />}</SvgIcon>
+              </Button>
+            )}
           </Stack>
           {grade && (
             <Stack direction={"column"} spacing={2}>

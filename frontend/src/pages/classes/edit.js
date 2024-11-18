@@ -12,6 +12,7 @@ import { getCourses } from "../../redux/courseSlice";
 import { getStaffs, getTeachers } from "../../redux/userSlice";
 import { isEmpty } from "lodash";
 import { toast } from "react-toastify";
+import { ROLE } from "../../constants/constants";
 
 export default function EditClassPage() {
   const location = useLocation();
@@ -19,6 +20,10 @@ export default function EditClassPage() {
   const classId = params.get("classId");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.authen.user);
+  const isDisabled = user?.role_id !== ROLE.ADMIN;
+  const isRefresh = useSelector((state) => state.classes.isRefresh);
 
   const specificClass = useSelector((state) => state.classes.specific);
   const staffs = useSelector((state) => state.user.staffs);
@@ -137,9 +142,14 @@ export default function EditClassPage() {
         endTime: dayjs(values.endTime.toDate()).format("HH:mm:ss"),
       })
     );
-
-    navigate(ROUTE_CONSTANTS.CLASS.INDEX);
   };
+
+  useEffect(() => {
+    if (isRefresh === true) {
+      navigate(ROUTE_CONSTANTS.CLASS.INDEX);
+    }
+  }, [isRefresh]);
+
   return (
     <Stack direction={"row"} spacing={3} className="my-4 ml-72 p-4">
       <Box
@@ -161,6 +171,7 @@ export default function EditClassPage() {
             courses={courses}
             width="100%"
             direction="row"
+            isDisabled={isDisabled}
           />
           <Divider />
 
@@ -176,17 +187,19 @@ export default function EditClassPage() {
               </SvgIcon>
               Quay trở lại
             </Button>
-            <Button
-              onClick={handleSubmitClass}
-              color="primary"
-              variant="contained"
-              className="w-full"
-            >
-              <SvgIcon className="mr-2">
-                <Check />
-              </SvgIcon>
-              Lưu
-            </Button>
+            {!isDisabled && (
+              <Button
+                onClick={handleSubmitClass}
+                color="primary"
+                variant="contained"
+                className="w-full"
+              >
+                <SvgIcon className="mr-2">
+                  <Check />
+                </SvgIcon>
+                Lưu
+              </Button>
+            )}
           </Stack>
         </Stack>
       </Box>

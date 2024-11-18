@@ -22,6 +22,7 @@ import { getInitials } from "../../utils/get-initials";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
 import { useNavigate } from "react-router-dom";
+import { Info } from "@mui/icons-material";
 
 export const CourseTable = (props) => {
   const {
@@ -31,6 +32,7 @@ export const CourseTable = (props) => {
     onRowsPerPageChange,
     page = 0,
     rowsPerPage = 0,
+    isDisabled,
   } = props;
 
   const navigate = useNavigate();
@@ -104,7 +106,7 @@ export const CourseTable = (props) => {
                           size="small"
                         >
                           <SvgIcon>
-                            <PencilIcon />
+                            {isDisabled ? <Info /> : <PencilIcon />}
                           </SvgIcon>
                         </Button>
                       </TableCell>

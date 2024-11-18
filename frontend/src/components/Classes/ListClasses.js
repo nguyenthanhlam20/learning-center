@@ -15,8 +15,8 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { capitalize, isEmpty } from "lodash";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { insertClass } from "../../redux/classSlice";
 import userSlice from "../../redux/userSlice";
@@ -36,6 +36,7 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
   );
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
+  const isRefresh = useSelector((state) => state.classes.isRefresh);
 
   const headers = [
     { label: "Mã khóa học", key: "course.code" },
@@ -186,26 +187,32 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
         endTime: dayjs(values.endTime.toDate()).format("HH:mm:ss"),
       })
     );
-    setValues({
-      courseId: 0,
-      classCode: "",
-      className: "",
-      startDate: "",
-      endDate: "",
-      numberOfStudent: 1,
-      numberOfSlots: 1,
-      staffEmail: "",
-      teacherEmail: "",
-      room: "",
-      status: true,
-      daysOfWeek: "",
-      startTime: dayjs(new Date().toString()),
-      endTime: dayjs(new Date().toString()),
-    });
 
-    setIsOpenModal(false);
     // console.log(values);
   };
+
+  useEffect(() => {
+    if (isRefresh === true) {
+      setValues({
+        courseId: 0,
+        classCode: "",
+        className: "",
+        startDate: "",
+        endDate: "",
+        numberOfStudent: 1,
+        numberOfSlots: 1,
+        staffEmail: "",
+        teacherEmail: "",
+        room: "",
+        status: true,
+        daysOfWeek: "",
+        startTime: dayjs(new Date().toString()),
+        endTime: dayjs(new Date().toString()),
+      });
+
+      setIsOpenModal(false);
+    }
+  }, [isRefresh]);
 
   const handleChangeSearchTerm = (key, value) => {
     setSearchTerm({

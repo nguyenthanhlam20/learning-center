@@ -15,7 +15,7 @@ const registrationFormServices = {
     return response.data;
   },
   getRegistrationFormsByUser: async (studentEmail) => {
-    console.log("get registration forms");
+    console.log("get registration forms",studentEmail);
 
     const response = await axios.get(
       API.MANAGE_REGISTRATION_FORM +

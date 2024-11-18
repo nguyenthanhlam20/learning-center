@@ -127,6 +127,15 @@ export const staffRoutes = [
     ),
   },
   {
+    title: "Quản lý khóa học",
+    path: "/authen/course",
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Quản lý lớp học",
     path: ROUTE_CONSTANTS.CLASS.INDEX,
     icon: (
@@ -189,6 +198,15 @@ export const teacherRoutes = [
     icon: (
       <SvgIcon fontSize="small">
         <Info />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Quản lý khóa học",
+    path: "/authen/course",
+    icon: (
+      <SvgIcon fontSize="small">
+        <BookOpenIcon />
       </SvgIcon>
     ),
   },
