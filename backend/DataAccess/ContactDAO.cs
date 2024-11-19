@@ -17,7 +17,8 @@ namespace DataAccess
             {
                 using (var context = new SeedCenterContext())
                 {
-                    listContacts = context.Contacts.ToList();
+                    listContacts = context.Contacts
+                        .OrderBy(x => x.Status ).ToList();
                 }
             }
             catch (Exception e)

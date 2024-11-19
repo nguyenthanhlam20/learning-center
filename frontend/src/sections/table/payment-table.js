@@ -55,6 +55,7 @@ export const PaymentTable = (props) => {
                 <TableRow>
                   <TableCell>Mã hóa đơn</TableCell>
                   <TableCell>Khóa học</TableCell>
+                  <TableCell>Lớp học</TableCell>
                   <TableCell>Giá</TableCell>
                   <TableCell>Ngày mua</TableCell>
                   <TableCell>Trạng thái</TableCell>
@@ -68,14 +69,14 @@ export const PaymentTable = (props) => {
                       <TableCell>{getInvoiceId(payment?.paymentId)}</TableCell>
                       <TableCell>
                         <Typography sx={{ width: 150 }} variant="subtitle2">
-                          {
-                            courses?.find(
-                              (c) => c.course_id === payment?.course?.course_id
-                            ).course_name
-                          }
+                          {payment?.course?.course_name}
                         </Typography>
                       </TableCell>
-
+                      <TableCell>
+                        <Typography sx={{ width: 150 }} variant="subtitle2">
+                          {payment?.class?.className}
+                        </Typography>
+                      </TableCell>
                       <TableCell>
                         {new Intl.NumberFormat("vi-VN").format(
                           Number(payment?.amount)

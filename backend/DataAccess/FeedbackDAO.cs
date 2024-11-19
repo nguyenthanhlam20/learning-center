@@ -24,7 +24,7 @@ namespace DataAccess
             }
             catch (Exception e)
             {
-                throw;
+                
             }
             return fb;
         }
@@ -39,12 +39,13 @@ namespace DataAccess
                     fb = context.Feedbacks
                         .Include(x => x.Course)
                     .Include(x => x.Class)
-                    .Include(x => x.EmailNavigation).ToList();
+                    .Include(x => x.EmailNavigation)
+                    .ToList();
                 }
             }
             catch (Exception e)
             {
-                throw;
+                
             }
             return fb;
         }
@@ -70,7 +71,7 @@ namespace DataAccess
             }
             catch (Exception e)
             {
-                throw;
+                
             }
         }
         public static void UpdateFeedback(Feedback fb)
@@ -86,7 +87,7 @@ namespace DataAccess
             }
             catch (Exception e)
             {
-                throw;
+                
             }
         }
     }

@@ -44,6 +44,8 @@ function EditAccount() {
 
   const account = useSelector((state) => state.user.specific);
 
+  const disabled = user?.role_id !== ROLE.ADMIN;
+
   // Separate classes into three categories
   const pastClasses = [];
   const ongoingClasses = [];
@@ -188,12 +190,14 @@ function EditAccount() {
               value={values?.gender}
               handleChangeValue={handleChangeValue}
             />
-            <AppCheckBox
-              value={values?.status}
-              handleChangeValue={handleChangeValue}
-              title={"status"}
-              placeholder={"Active"}
-            />
+            {!disabled && (
+              <AppCheckBox
+                value={values?.status}
+                handleChangeValue={handleChangeValue}
+                title={"status"}
+                placeholder={"Active"}
+              />
+            )}
             <Divider />
             <Stack spacing={2} direction={"row"} justifyContent={"end"}>
               <Button

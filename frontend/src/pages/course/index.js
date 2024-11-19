@@ -12,10 +12,12 @@ const CoursePage = () => {
     dispatch(getCourses());
   }, []);
 
+  const c = courses?.filter((x) => x.status === true) ?? [];
+
   return (
     <>
       <SmoothScrollUp />
-      <CourseList data={courses} />
+      <CourseList data={c} />
     </>
   );
 };

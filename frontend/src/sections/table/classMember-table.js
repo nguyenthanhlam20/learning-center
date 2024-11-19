@@ -121,7 +121,7 @@ export const ClassMemberTable = (props) => {
                       </TableCell>
                       <TableCell>{classMember.student.phone}</TableCell>
                       <TableCell>{classMember.enrollmentDate}</TableCell>
-                      <TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
                         <Stack direction={"row"} spacing={2}>
                           <Button
                             onClick={() =>
@@ -138,7 +138,7 @@ export const ClassMemberTable = (props) => {
                               <PencilIcon />
                             </SvgIcon>
                           </Button>
-                          <Button
+                          {/* <Button
                             onClick={() =>
                               handleRemoveClassMember(
                                 classMember.studentEmail,
@@ -152,7 +152,7 @@ export const ClassMemberTable = (props) => {
                             <SvgIcon>
                               <Delete />
                             </SvgIcon>
-                          </Button>
+                          </Button> */}
                         </Stack>
                       </TableCell>
                     </TableRow>

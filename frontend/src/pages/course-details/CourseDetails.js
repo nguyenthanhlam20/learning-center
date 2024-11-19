@@ -157,6 +157,7 @@ const CourseDetails = ({ course, user }) => {
               }}
             />
           </div>
+          <p className="text-center">{course?.description}</p>
         </Stack>
         <Stack direction={"column"} spacing={3}>
           <h6

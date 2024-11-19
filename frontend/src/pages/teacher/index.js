@@ -15,11 +15,12 @@ const TeacherPage = () => {
   React.useEffect(() => {
     dispatch(getUsers(ROLE.TEACHER));
   }, [dispatch, isRefreshCourse]);
+  const a = accounts?.filter((x) => x.status === true) ?? [];
 
   return (
     <>
       <SmoothScrollUp />
-      <TeacherList data={accounts} />
+      <TeacherList data={a} />
     </>
   );
 };

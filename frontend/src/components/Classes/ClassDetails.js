@@ -17,6 +17,10 @@ export const ClassDetails = ({
   direction = "row",
   isDisabled,
 }) => {
+  const c = courses?.filter((x) => x.status === true) ?? [];
+  const t = teachers?.filter((x) => x.status === true) ?? [];
+  const s = staffs?.filter((x) => x.status === true) ?? [];
+
   return (
     <Stack spacing={2} width={width}>
       <Stack direction={direction} gap={3}>
@@ -100,7 +104,7 @@ export const ClassDetails = ({
       <AppSelect
         disabled={isDisabled}
         value={values?.courseId}
-        data={courses}
+        data={c}
         title={"courseId"}
         display={"course_name"}
         placeholder={"Chọn khóa học"}
@@ -111,7 +115,7 @@ export const ClassDetails = ({
       <AppSelect
         disabled={isDisabled}
         value={values?.staffEmail}
-        data={staffs}
+        data={s}
         title={"staffEmail"}
         display={"name"}
         display2={"email"}
@@ -122,7 +126,7 @@ export const ClassDetails = ({
       <AppSelect
         disabled={isDisabled}
         value={values?.teacherEmail}
-        data={teachers}
+        data={t}
         title={"teacherEmail"}
         display={"name"}
         display2={"email"}
