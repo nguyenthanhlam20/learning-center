@@ -22,6 +22,7 @@ import { getInitials } from "../../utils/get-initials";
 import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export const AccountTable = (props) => {
   const {
@@ -78,7 +79,7 @@ export const AccountTable = (props) => {
                       <TableCell>{account.address}</TableCell>
                       <TableCell>
                         {account.date_of_birth &&
-                          new Date(account?.date_of_birth).toLocaleDateString()}
+                          dayjs(account?.date_of_birth).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell>{account.gender ? "Nam" : "Nữ"}</TableCell>
                       <TableCell>{account.phone}</TableCell>

@@ -18,6 +18,7 @@ import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { Info, People } from "@mui/icons-material";
 import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export const ClassTableMini = ({ items }) => {
   const navigate = useNavigate();
@@ -73,11 +74,11 @@ export const ClassTableMini = ({ items }) => {
                 </TableCell>
                 <TableCell>
                   {classes.startDate &&
-                    new Date(classes?.startDate).toLocaleDateString()}
+                    dayjs(classes?.startDate).format("DD/MM/YYYY")}
                 </TableCell>
                 <TableCell>
                   {classes.endDate &&
-                    new Date(classes?.endDate).toLocaleDateString()}
+                    dayjs(classes?.endDate).format("DD/MM/YYYY")}
                 </TableCell>
 
                 <TableCell

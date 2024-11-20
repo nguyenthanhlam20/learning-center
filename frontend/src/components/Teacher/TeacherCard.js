@@ -64,7 +64,7 @@ const TeacherCard = ({ teacher }) => {
         <p className="mb-6 h-20 max-h-20 overflow-auto border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
           {description}
         </p>
-        <div className="row mb-1 mt-7 flex border-b border-body-color border-opacity-10 dark:border-white dark:border-opacity-10">
+        {/* <div className="row mb-1 mt-7 flex border-b border-body-color border-opacity-10 dark:border-white dark:border-opacity-10">
           <button
             onClick={() => handleGoToTeacher()}
             className="mr-3 flex w-full items-center justify-center rounded-md bg-cteal p-3 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
@@ -74,7 +74,7 @@ const TeacherCard = ({ teacher }) => {
             </SvgIcon>
             Chi tiết
           </button>
-        </div>
+        </div> */}
         <div className="absolute bottom-0 right-0 z-[-1]">
           <svg
             width="179"

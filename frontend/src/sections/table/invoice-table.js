@@ -19,6 +19,7 @@ import {
 import EyeIcon from "@heroicons/react/24/solid/EyeIcon";
 
 import { Scrollbar } from "../../components/ScrollBar";
+import dayjs from "dayjs";
 
 export const InvoiceTable = (props) => {
   const {
@@ -86,7 +87,7 @@ export const InvoiceTable = (props) => {
                         ) + "₫"}
                       </TableCell>
                       <TableCell>
-                        {new Date(invoice?.paymentDate).toLocaleDateString()}
+                        {dayjs(invoice?.paymentDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell>{invoice?.paymentMethod}</TableCell>
                       <TableCell sx={{ width: 150 }}>

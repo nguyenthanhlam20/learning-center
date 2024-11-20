@@ -116,6 +116,8 @@ const CourseDetails = ({ course, user }) => {
     }
   }, [isRefresh]);
 
+  const c = course?.classes?.filter((x) => x.status === true);
+
   return (
     <>
       <SmoothScrollUp />
@@ -170,7 +172,7 @@ const CourseDetails = ({ course, user }) => {
             Danh sách lớp
           </h6>
 
-          {course?.classes?.length > 0 ? (
+          {c?.length > 0 ? (
             <TableContainer
               component={Paper}
               sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" }}
@@ -200,7 +202,7 @@ const CourseDetails = ({ course, user }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {course?.classes?.map((row) => {
+                  {c?.map((row) => {
                     const startTime =
                       dayjs().format("YYYY-MM-DD") + " " + row?.startTime;
 
@@ -224,8 +226,14 @@ const CourseDetails = ({ course, user }) => {
                         <TableCell>
                           {row?.teacherEmailNavigation?.name}
                         </TableCell>
-                        <TableCell>{row.startDate}</TableCell>
-                        <TableCell>{row.endDate}</TableCell>
+                        <TableCell>
+                          {row.startDate &&
+                            dayjs(row?.startDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell>
+                          {row.endDate &&
+                            dayjs(row?.endDate).format("DD/MM/YYYY")}
+                        </TableCell>
                         <TableCell>
                           {dayjs(startTime).format("HH:mm A") +
                             " - " +

@@ -35,6 +35,7 @@ import {
 } from "../../redux/registrationFormSlice";
 import { getInitials } from "../../utils/get-initials";
 import getStatus from "../../utils/get-status";
+import dayjs from "dayjs";
 
 export const RegistrationTable = (props) => {
   const dispatch = useDispatch();
@@ -171,7 +172,9 @@ export const RegistrationTable = (props) => {
                           color={getStatus(register.status).color}
                         />
                       </TableCell>
-                      <TableCell>{register.createdDate}</TableCell>
+                      <TableCell>
+                        {dayjs(register.createdDate).format("DD/MM/YYYY")}
+                      </TableCell>
                       <TableCell
                         sx={{
                           textAlign: "center",

@@ -21,6 +21,7 @@ import { People, PeopleOutline } from "@mui/icons-material";
 import { Stack } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export const ClassTable = (props) => {
   const {
@@ -43,6 +44,9 @@ export const ClassTable = (props) => {
   const navigateToClassMemberPage = (classId) => {
     navigate(ROUTE_CONSTANTS.CLASS_MEMBER.INDEX + "?classId=" + classId);
   };
+
+  // Enable the customParseFormat plugin
+  dayjs.extend(customParseFormat);
 
   return (
     <>
@@ -134,11 +138,11 @@ export const ClassTable = (props) => {
                       </TableCell>
                       <TableCell>
                         {classes.startDate &&
-                          new Date(classes?.startDate).toLocaleDateString()}
+                          dayjs(classes.startDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell>
                         {classes.endDate &&
-                          new Date(classes?.endDate).toLocaleDateString()}
+                          dayjs(classes.endDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell>{classes.daysOfWeek}</TableCell>
                       <TableCell>
