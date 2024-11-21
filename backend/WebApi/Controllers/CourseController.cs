@@ -46,6 +46,13 @@ namespace WebApi.Controllers
                 return Ok();
         }
 
+        [HttpGet("deactivate-classes")]
+        public IActionResult DeactivateClasses()
+        {
+            repository.DeactivateClasses();
+            return Ok();
+        }
+
         // PUT api/<CourseController>/5
         [HttpPost("update")]
         public ActionResult UpdateCourse(UpdateCourseDTO courseDTO)

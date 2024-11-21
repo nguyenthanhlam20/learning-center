@@ -146,5 +146,24 @@ public class CourseDAO
 
             Console.WriteLine("Error while trying to add new user course: " + e.Message);
         }
+    } 
+    
+    public static void DeactivateClasses()
+    {
+        try
+        {
+            using var context = new SeedCenterContext();
+            var passClasses = context.Classes.Where(x => x.EndDate < DateTime.Now && x.Status == true).ToList();
+            passClasses.ForEach(x => x.Status = false);
+
+            var futureClasses = context.Classes.Where(x => x.EndDate >= DateTime.Now && x.Status == false).ToList();
+            futureClasses.ForEach(x => x.Status = true);
+
+            context.SaveChanges();
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 }

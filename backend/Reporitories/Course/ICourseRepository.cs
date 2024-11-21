@@ -16,5 +16,6 @@ namespace Reporitories
         void UpdateCourse(Course c);
         List<Course> FindCoursesByEmail(string email);
         void CreateUserCourse(UserCourse uc);
+        void DeactivateClasses();
     }
 }

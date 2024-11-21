@@ -10,6 +10,14 @@ export const insertCourse = createAsyncThunk(
   }
 );
 
+export const deactivateClasses = createAsyncThunk(
+  "deactivateClasses",
+  async () => {
+    const response = await courseServices.deactivateClasses();
+    return response;
+  }
+);
+
 export const insertUserCourse = createAsyncThunk(
   "insert-user-course",
   async (userCourse) => {

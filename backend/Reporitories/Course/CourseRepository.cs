@@ -10,16 +10,17 @@ namespace Reporitories
 {
     public class CourseRepository : ICourseRepository
     {
-        public void CreateCourse(Course c) =>CourseDAO.CreateCourse(c);
+        public void CreateCourse(Course c) => CourseDAO.CreateCourse(c);
 
-        public void CreateUserCourse(UserCourse uc)=> CourseDAO.CreateUserCourse(uc);
+        public void CreateUserCourse(UserCourse uc) => CourseDAO.CreateUserCourse(uc);
 
-        public Course FindCourseById(int id) =>CourseDAO.FindCourseById(id);
+        public Course FindCourseById(int id) => CourseDAO.FindCourseById(id);
 
         public List<Course> FindCoursesByEmail(string email) => CourseDAO.FindCoursesByEmail(email);
 
-        public List<Course> GetCourses() =>CourseDAO.GetCourses();
+        public List<Course> GetCourses() => CourseDAO.GetCourses();
 
-        public void UpdateCourse(Course c) =>CourseDAO.UpdateCourse(c);
+        public void UpdateCourse(Course c) => CourseDAO.UpdateCourse(c);
+        public void DeactivateClasses() => CourseDAO.DeactivateClasses();
     }
 }

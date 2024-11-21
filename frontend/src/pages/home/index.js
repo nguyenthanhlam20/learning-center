@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dashboard from "../admin/dashboard";
 import UserHomePage from "../user/home";
 import PublicHomePage from "../public/home";
 import { ROLE } from "../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserCourses } from "../../redux/courseSlice";
+import { deactivateClasses, getUserCourses } from "../../redux/courseSlice";
 import EditAccount from "../account/edit";
 
 const HomePage = () => {
@@ -17,6 +17,11 @@ const HomePage = () => {
       dispatch(getUserCourses({ email: user.email }));
     }
   }, [isRefreshUserCourses]);
+
+  useEffect(() => {
+    console.count("deactivate-classess");
+    dispatch(deactivateClasses());
+  }, []);
 
   return (
     <>

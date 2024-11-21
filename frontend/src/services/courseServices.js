@@ -47,6 +47,11 @@ const courseServices = {
     console.log("update-course-response", response);
     return response.data;
   },
+
+  deactivateClasses: async (course) => {
+    const response = await axios.get(API.MANAGE_COURSE + "/deactivate-classes");
+    return response.data;
+  },
 };
 
 export default courseServices;

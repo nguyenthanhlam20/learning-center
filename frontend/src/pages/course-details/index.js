@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getCourseById } from "../../redux/courseSlice";
+import { deactivateClasses, getCourseById } from "../../redux/courseSlice";
 import CourseDetails from "./CourseDetails";
 
 const CourseDetailPage = () => {
@@ -15,6 +15,10 @@ const CourseDetailPage = () => {
 
   React.useEffect(() => {
     dispatch(getCourseById({ course_id: course_id }));
+  }, []);
+
+  useEffect(() => {
+    dispatch(deactivateClasses());
   }, []);
 
   return <CourseDetails course={course} user={user} />;
