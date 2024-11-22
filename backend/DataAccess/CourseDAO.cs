@@ -156,9 +156,6 @@ public class CourseDAO
             var passClasses = context.Classes.Where(x => x.EndDate < DateTime.Now && x.Status == true).ToList();
             passClasses.ForEach(x => x.Status = false);
 
-            var futureClasses = context.Classes.Where(x => x.EndDate >= DateTime.Now && x.Status == false).ToList();
-            futureClasses.ForEach(x => x.Status = true);
-
             context.SaveChanges();
         }
         catch (Exception e)
