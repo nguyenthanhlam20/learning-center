@@ -32,6 +32,7 @@ namespace BusinessObjects.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             if (!optionsBuilder.IsConfigured)
             {
                 var builder = new ConfigurationBuilder()
@@ -65,7 +66,9 @@ namespace BusinessObjects.Models
                     .HasMaxLength(200)
                     .HasColumnName("address");
 
-                entity.Property(e => e.AvatarUrl).HasColumnName("avatar_url");
+                entity.Property(e => e.AvatarUrl)
+                    .HasMaxLength(1000)
+                    .HasColumnName("avatar_url");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("date")
@@ -75,7 +78,9 @@ namespace BusinessObjects.Models
                     .HasColumnType("date")
                     .HasColumnName("date_of_birth");
 
-                entity.Property(e => e.Description).HasColumnName("description");
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .HasColumnName("description");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
@@ -93,8 +98,6 @@ namespace BusinessObjects.Models
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
-                entity.Property(e => e.YearOfBirth).HasColumnName("year_of_birth");
-
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
@@ -106,11 +109,6 @@ namespace BusinessObjects.Models
             {
                 entity.Property(e => e.ClassId).HasColumnName("class_id");
 
-                entity.Property(e => e.ClassCode)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("class_code");
-
                 entity.Property(e => e.ClassName)
                     .HasMaxLength(200)
                     .HasColumnName("class_name");
@@ -118,7 +116,7 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.DaysOfWeek)
-                    .HasMaxLength(200)
+                    .HasMaxLength(100)
                     .HasColumnName("days_of_week");
 
                 entity.Property(e => e.EndDate)
@@ -159,11 +157,13 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.StaffEmailNavigation)
                     .WithMany(p => p.ClassStaffEmailNavigations)
                     .HasForeignKey(d => d.StaffEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Classes__staff_e__5165187F");
 
                 entity.HasOne(d => d.TeacherEmailNavigation)
                     .WithMany(p => p.ClassTeacherEmailNavigations)
                     .HasForeignKey(d => d.TeacherEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Classes__teacher__52593CB8");
             });
 
@@ -217,13 +217,17 @@ namespace BusinessObjects.Models
                     .HasColumnType("date")
                     .HasColumnName("request_date");
 
-                entity.Property(e => e.RequestMessage).HasColumnName("request_message");
+                entity.Property(e => e.RequestMessage)
+                    .HasMaxLength(500)
+                    .HasColumnName("request_message");
 
                 entity.Property(e => e.ResponseDate)
                     .HasColumnType("date")
                     .HasColumnName("response_date");
 
-                entity.Property(e => e.ResponseMessage).HasColumnName("response_message");
+                entity.Property(e => e.ResponseMessage)
+                    .HasMaxLength(500)
+                    .HasColumnName("response_message");
 
                 entity.Property(e => e.Status).HasColumnName("status");
             });
@@ -239,7 +243,9 @@ namespace BusinessObjects.Models
                     .IsUnicode(false)
                     .HasColumnName("code");
 
-                entity.Property(e => e.CourseAvatarUrl).HasColumnName("course_avatar_url");
+                entity.Property(e => e.CourseAvatarUrl)
+                    .HasMaxLength(1000)
+                    .HasColumnName("course_avatar_url");
 
                 entity.Property(e => e.CourseName)
                     .HasMaxLength(200)
@@ -252,8 +258,6 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.Description)
                     .HasMaxLength(500)
                     .HasColumnName("description");
-
-                entity.Property(e => e.Duration).HasColumnName("duration");
 
                 entity.Property(e => e.Level)
                     .HasMaxLength(100)
@@ -289,16 +293,19 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Feedback__class___5EBF139D");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Feedback_Course");
 
                 entity.HasOne(d => d.EmailNavigation)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.Email)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Feedback__email__534D60F1");
             });
 
@@ -349,11 +356,13 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__GRADES__class_id__5535A963");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.StudentEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__GRADES__student___5629CD9C");
             });
 
@@ -386,16 +395,19 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Payment__class_i__571DF1D5");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Payment__course___5812160E");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.StudentEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Payment__student__59063A47");
             });
 
@@ -459,7 +471,9 @@ namespace BusinessObjects.Models
 
                 entity.Property(e => e.SupportId).HasColumnName("support_id");
 
-                entity.Property(e => e.Message).HasColumnName("message");
+                entity.Property(e => e.Message)
+                    .HasMaxLength(4000)
+                    .HasColumnName("message");
 
                 entity.Property(e => e.SupportName)
                     .HasMaxLength(200)

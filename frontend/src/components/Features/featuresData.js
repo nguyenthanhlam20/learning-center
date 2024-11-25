@@ -12,7 +12,7 @@ const featuresData = [
     ),
     title: "Chương trình học đa dạng",
     paragraph:
-      "Trang web cung cấp các chương trình học tiếng Anh đa dạng và phù hợp với mọi trình độ, từ cơ bản đến nâng cao, giúp người học tiếp cận với nhiều kỹ năng như từ vựng, ngữ pháp, đọc hiểu, viết và giao tiếp.",
+      "Trung tâm cung cấp các chương trình học tiếng Anh đa dạng và phù hợp với mọi trình độ, từ cơ bản đến nâng cao, giúp người học tiếp cận với nhiều kỹ năng như từ vựng, ngữ pháp, đọc hiểu, viết và giao tiếp.",
   },
   {
     id: 1,
@@ -42,7 +42,7 @@ const featuresData = [
     ),
     title: "Kiểm tra và đánh giá trình độ",
     paragraph:
-      "Trang web cung cấp các bài kiểm tra và đánh giá trình độ tiếng Anh để người học đánh giá được sự tiến bộ của mình, từ đó điều chỉnh lộ trình học phù hợp.",
+      "Trung tâm cung cấp các bài kiểm tra và đánh giá trình độ tiếng Anh để người học đánh giá được sự tiến bộ của mình, từ đó điều chỉnh lộ trình học phù hợp.",
   },
   {
     id: 1,
@@ -72,7 +72,7 @@ const featuresData = [
     ),
     title: "Cộng đồng học tập đông đảo",
     paragraph:
-      "Trang web có cộng đồng học tập đông đảo và thân thiện, giúp người học có thể chia sẻ kinh nghiệm, học hỏi từ những người học tiếng Anh khác trên toàn thế giới và tạo ra môi trường học tập tích cực.",
+      "Trung tâm có cộng đồng học tập đông đảo và thân thiện, giúp người học có thể chia sẻ kinh nghiệm, học hỏi từ những người học tiếng Anh khác trên toàn thế giới và tạo ra môi trường học tập tích cực.",
   },
   {
     id: 1,
@@ -87,7 +87,7 @@ const featuresData = [
     ),
     title: "Giáo viên chuyên nghiệp và tận tâm",
     paragraph:
-      "Trang web có đội ngũ giáo viên chuyên nghiệp và tận tâm, sẵn sàng hỗ trợ người học trong quá trình học tập, từ đó giúp cho việc học tiếng Anh trở nên dễ dàng và hiệu quả hơn.",
+      "Trung tâm có đội ngũ giáo viên chuyên nghiệp và tận tâm, sẵn sàng hỗ trợ người học trong quá trình học tập, từ đó giúp cho việc học tiếng Anh trở nên dễ dàng và hiệu quả hơn.",
   },
 ];
 export default featuresData;

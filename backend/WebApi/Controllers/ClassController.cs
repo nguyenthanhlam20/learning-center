@@ -23,7 +23,7 @@ namespace WebApi.Controllers
                 .Include(x => x.ClassMembers)
                 .Include(x => x.TeacherEmailNavigation)
                 .Include(x => x.StaffEmailNavigation)
-                .OrderByDescending(x => x.StartDate)
+                .OrderByDescending(x => x.Status)
                 .ThenByDescending(x => x.EndDate)
                 .ToListAsync();
             var map = _mapper.Map<List<ClassDTO>>(classes);
@@ -101,6 +101,8 @@ namespace WebApi.Controllers
                         return Ok(new ResponseDTO(false, "Lớp học bị trùng lịch với " + result.Item2));
                     }
 
+
+
                     await _context.SaveChangesAsync();
                     return Ok(new ResponseDTO(true, "Chỉnh sửa thông tin lớp thành công"));
                 }
@@ -146,10 +148,16 @@ namespace WebApi.Controllers
         {
             foreach (var otherClass in classes)
             {
-                if (HaveTimeConflict(class1, otherClass))
+                if (HaveTimeConflict(class1, otherClass) && class1.Status && otherClass.Status)
                 {
-                    return (true, otherClass.ClassName); // Conflict found
+                    if (class1.TeacherEmail.Equals(otherClass.TeacherEmail, StringComparison.CurrentCultureIgnoreCase) ||
+                        class1.Room.Equals(otherClass.Room, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return (true, otherClass.ClassName); // Conflict found
+                    }
                 }
+
+
             }
             return (false, ""); // No conflict with any class
         }

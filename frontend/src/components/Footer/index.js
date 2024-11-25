@@ -104,7 +104,7 @@ const Footer = () => {
 
                   <li>
                     <Link
-                      to="/"
+                      to={ROUTE_CONSTANTS.COURSE_PAGE}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
                       Khóa học
@@ -117,23 +117,23 @@ const Footer = () => {
             <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
               <div className="mb-12 lg:mb-16">
                 <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Thuật Ngữ
+                  Giải Đáp Thắc Mắc
                 </h2>
                 <ul>
                   <li>
                     <Link
-                      to={ROUTE_CONSTANTS.ERROR_PAGE}
+                      to={ROUTE_CONSTANTS.SUPPORT_PAGE}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      Chính sách
+                      Hỗ Trợ
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to="/"
+                      to={ROUTE_CONSTANTS.CONTACT_PAGE}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      Điều khoản
+                      Liên Hệ
                     </Link>
                   </li>
                 </ul>
@@ -143,23 +143,23 @@ const Footer = () => {
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-3/12">
               <div className="mb-12 lg:mb-16">
                 <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Hỗ Trợ Và Giải Đáp
+                  Đăng Ký Ngay
                 </h2>
                 <ul>
                   <li>
                     <Link
-                      to="/"
+                      to={ROUTE_CONSTANTS.SIGN_IN}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      Hỗ Trợ
+                      Đăng nhập
                     </Link>
                   </li>
                   <li>
                     <Link
-                      to="/"
+                      to={ROUTE_CONSTANTS.SIGN_UP}
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      Liên Hệ
+                      Đăng ký
                     </Link>
                   </li>
                 </ul>

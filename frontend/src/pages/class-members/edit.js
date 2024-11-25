@@ -113,7 +113,7 @@ function EditClassMemberPage() {
   };
 
   const handleCancel = () => {
-    navigate(ROUTE_CONSTANTS.ADMIN.STAFF_PAGE);
+    navigate(ROUTE_CONSTANTS.CLASS_MEMBER.INDEX + "?classId=" + classId);
   };
 
   const handleSubmitAccount = () => {

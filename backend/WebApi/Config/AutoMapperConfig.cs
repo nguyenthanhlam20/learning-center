@@ -60,12 +60,12 @@ namespace WebApi.Config
                 config.CreateMap<AddClassDTO, Class>();
 
                 config.CreateMap<ClassMember, ClassMemberDTO>()
-                    .ForMember(dest => dest.EnrollmentDate, opt => opt.MapFrom(src => src.EnrollmentDate!.Value.ToString("yyyy-MM-dd")))
+                    .ForMember(dest => dest.EnrollmentDate, opt => opt.MapFrom(src => src.EnrollmentDate.ToString("yyyy-MM-dd")))
 ;
                 config.CreateMap<AddMemberClassDTO, ClassMember>();
 
                 config.CreateMap<RegistrationForm, RegistrationFormDTO>()
-                            .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate!.Value.ToString("yyyy-MM-dd")));
+                            .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate.ToString("yyyy-MM-dd")));
 
                 config.CreateMap<AddRegistrationFormDTO, RegistrationForm>();
 

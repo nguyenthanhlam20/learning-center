@@ -28,7 +28,7 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
             .Include(x => x.Course)
             .Include(x => x.StudentEmailNavigation)
             .OrderBy(x => x.Status)
-            .ThenByDescending(x => x.CreatedDate)
+            .ThenBy(x => x.CreatedDate)
             .ToListAsync();
         var map = _mapper.Map<List<RegistrationFormDTO>>(list);
         return map;
@@ -44,6 +44,8 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
             .Include(x => x.Course)
             .Include(x => x.StudentEmailNavigation)
             .Where(x => x.StudentEmail == studentEmail)
+            .OrderBy(x => x.Status)
+            .ThenByDescending(x => x.CreatedDate)
             .ToListAsync();
             var map = _mapper.Map<List<RegistrationFormDTO>>(list);
             return map;
@@ -184,16 +186,17 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
                     StudentEmail = register.StudentEmail,
                     PaymentDate = DateTime.Now,
                     PaymentMethod = "Tiền mặt",
-                    Amount = (decimal)(register.Course.Price ?? 0),
+                    Amount = (decimal)(register.Course.Price),
                 }); ;
-            } else
+            }
+            else
             {
                 payment.CourseId = register.CourseId;
                 payment.ClassId = register.ClassId;
                 payment.StudentEmail = register.StudentEmail;
                 payment.PaymentDate = DateTime.Now;
                 payment.PaymentMethod = "Tiền mặt";
-                payment.Amount = (decimal)(register.Course.Price ?? 0);
+                payment.Amount = (decimal)(register.Course.Price);
             }
 
             var existClassMember = await _context.ClassMembers

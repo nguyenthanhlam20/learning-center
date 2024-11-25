@@ -7,7 +7,7 @@ namespace BusinessObjects.Models
     {
         public int CourseId { get; set; }
         public string Email { get; set; } = null!;
-        public DateTime? EnrolledDate { get; set; }
+        public DateTime EnrolledDate { get; set; }
 
         public virtual Course Course { get; set; } = null!;
         public virtual Account EmailNavigation { get; set; } = null!;

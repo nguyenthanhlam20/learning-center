@@ -11,7 +11,7 @@ const AppSelect = ({
   handleChangeValue,
   disabled,
 }) => {
-  // console.log("datd: ", data);
+  console.log("value: ", value);
   return (
     <FormControl fullWidth>
       <InputLabel sx={{ p: 0, m: 0 }} id="demo-simple-select-label">

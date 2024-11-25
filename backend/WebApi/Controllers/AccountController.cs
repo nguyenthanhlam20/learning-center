@@ -51,6 +51,7 @@ namespace WebApi.Controllers
             // Map dto to account
             Account acc = _mapper.Map<Account>(accountDTO);
             acc.RoleId = 4;
+            acc.CreatedDate = DateTime.Now;
             bool status = repository.SignUp(acc);
 
             Console.Write(status);
@@ -120,6 +121,7 @@ namespace WebApi.Controllers
                 if (account is not null) return Ok(new ResponseDTO(false, "Tài khoản email đã tồn tại trong hệ thống"));
 
                 Account acc = _mapper.Map<Account>(accountDTO);
+                acc.CreatedDate = DateTime.Now;
                 var success = repository.InsertAccount(acc);
 
                 if (success == true) 

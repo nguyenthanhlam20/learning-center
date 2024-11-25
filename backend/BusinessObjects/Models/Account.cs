@@ -23,7 +23,6 @@ namespace BusinessObjects.Models
         public string? AvatarUrl { get; set; }
         public string? Phone { get; set; }
         public string? Address { get; set; }
-        public int? YearOfBirth { get; set; }
         public bool? Gender { get; set; }
         public int RoleId { get; set; }
         public bool? ActiveStatus { get; set; }

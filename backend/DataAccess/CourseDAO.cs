@@ -13,7 +13,8 @@ public class CourseDAO
             using var context = new SeedCenterContext();
             listCourses = context.Courses
                 .Include(x => x.Classes)
-                .OrderByDescending(x => x.CourseId)
+                .OrderByDescending(x => x.Status)
+                .ThenByDescending(x => x.CourseId)
                 .ToList();
 
         }
