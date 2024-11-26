@@ -20,7 +20,7 @@ namespace WebApi.Controllers
         {
             var classes = await _context.Classes
                 .Include(x => x.Course)
-                .Include(x => x.ClassMembers)
+                .Include(x => x.ClassMembers.Where(s => s.Status == true))
                 .Include(x => x.TeacherEmailNavigation)
                 .Include(x => x.StaffEmailNavigation)
                 .OrderByDescending(x => x.Status)
@@ -38,7 +38,7 @@ namespace WebApi.Controllers
                 .Include(x => x.Course)
                 .Include(x => x.TeacherEmailNavigation)
                 .Include(x => x.StaffEmailNavigation)
-                .Include(x => x.ClassMembers)
+                .Include(x => x.ClassMembers.Where(s => s.Status == true))
                 .Include(x => x.Grades)
                 .Where(x => x.ClassMembers.Any(m => m.StudentEmail == email))
                  .OrderByDescending(x => x.StartDate)

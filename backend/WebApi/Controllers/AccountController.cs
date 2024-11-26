@@ -160,7 +160,7 @@ namespace WebApi.Controllers
             var teacherClasses = _mapper.Map<List<ClassDTO>>(account.ClassTeacherEmailNavigations);
             var classMembers = new List<ClassDTO>();
 
-            var members = account.ClassMembers;
+            var members = account.ClassMembers.Where(x => x.Status == true);
             foreach (var member in members)
             {
                 var specificClass = _context.Classes.FirstOrDefault(c => c.ClassId == member.ClassId);
@@ -193,7 +193,7 @@ namespace WebApi.Controllers
 
             foreach (var clazz in classes)
             {
-                var items = _context.ClassMembers.Where(x => x.ClassId == clazz.ClassId).ToList();
+                var items = _context.ClassMembers.Where(x => x.ClassId == clazz.ClassId && x.Status == true).ToList();
 
                 if (items != null && items?.Count > 0)
                 {

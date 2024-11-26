@@ -22,6 +22,7 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
     public async Task<IActionResult> GetClassMembers(string email, int classId)
     {
         var memeber = await _context.ClassMembers
+            .Where(x => x.Status == true)
             .Include(x => x.StudentEmailNavigation)
             .Include(x => x.StudentEmailNavigation.Grades)
             .FirstOrDefaultAsync(x => x.StudentEmail == email && x.ClassId == classId);
@@ -35,7 +36,9 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
     {
         var classMember = await _context.ClassMembers
             .Include(x => x.StudentEmailNavigation)
-            .Where(x => x.ClassId == classId).ToListAsync();
+            .Where(x => x.ClassId == classId)
+            .Where(x => x.Status == true)
+            .ToListAsync();
 
         if (classMember == null)
         {

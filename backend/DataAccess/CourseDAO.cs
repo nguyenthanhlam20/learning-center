@@ -38,7 +38,7 @@ public class CourseDAO
             foreach (var item in course.Classes)
             {
                 var account = context.Accounts.SingleOrDefault(x => x.Email == item.TeacherEmail);
-                var classMembers = context.ClassMembers.Where(x => x.ClassId == item.ClassId).ToList();
+                var classMembers = context.ClassMembers.Where(x => x.ClassId == item.ClassId && x.Status == true).ToList();
                 var registrationForms = context.RegistrationForms.Where(x => x.ClassId == item.ClassId).ToList();
 
                 item.ClassMembers = classMembers;
