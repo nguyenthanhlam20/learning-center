@@ -32,16 +32,15 @@ namespace BusinessObjects.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             if (!optionsBuilder.IsConfigured)
             {
-                var builder = new ConfigurationBuilder()
-                                 .SetBasePath(Directory.GetCurrentDirectory())
-                                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                IConfigurationRoot configuration = builder.Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DB"));
-            }
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
 
+                optionsBuilder.UseSqlServer(config.GetConnectionString("DB"));
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -85,7 +84,7 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.Gender).HasColumnName("gender");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password)
@@ -110,13 +109,13 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.ClassId).HasColumnName("class_id");
 
                 entity.Property(e => e.ClassName)
-                    .HasMaxLength(200)
+                    .HasMaxLength(50)
                     .HasColumnName("class_name");
 
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.DaysOfWeek)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("days_of_week");
 
                 entity.Property(e => e.EndDate)
@@ -130,7 +129,7 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.NumberOfStudent).HasColumnName("number_of_student");
 
                 entity.Property(e => e.Room)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("room");
 
                 entity.Property(e => e.StaffEmail)
@@ -210,7 +209,7 @@ namespace BusinessObjects.Models
                     .HasColumnName("email");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(200)
+                    .HasMaxLength(50)
                     .HasColumnName("name");
 
                 entity.Property(e => e.RequestDate)
@@ -248,7 +247,7 @@ namespace BusinessObjects.Models
                     .HasColumnName("course_avatar_url");
 
                 entity.Property(e => e.CourseName)
-                    .HasMaxLength(200)
+                    .HasMaxLength(100)
                     .HasColumnName("course_name");
 
                 entity.Property(e => e.CreatedAt)
@@ -260,7 +259,7 @@ namespace BusinessObjects.Models
                     .HasColumnName("description");
 
                 entity.Property(e => e.Level)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("level");
 
                 entity.Property(e => e.NumberOfSlots).HasColumnName("number_of_slots");
@@ -385,7 +384,7 @@ namespace BusinessObjects.Models
                     .HasColumnName("payment_date");
 
                 entity.Property(e => e.PaymentMethod)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("payment_method");
 
                 entity.Property(e => e.StudentEmail)
@@ -461,7 +460,7 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.RoleName)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .HasColumnName("role_name");
             });
 
