@@ -231,8 +231,14 @@ const ListClass = ({ data, title, staffs, teachers, courses, allowInsert }) => {
     setClasssPagination(classs.slice(0, endIndex));
   };
   React.useEffect(() => {
-    const result = data.filter((classes) =>
-      classes?.className.toLowerCase().includes(searchTerm.value.toLowerCase())
+    const result = data.filter(
+      (classes) =>
+        classes?.className
+          .toLowerCase()
+          .includes(searchTerm.value.toLowerCase()) ||
+        classes?.teacherEmailNavigation?.name
+          .toLowerCase()
+          .includes(searchTerm.value.toLowerCase())
     );
     setClasss(result);
     setPage(0);

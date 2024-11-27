@@ -314,6 +314,7 @@ public class RegistrationFormController(SeedCenterContext context, IMapper mappe
 
             account.Name = registrationForm.Name;
             account.Phone = registrationForm.Phone;
+             _context.Accounts.Update(account);
             await _context.SaveChangesAsync();
 
             var exist = await _context.RegistrationForms

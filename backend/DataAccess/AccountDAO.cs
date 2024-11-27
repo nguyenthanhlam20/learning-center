@@ -11,7 +11,7 @@ namespace DataAccess
             try
             {
                 using var context = new SeedCenterContext();
-                return context.Accounts.SingleOrDefault(x => x.Email == account.Email && x.Password == account.Password);
+                return context.Accounts.SingleOrDefault(x => x.Email == account.Email && x.Password == account.Password && x.ActiveStatus == true);
             }
             catch (Exception e)
             {
@@ -90,11 +90,6 @@ namespace DataAccess
 
                 if (account is not null)
                 {
-                    var classes = context.Classes.Where(x => x.StaffEmail == email).ToList();
-                    var grades = context.Grades.Where(x => x.StudentEmail == email).ToList();
-                  
-                    account.Grades = grades;
-
                     return account;
                 }
 

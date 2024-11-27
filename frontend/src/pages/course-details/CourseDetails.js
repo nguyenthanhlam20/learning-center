@@ -25,10 +25,12 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { isValidPhoneNumber } from "../../helpers/validation";
 import Badge from "../../components/Badge";
+import authenSlice from "../../redux/authenSlice";
 
 const CourseDetails = ({ course, user }) => {
   console.log("course", course);
   const dispatch = useDispatch();
+  const { setUser } = authenSlice.actions;
 
   const formattedPrice = course?.price?.toLocaleString("vi-VN", {
     style: "currency",
@@ -113,6 +115,14 @@ const CourseDetails = ({ course, user }) => {
     if (isRefresh === true) {
       window.location.reload();
       dispatch(setIsRefresh(false));
+
+      dispatch(
+        setUser({
+          ...user,
+          phone: values.phone,
+          name: values.name,
+        })
+      );
     }
   }, [isRefresh]);
 

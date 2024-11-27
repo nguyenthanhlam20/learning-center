@@ -98,7 +98,7 @@ namespace WebApi.Controllers
                     var result = HaveTimeConflictWithOthers(current, others);
                     if (result.Item1)
                     {
-                        return Ok(new ResponseDTO(false, "Lớp học bị trùng lịch với " + result.Item2));
+                        return Ok(new ResponseDTO(false, result.Item2));
                     }
 
 
@@ -150,10 +150,14 @@ namespace WebApi.Controllers
             {
                 if (HaveTimeConflict(class1, otherClass) && class1.Status && otherClass.Status)
                 {
-                    if (class1.TeacherEmail.Equals(otherClass.TeacherEmail, StringComparison.CurrentCultureIgnoreCase) ||
-                        class1.Room.Equals(otherClass.Room, StringComparison.CurrentCultureIgnoreCase))
+                    if (class1.TeacherEmail.Equals(otherClass.TeacherEmail, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        return (true, otherClass.ClassName); // Conflict found
+                        return (true, "Giảng viên đã dạy lớp " + otherClass.ClassName + " cùng lịch"); // Conflict found
+                    }
+
+                    if (class1.Room.Equals(otherClass.Room, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return (true, "Lớp học bị trùng lịch với " + otherClass.ClassName); // Conflict found
                     }
                 }
 

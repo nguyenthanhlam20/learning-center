@@ -30,9 +30,9 @@ namespace WebApi.Controllers
             Account acc = _mapper.Map<Account>(account);
 
             // Get result
-            Account result = repository.SignIn(acc);
+            var result = repository.SignIn(acc);
 
-            AccountDTO accountDTO = _mapper.Map<AccountDTO>(result);
+            var accountDTO = _mapper.Map<AccountDTO>(result);
 
             Console.WriteLine("account: " + account.Email);
 
@@ -124,7 +124,7 @@ namespace WebApi.Controllers
                 acc.CreatedDate = DateTime.Now;
                 var success = repository.InsertAccount(acc);
 
-                if (success == true) 
+                if (success == true)
                     return Ok(new ResponseDTO(true, "Thêm mới người dùng thành công"));
 
             }
@@ -198,8 +198,8 @@ namespace WebApi.Controllers
                 if (items != null && items?.Count > 0)
                 {
                     clazz.ClassMembers = _mapper.Map<List<ClassMemberDTO>>(items);
-                    final.Add(clazz);
                 }
+                final.Add(clazz);
             }
 
 

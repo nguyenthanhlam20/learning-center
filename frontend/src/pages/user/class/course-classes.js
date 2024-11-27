@@ -103,6 +103,14 @@ const MyCourseClassesPage = () => {
       console.log("specific", specific);
 
       setFeedback(specific);
+    } else {
+      setFeedback((prevValues) => {
+        return {
+          ...prevValues,
+          star: 0,
+          message: "",
+        };
+      });
     }
   }, [specific]);
 
@@ -267,7 +275,7 @@ const MyCourseClassesPage = () => {
                     return (
                       <TableRow>
                         <TableCell>
-                          {row?.classCode + "-00" + row.classId}
+                          {row?.course?.code + "-00" + row.classId}
                         </TableCell>
                         <TableCell>{row?.className}</TableCell>
                         <TableCell>

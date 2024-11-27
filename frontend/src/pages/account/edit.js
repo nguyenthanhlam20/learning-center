@@ -25,7 +25,6 @@ import AppInputPhone from "../../components/AppInput/AppInputPhone";
 
 function EditAccount() {
   const user = useSelector((state) => state.authen.user);
-
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const email = params.get("email") ?? user?.email;
@@ -51,6 +50,8 @@ function EditAccount() {
   const ongoingClasses = [];
   const incomingClasses = [];
   const today = dayjs();
+
+  console.log("account.classes", account?.classes);
 
   account?.classes?.forEach((classItem) => {
     const startDate = dayjs(classItem.startDate);
@@ -83,7 +84,7 @@ function EditAccount() {
   };
 
   const handleCancel = () => {
-    navigate(ROUTE_CONSTANTS.ADMIN.STAFF_PAGE);
+    navigate(-1);
   };
 
   const handleSubmitAccount = () => {

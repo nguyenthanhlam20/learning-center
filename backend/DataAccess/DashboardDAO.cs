@@ -10,7 +10,7 @@ namespace DataAccess
         {
             using (var context = new SeedCenterContext())
             {
-                int totalCourse = context.Courses.Count();
+                int totalCourse = context.Courses.Where(x => x.Status == true).Count();
                 int totalBlog = context.Accounts.Where(x => x.RoleId == 3 && x.ActiveStatus == true).Count();
                 var classMembers = context.ClassMembers.Select(x => x.StudentEmail).ToList();
 
