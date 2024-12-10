@@ -2,7 +2,6 @@
 {
     public interface IDashboardRepository
     {
-
-        object GetData();
+        object GetData(DateTime? startDate, DateTime? endDate);
     }
 }

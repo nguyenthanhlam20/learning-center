@@ -26,7 +26,7 @@ const DashboardPage = () => {
   const data = useSelector((state) => state.dashboard.data);
   console.log("data", data);
   React.useEffect(() => {
-    dispatch(getData());
+    dispatch(getData({ startDate: undefined, endDate: undefined }));
   }, [user]);
 
   return (

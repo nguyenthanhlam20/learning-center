@@ -4,9 +4,7 @@ namespace Reporitories
 {
     public class DashboardRepository : IDashboardRepository
     {
-        public object GetData()
-        {
-            return DashboardDAO.GetData();
-        }
+        public object GetData(DateTime? startDate, DateTime? endDate)
+            => DashboardDAO.GetData(startDate, endDate);
     }
 }

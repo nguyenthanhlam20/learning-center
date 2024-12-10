@@ -6,7 +6,7 @@ namespace DataAccess
 {
     public class DashboardDAO
     {
-        public static string GetData()
+        public static string GetData(DateTime? startDate, DateTime? endDate)
         {
             using (var context = new SeedCenterContext())
             {
@@ -32,9 +32,16 @@ namespace DataAccess
                 List<Course> courses = context.Courses.ToList();
                 List<object> totalMoneyByCourses = new List<object>();
 
+                var fromDate = startDate == null ? DateTime.Now.AddYears(-100) : startDate;
+                var toDate = endDate == null ? DateTime.Now : endDate; 
+
                 foreach (Course course in courses)
                 {
-                    double total = (double)topPayment.Where(x => x.CourseId == course.CourseId).Sum(x => x.Amount);
+                    double total = (double)topPayment
+                        .Where(x => x.CourseId == course.CourseId)
+                        .Where(x => fromDate <= x.PaymentDate)
+                        .Where(x => x.PaymentDate <= toDate)
+                        .Sum(x => x.Amount);
 
                     var co = new
                     {
