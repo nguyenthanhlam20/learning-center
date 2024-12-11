@@ -121,9 +121,9 @@ export const RegistrationTable = (props) => {
                   <TableCell>Họ và tên</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Số điện thoại</TableCell>
-                  <TableCell>Khóa học</TableCell>
                   <TableCell>Lớp học</TableCell>
                   <TableCell>Trạng thái</TableCell>
+                  <TableCell>Khóa học</TableCell>
                   <TableCell>Ngày sinh</TableCell>
                   <TableCell>Giới tính</TableCell>
                   <TableCell>Ngày tạo</TableCell>
@@ -157,7 +157,6 @@ export const RegistrationTable = (props) => {
                       </TableCell>
                       <TableCell>{register.student.email}</TableCell>
                       <TableCell>{register.student.phone}</TableCell>
-                      <TableCell>{register.course.course_name}</TableCell>
                       <TableCell>{register.class.className}</TableCell>
                       <TableCell>
                         <Badge
@@ -165,6 +164,7 @@ export const RegistrationTable = (props) => {
                           color={getStatus(register.status).color}
                         />
                       </TableCell>
+                      <TableCell>{register.course.course_name}</TableCell>
                       <TableCell>{register.student.date_of_birth}</TableCell>
                       <TableCell>
                         {register.student.gender === 0 ? "Female" : "Male"}
