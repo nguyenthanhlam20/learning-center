@@ -121,11 +121,11 @@ export const RegistrationTable = (props) => {
                   <TableCell>Họ và tên</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Số điện thoại</TableCell>
+                  <TableCell>Trạng thái</TableCell>
                   <TableCell>Ngày sinh</TableCell>
                   <TableCell>Giới tính</TableCell>
                   <TableCell>Khóa học</TableCell>
                   <TableCell>Lớp học</TableCell>
-                  <TableCell>Trạng thái</TableCell>
                   <TableCell>Ngày tạo</TableCell>
                   <TableCell
                     sx={{
@@ -157,18 +157,18 @@ export const RegistrationTable = (props) => {
                       </TableCell>
                       <TableCell>{register.student.email}</TableCell>
                       <TableCell>{register.student.phone}</TableCell>
-                      <TableCell>{register.student.date_of_birth}</TableCell>
-                      <TableCell>
-                        {register.student.gender === 0 ? "Female" : "Male"}
-                      </TableCell>
-                      <TableCell>{register.course.course_name}</TableCell>
-                      <TableCell>{register.class.className}</TableCell>
                       <TableCell>
                         <Badge
                           text={getStatus(register.status).message}
                           color={getStatus(register.status).color}
                         />
                       </TableCell>
+                      <TableCell>{register.student.date_of_birth}</TableCell>
+                      <TableCell>
+                        {register.student.gender === 0 ? "Female" : "Male"}
+                      </TableCell>
+                      <TableCell>{register.course.course_name}</TableCell>
+                      <TableCell>{register.class.className}</TableCell>
                       <TableCell>
                         {dayjs(register.createdDate).format("DD/MM/YYYY")}
                       </TableCell>
