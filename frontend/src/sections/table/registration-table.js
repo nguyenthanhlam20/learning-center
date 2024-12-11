@@ -122,8 +122,8 @@ export const RegistrationTable = (props) => {
                   <TableCell>Email</TableCell>
                   <TableCell>Số điện thoại</TableCell>
                   <TableCell>Lớp học</TableCell>
-                  <TableCell>Trạng thái</TableCell>
                   <TableCell>Ngày tạo</TableCell>
+                  <TableCell>Trạng thái</TableCell>
                   <TableCell>Khóa học</TableCell>
                   <TableCell>Ngày sinh</TableCell>
                   <TableCell>Giới tính</TableCell>
@@ -159,13 +159,13 @@ export const RegistrationTable = (props) => {
                       <TableCell>{register.student.phone}</TableCell>
                       <TableCell>{register.class.className}</TableCell>
                       <TableCell>
+                        {dayjs(register.createdDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>
                         <Badge
                           text={getStatus(register.status).message}
                           color={getStatus(register.status).color}
                         />
-                      </TableCell>
-                      <TableCell>
-                        {dayjs(register.createdDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell>{register.course.course_name}</TableCell>
                       <TableCell>{register.student.date_of_birth}</TableCell>

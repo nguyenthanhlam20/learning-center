@@ -1,3 +1,4 @@
+import { FileDownload } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -7,11 +8,11 @@ import {
   Stack,
   SvgIcon,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import AppInput from "../../../components/AppInput/AppInput";
+import ExportDialog from "../../../components/Export";
 import { RegistrationTable } from "../../../sections/table/registration-table";
-import { CSVLink } from "react-csv";
-import { FileDownload, School, SchoolOutlined } from "@mui/icons-material";
+import dayjs from "dayjs";
 
 const ListRegistration = ({ data }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -92,6 +93,54 @@ const ListRegistration = ({ data }) => {
     { label: "Ngày sinh", key: "student.date_of_birth" },
     { label: "Trạng thái", key: "status" },
   ];
+
+  const [query, setQuery] = useState({
+    startDate: undefined,
+    endDate: undefined,
+  });
+  const [excelData, setExcelData] = useState(data);
+
+  const handleChangeValue = (key, value) => {
+    const newValues = {
+      ...query,
+      [key]: value,
+    };
+    setQuery((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
+
+    let queryStartDate = newValues.startDate;
+    if (newValues?.startDate === undefined) {
+      queryStartDate = dayjs(new Date().toString()).subtract(10, "year");
+    } else {
+      queryStartDate = dayjs(newValues.startDate, "YYYY-MM-DD");
+    }
+
+    let queryEndDate;
+    if (newValues?.endDate === undefined) {
+      queryEndDate = dayjs(new Date().toString());
+    } else {
+      queryEndDate = dayjs(newValues.endDate, "YYYY-MM-DD");
+    }
+
+    const newData = data?.filter(
+      (x) =>
+        dayjs(x.createdDate, "YYYY-MM-DD").isAfter(queryStartDate) &&
+        dayjs(x.createdDate, "YYYY-MM-DD").isBefore(queryEndDate)
+    );
+    console.log("newData", newData);
+    setExcelData(newData);
+  };
+
+  const dialogRef = useRef(null);
+
+  const handleOpenDialog = () => {
+    if (dialogRef.current) {
+      dialogRef.current.openDialog();
+    }
+  };
+
   return (
     <>
       <Box
@@ -128,18 +177,17 @@ const ListRegistration = ({ data }) => {
                     <></>
                   )}
                 </Stack>
-                <Stack>
-                  <Button variant="contained" color="secondary" size="medium">
-                    <CSVLink
-                      data={data}
-                      headers={headers}
-                      filename={"registration-forms.csv"}
-                    >
-                      <SvgIcon sx={{ mr: 1 }}>
-                        <FileDownload />
-                      </SvgIcon>
-                      Xuất excel
-                    </CSVLink>
+                <Stack direction={"row"} spacing={2}>
+                  <Button
+                    onClick={handleOpenDialog}
+                    variant="contained"
+                    color="secondary"
+                    size="medium"
+                  >
+                    <SvgIcon sx={{ mr: 1 }}>
+                      <FileDownload />
+                    </SvgIcon>
+                    Xuất excel
                   </Button>
                 </Stack>
               </div>
@@ -173,6 +221,15 @@ const ListRegistration = ({ data }) => {
           </Stack>
         </Container>
       </Box>
+
+      <ExportDialog
+        ref={dialogRef}
+        values={query}
+        handleChangeValue={handleChangeValue}
+        headers={headers}
+        data={excelData}
+        filename="registration-form.csv"
+      />
     </>
   );
 };

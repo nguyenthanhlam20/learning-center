@@ -19,7 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import AppInput from "../../../components/AppInput/AppInput";
 import { InvoiceTable } from "../../../sections/table/invoice-table";
 import { FileDownload, School, SchoolOutlined } from "@mui/icons-material";
@@ -27,6 +27,8 @@ import { CSVLink } from "react-csv";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
+import dayjs from "dayjs";
+import ExportDialog from "../../../components/Export";
 
 const ListInvoice = ({ data, user, courses }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -131,8 +133,62 @@ const ListInvoice = ({ data, user, courses }) => {
 
   const handleAddInvoice = () => navigate(ROUTE_CONSTANTS.ADMIN.INVOICE.ADD);
 
+  const [query, setQuery] = useState({
+    startDate: undefined,
+    endDate: undefined,
+  });
+  const [excelData, setExcelData] = useState(data);
+
+  const handleChangeExcelValue = (key, value) => {
+    const newValues = {
+      ...query,
+      [key]: value,
+    };
+    setQuery((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
+
+    let queryStartDate = newValues.startDate;
+    if (newValues?.startDate === undefined) {
+      queryStartDate = dayjs(new Date().toString()).subtract(10, "year");
+    } else {
+      queryStartDate = dayjs(newValues.startDate, "YYYY-MM-DD");
+    }
+
+    let queryEndDate;
+    if (newValues?.endDate === undefined) {
+      queryEndDate = dayjs(new Date().toString());
+    } else {
+      queryEndDate = dayjs(newValues.endDate, "YYYY-MM-DD");
+    }
+
+    const newData = data?.filter(
+      (x) =>
+        dayjs(x.paymentDate, "MM/DD/YYYY hh:mm:ss A").isAfter(queryStartDate) &&
+        dayjs(x.paymentDate, "MM/DD/YYYY hh:mm:ss A").isBefore(queryEndDate)
+    );
+    console.log("newData", newData);
+    setExcelData(newData);
+  };
+  const dialogRef = useRef(null);
+
+  const handleOpenDialog = () => {
+    if (dialogRef.current) {
+      dialogRef.current.openDialog();
+    }
+  };
+
   return (
     <>
+      <ExportDialog
+        ref={dialogRef}
+        values={query}
+        handleChangeValue={handleChangeExcelValue}
+        headers={headers}
+        data={excelData}
+        filename="accounts.csv"
+      />
       <Box
         className="ml-72"
         component="main"
@@ -167,17 +223,16 @@ const ListInvoice = ({ data, user, courses }) => {
                   )}
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
-                  <Button variant="contained" color="secondary" size="medium">
-                    <CSVLink
-                      data={data}
-                      headers={headers}
-                      filename={"invoices.csv"}
-                    >
-                      <SvgIcon sx={{ mr: 1 }}>
-                        <FileDownload />
-                      </SvgIcon>
-                      Xuất excel
-                    </CSVLink>
+                  <Button
+                    onClick={handleOpenDialog}
+                    variant="contained"
+                    color="secondary"
+                    size="medium"
+                  >
+                    <SvgIcon sx={{ mr: 1 }}>
+                      <FileDownload />
+                    </SvgIcon>
+                    Xuất excel
                   </Button>
                   {/* <Button
                     onClick={handleAddInvoice}
@@ -226,7 +281,6 @@ const ListInvoice = ({ data, user, courses }) => {
           </Stack>
         </Container>
       </Box>
-
       <Dialog fullWidth maxWidth="lg" open={isOpenModal}>
         <DialogTitle>
           <div className="flex justify-between">

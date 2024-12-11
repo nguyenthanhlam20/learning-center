@@ -15,7 +15,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { capitalize, isEmpty } from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import userSlice, { insertUser } from "../../redux/userSlice";
@@ -25,6 +25,8 @@ import { AccountDetails } from "./AccountDetails";
 import { CSVLink } from "react-csv";
 import { FileDownload } from "@mui/icons-material";
 import { isValidPhoneNumber, validateEmail } from "../../helpers/validation";
+import ExportDialog from "../../components/Export";
+import dayjs from "dayjs";
 
 const ListAccount = ({ data, roleId, title }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -188,8 +190,64 @@ const ListAccount = ({ data, roleId, title }) => {
     });
   };
 
+  const [query, setQuery] = useState({
+    startDate: undefined,
+    endDate: undefined,
+  });
+  const [excelData, setExcelData] = useState(data);
+
+  const handleChangeExcelValue = (key, value) => {
+    const newValues = {
+      ...query,
+      [key]: value,
+    };
+    setQuery((prevValues) => ({
+      ...prevValues,
+      [key]: value,
+    }));
+
+    let queryStartDate = newValues.startDate;
+    if (newValues?.startDate === undefined) {
+      queryStartDate = dayjs(new Date().toString()).subtract(10, "year");
+    } else {
+      queryStartDate = dayjs(newValues.startDate, "YYYY-MM-DD");
+    }
+
+    let queryEndDate;
+    if (newValues?.endDate === undefined) {
+      queryEndDate = dayjs(new Date().toString());
+    } else {
+      queryEndDate = dayjs(newValues.endDate, "YYYY-MM-DD");
+    }
+
+    const newData = data?.filter(
+      (x) =>
+        dayjs(x.date_of_birth, "YYYY-MM-DD").isAfter(queryStartDate) &&
+        dayjs(x.date_of_birth, "YYYY-MM-DD").isBefore(queryEndDate)
+    );
+    console.log("newData", newData);
+    setExcelData(newData);
+  };
+
+  const dialogRef = useRef(null);
+
+  const handleOpenDialog = () => {
+    if (dialogRef.current) {
+      dialogRef.current.openDialog();
+    }
+  };
+
   return (
     <>
+      <ExportDialog
+        ref={dialogRef}
+        values={query}
+        handleChangeValue={handleChangeExcelValue}
+        headers={headers}
+        data={excelData}
+        filename="accounts.csv"
+      />
+
       <Box
         className="ml-72"
         component="main"
@@ -203,7 +261,6 @@ const ListAccount = ({ data, roleId, title }) => {
             <Card
               sx={{
                 p: 2,
-
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
               }}
             >
@@ -231,17 +288,16 @@ const ListAccount = ({ data, roleId, title }) => {
                   )}
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
-                  <Button variant="contained" color="secondary" size="medium">
-                    <CSVLink
-                      data={data}
-                      headers={headers}
-                      filename={"accounts.csv"}
-                    >
-                      <SvgIcon sx={{ mr: 1 }}>
-                        <FileDownload />
-                      </SvgIcon>
-                      Xuất excel
-                    </CSVLink>
+                  <Button
+                    onClick={handleOpenDialog}
+                    variant="contained"
+                    color="secondary"
+                    size="medium"
+                  >
+                    <SvgIcon sx={{ mr: 1 }}>
+                      <FileDownload />
+                    </SvgIcon>
+                    Xuất excel
                   </Button>
                   {title !== "học viên" && (
                     <Button
