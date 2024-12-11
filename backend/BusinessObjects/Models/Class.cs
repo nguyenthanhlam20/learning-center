@@ -15,7 +15,7 @@ namespace BusinessObjects.Models
         }
 
         public int ClassId { get; set; }
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
         public string ClassName { get; set; } = null!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -29,7 +29,7 @@ namespace BusinessObjects.Models
         public TimeSpan EndTime { get; set; }
         public bool Status { get; set; }
 
-        public virtual Course? Course { get; set; }
+        public virtual Course Course { get; set; } = null!;
         public virtual Account StaffEmailNavigation { get; set; } = null!;
         public virtual Account TeacherEmailNavigation { get; set; } = null!;
         public virtual ICollection<ClassMember> ClassMembers { get; set; }

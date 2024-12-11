@@ -15,13 +15,13 @@ namespace BusinessObjects.Models
         }
 
         public int CourseId { get; set; }
-        public string? CourseAvatarUrl { get; set; }
+        public string CourseAvatarUrl { get; set; } = null!;
         public string CourseName { get; set; } = null!;
         public string? Description { get; set; }
         public double Price { get; set; }
         public bool Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int? NumberOfSlots { get; set; }
+        public int NumberOfSlots { get; set; }
         public string Code { get; set; } = null!;
         public string Level { get; set; } = null!;
 

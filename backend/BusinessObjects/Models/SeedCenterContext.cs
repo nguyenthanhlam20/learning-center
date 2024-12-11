@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace BusinessObjects.Models
 {
@@ -34,14 +33,9 @@ namespace BusinessObjects.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var config = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-
-                optionsBuilder.UseSqlServer(config.GetConnectionString("DB"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server=LAPTOP-ALU23ESG;database=SeedCenter;uid=sa;pwd=55555;TrustServerCertificate=true");
             }
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +43,7 @@ namespace BusinessObjects.Models
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(e => e.Email)
-                    .HasName("PK__Account__AB6E6165581A1470");
+                    .HasName("PK__Account__AB6E6165F817164D");
 
                 entity.ToTable("Account");
 
@@ -102,7 +96,7 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Account__role_id__5FB337D6");
+                    .HasConstraintName("FK__Account__role_id__4D94879B");
             });
 
             modelBuilder.Entity<Class>(entity =>
@@ -152,25 +146,26 @@ namespace BusinessObjects.Models
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Classes)
                     .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK__Classes__course___656C112C");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Classes__course___5070F446");
 
                 entity.HasOne(d => d.StaffEmailNavigation)
                     .WithMany(p => p.ClassStaffEmailNavigations)
                     .HasForeignKey(d => d.StaffEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Classes__staff_e__6754599E");
+                    .HasConstraintName("FK__Classes__staff_e__5165187F");
 
                 entity.HasOne(d => d.TeacherEmailNavigation)
                     .WithMany(p => p.ClassTeacherEmailNavigations)
                     .HasForeignKey(d => d.TeacherEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Classes__teacher__693CA210");
+                    .HasConstraintName("FK__Classes__teacher__52593CB8");
             });
 
             modelBuilder.Entity<ClassMember>(entity =>
             {
                 entity.HasKey(e => new { e.StudentEmail, e.ClassId })
-                    .HasName("PK__Class_Me__FDD5C8A78B8B77C6");
+                    .HasName("PK__Class_Me__FDD5C8A758FF6BE4");
 
                 entity.ToTable("Class_Member");
 
@@ -190,13 +185,13 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.ClassMembers)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Class_Mem__class__619B8048");
+                    .HasConstraintName("FK__Class_Mem__class__4E88ABD4");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.ClassMembers)
                     .HasForeignKey(d => d.StudentEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Class_Mem__stude__6383C8BA");
+                    .HasConstraintName("FK__Class_Mem__stude__4F7CD00D");
             });
 
             modelBuilder.Entity<Contact>(entity =>
@@ -239,7 +234,7 @@ namespace BusinessObjects.Models
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.Code)
-                    .HasMaxLength(100)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("code");
 
@@ -294,7 +289,7 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Feedback__class___6B24EA82");
+                    .HasConstraintName("FK__Feedback__class___534D60F1");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Feedbacks)
@@ -306,7 +301,7 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.Email)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Feedback__email__6D0D32F4");
+                    .HasConstraintName("FK__Feedback__email__5441852A");
             });
 
             modelBuilder.Entity<Grade>(entity =>
@@ -357,13 +352,13 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GRADES__class_id__6FE99F9F");
+                    .HasConstraintName("FK__GRADES__class_id__5629CD9C");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.StudentEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GRADES__student___71D1E811");
+                    .HasConstraintName("FK__GRADES__student___571DF1D5");
             });
 
             modelBuilder.Entity<Payment>(entity =>
@@ -396,19 +391,19 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__class_i__73BA3083");
+                    .HasConstraintName("FK__Payment__class_i__5812160E");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__course___75A278F5");
+                    .HasConstraintName("FK__Payment__course___59063A47");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.StudentEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__student__778AC167");
+                    .HasConstraintName("FK__Payment__student__59FA5E80");
             });
 
             modelBuilder.Entity<RegistrationForm>(entity =>
@@ -439,19 +434,19 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__class__797309D9");
+                    .HasConstraintName("FK__Registrat__class__5AEE82B9");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__cours__7B5B524B");
+                    .HasConstraintName("FK__Registrat__cours__5BE2A6F2");
 
                 entity.HasOne(d => d.StudentEmailNavigation)
                     .WithMany(p => p.RegistrationForms)
                     .HasForeignKey(d => d.StudentEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Registrat__stude__7D439ABD");
+                    .HasConstraintName("FK__Registrat__stude__5CD6CB2B");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -483,7 +478,7 @@ namespace BusinessObjects.Models
             modelBuilder.Entity<UserCourse>(entity =>
             {
                 entity.HasKey(e => new { e.CourseId, e.Email })
-                    .HasName("PK__User_Cou__C5A811B8B50254CC");
+                    .HasName("PK__User_Cou__C5A811B85DC9E12D");
 
                 entity.ToTable("User_Course");
 
@@ -501,13 +496,13 @@ namespace BusinessObjects.Models
                     .WithMany(p => p.UserCourses)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User_Cour__cours__00200768");
+                    .HasConstraintName("FK__User_Cour__cours__5DCAEF64");
 
                 entity.HasOne(d => d.EmailNavigation)
                     .WithMany(p => p.UserCourses)
                     .HasForeignKey(d => d.Email)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User_Cour__email__01142BA1");
+                    .HasConstraintName("FK__User_Cour__email__5EBF139D");
             });
 
             OnModelCreatingPartial(modelBuilder);
