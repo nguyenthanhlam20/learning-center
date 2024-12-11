@@ -92,10 +92,7 @@ public class CourseDAO
 
                 var slots = context.Classes.Where(x => x.CourseId == exist.CourseId).ToList();
 
-                slots.ForEach(x => x.NumberOfSlots = c.NumberOfSlots ?? 1);
-
-
-
+                slots.ForEach(x => x.NumberOfSlots = c.NumberOfSlots);
                 context.SaveChanges();
             }
         }
@@ -147,8 +144,8 @@ public class CourseDAO
 
             Console.WriteLine("Error while trying to add new user course: " + e.Message);
         }
-    } 
-    
+    }
+
     public static void DeactivateClasses()
     {
         try

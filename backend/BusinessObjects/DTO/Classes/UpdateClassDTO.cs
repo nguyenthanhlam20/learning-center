@@ -2,7 +2,7 @@
 public class UpdateClassDTO
 {
     public int ClassId { get; set; }
-    public int? CourseId { get; set; }
+    public int CourseId { get; set; }
     public string ClassName { get; set; } = null!;
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
