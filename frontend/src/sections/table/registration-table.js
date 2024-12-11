@@ -123,10 +123,10 @@ export const RegistrationTable = (props) => {
                   <TableCell>Số điện thoại</TableCell>
                   <TableCell>Lớp học</TableCell>
                   <TableCell>Trạng thái</TableCell>
+                  <TableCell>Ngày tạo</TableCell>
                   <TableCell>Khóa học</TableCell>
                   <TableCell>Ngày sinh</TableCell>
                   <TableCell>Giới tính</TableCell>
-                  <TableCell>Ngày tạo</TableCell>
                   <TableCell
                     sx={{
                       width: "210px",
@@ -164,13 +164,13 @@ export const RegistrationTable = (props) => {
                           color={getStatus(register.status).color}
                         />
                       </TableCell>
+                      <TableCell>
+                        {dayjs(register.createdDate).format("DD/MM/YYYY")}
+                      </TableCell>
                       <TableCell>{register.course.course_name}</TableCell>
                       <TableCell>{register.student.date_of_birth}</TableCell>
                       <TableCell>
                         {register.student.gender === 0 ? "Female" : "Male"}
-                      </TableCell>
-                      <TableCell>
-                        {dayjs(register.createdDate).format("DD/MM/YYYY")}
                       </TableCell>
                       <TableCell
                         sx={{
