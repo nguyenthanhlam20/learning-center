@@ -111,14 +111,11 @@ export const RegistrationTable = (props) => {
   return (
     <>
       <Card
-        sx={{
-          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;",
-          maxHeight: 450,
-        }}
+        sx={{ height: 450, boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;" }}
       >
         <Scrollbar>
-          <Box sx={{ maxHeight: 450 }}>
-            <Table stickyHeader style={{ minWidth: "1470px" }}>
+          <Box sx={{ minWidth: 800, maxHeight: 450 }}>
+            <Table stickyHeader style={{ minWidth: "1800px" }}>
               <TableHead>
                 <TableRow>
                   <TableCell>Họ và tên</TableCell>
