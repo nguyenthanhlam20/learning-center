@@ -30,8 +30,6 @@ export const OverviewSales = ({ sales }) => {
       [key]: value,
     };
 
-    console.log("newValues", newValues);
-
     dispatch(getData(newValues));
   };
 

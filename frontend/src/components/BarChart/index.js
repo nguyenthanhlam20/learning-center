@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React, { useState } from "react";
+import ReactApexChart from "react-apexcharts";
 const BarChart = ({ sales }) => {
-
   let amount = [];
   let course = [];
 
-
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState([
+    {
+      name: "Doanh thu",
+      data: [],
+    },
+  ]);
 
   const [options, setOptions] = useState({});
 
-
-
   React.useEffect(() => {
-
     amount = [];
     course = [];
 
@@ -34,23 +34,22 @@ const BarChart = ({ sales }) => {
 
     setOptions({
       chart: {
-        type: 'bar',
+        type: "bar",
         height: 350,
       },
       plotOptions: {
         bar: {
           borderRadius: 4,
-          borderRadiusApplication: 'end',
+          borderRadiusApplication: "end",
           horizontal: true,
         },
-
       },
       dataLabels: {
         enabled: true,
-        textAnchor: 'start',
+        textAnchor: "start",
         offsetX: 0,
         formatter: function (val, opt) {
-          return new Intl.NumberFormat('vi-VN').format(Number(val)) + '₫';
+          return new Intl.NumberFormat("vi-VN").format(Number(val)) + "₫";
         },
       },
       tooltip: {
@@ -58,7 +57,7 @@ const BarChart = ({ sales }) => {
         y: {
           formatter: function (value) {
             // Customize the tooltip value as per your requirement
-            return new Intl.NumberFormat('vi-VN').format(Number(value)) + '₫';
+            return new Intl.NumberFormat("vi-VN").format(Number(value)) + "₫";
           },
         },
       },
@@ -67,23 +66,22 @@ const BarChart = ({ sales }) => {
         labels: {
           formatter: function (value) {
             // Customize the display value as per your requirement
-            return new Intl.NumberFormat('vi-VN').format(Number(value)) + '₫';
+            return new Intl.NumberFormat("vi-VN").format(Number(value)) + "₫";
           },
         },
       },
-
     });
-
-
-
-  }, [sales])
-
-
+  }, [sales]);
 
   return (
     <div>
       <div id="chart">
-        <ReactApexChart options={options} series={series} type="bar" height={350} />
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={350}
+        />
       </div>
     </div>
   );
