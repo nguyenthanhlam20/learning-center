@@ -39,11 +39,9 @@ const ListClassMember = ({ data, roleId, title, classId }) => {
 
   const [values, setValues] = useState({
     classId: classId,
-    avatar_url: "",
     name: "",
     email: "",
     address: "",
-    date_of_birth: "",
     gender: 1,
     phone: "",
     description: "",
@@ -129,11 +127,9 @@ const ListClassMember = ({ data, roleId, title, classId }) => {
     dispatch(insertClassMember(values));
     setValues({
       classId: classId,
-      avatar_url: "",
       name: "",
       email: "",
       address: "",
-      date_of_birth: "",
       gender: 1,
       phone: "",
       description: "",

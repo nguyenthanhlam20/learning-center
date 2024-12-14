@@ -53,7 +53,7 @@ const classSlice = createSlice({
     builder.addCase(getUserClasses.fulfilled, (state, action) => {
       state.data = action.payload;
       state.isRefresh = false;
-      console.log(action.payload);
+      console.log("action.payload", action.payload);
     });
     builder.addCase(insertClass.fulfilled, (state, action) => {
       const { success, message } = action.payload;

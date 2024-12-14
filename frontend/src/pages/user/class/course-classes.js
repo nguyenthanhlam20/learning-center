@@ -35,6 +35,8 @@ const MyCourseClassesPage = () => {
   const [classes, setClasses] = useState([]);
   const [course, setCourse] = useState();
 
+  console.log("classes", classes);
+
   useEffect(() => {
     const list = data?.filter((x) => String(x?.courseId) === course_id);
     if (list?.length > 0) {

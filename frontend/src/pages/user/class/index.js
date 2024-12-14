@@ -209,7 +209,7 @@ const MyClassPage = () => {
                     return (
                       <TableRow>
                         <TableCell>
-                          {row?.classCode + "-00" + row.classId}
+                          {row?.course?.code + "-00" + row.classId}
                         </TableCell>
                         <TableCell>{row?.className}</TableCell>
                         <TableCell>

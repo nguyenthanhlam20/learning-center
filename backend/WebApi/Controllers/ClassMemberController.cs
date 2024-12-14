@@ -213,6 +213,26 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
 
             if (classMember == null) throw new Exception("Không tìm thấy học viên");
 
+
+            var course = await _context.Courses
+                .Include(x => x.Classes)
+                .Where(x => x.Classes.Any(c => c.ClassId == classId))
+                .FirstOrDefaultAsync();
+
+            if (course is not null)
+            {
+                var existUserCourse = await _context.UserCourses
+                    .FirstOrDefaultAsync(x => x.Email == email && x.CourseId == course.CourseId);
+
+                if (existUserCourse is not null)
+                {
+                    _context.UserCourses.Remove(existUserCourse);
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+
+
             _context.ClassMembers.Remove(classMember);
             await _context.SaveChangesAsync();
 
