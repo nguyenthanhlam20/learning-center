@@ -7,7 +7,12 @@ const classMemberServices = {
     console.log("res", response);
     return response.data;
   },
-
+  removeClassMember: async ({ classId, email }) => {
+    const response = await axios.get(
+      `${API.MANAGE_CLASS_MEMBER}/delete?email=${email}&classId=${classId}`
+    );
+    return response.data;
+  },
   getClassMember: async ({ email, classId }) => {
     const response = await axios.get(
       `${API.MANAGE_CLASS_MEMBER}/find?email=${email}&classId=${classId}`
@@ -16,7 +21,10 @@ const classMemberServices = {
   },
   insertClassMember: async (classMember) => {
     console.log("insert-classMember", classMember);
-    const response = await axios.post(API.MANAGE_CLASS_MEMBER, classMember);
+    const response = await axios.post(
+      API.MANAGE_CLASS_MEMBER + "/insert",
+      classMember
+    );
     console.log("insert-classMember-respone: ", response);
     return response.data;
   },

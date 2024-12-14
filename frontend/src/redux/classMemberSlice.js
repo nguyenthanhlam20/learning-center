@@ -21,6 +21,17 @@ export const getClassMember = createAsyncThunk(
   }
 );
 
+export const removeClassMember = createAsyncThunk(
+  "remove-class-member",
+  async ({ email, classId }) => {
+    const response = await classMemberServices.removeClassMember({
+      email,
+      classId,
+    });
+    return response;
+  }
+);
+
 export const insertClassMember = createAsyncThunk(
   "insert-classMember",
   async (classMember) => {
@@ -61,6 +72,16 @@ const classMemberSlice = createSlice({
       state.isRefresh = success;
     });
     builder.addCase(addScore.fulfilled, (state, action) => {
+      const { success, message } = action.payload;
+      console.log(action.payload);
+      if (success) {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+      state.isRefresh = success;
+    });
+    builder.addCase(removeClassMember.fulfilled, (state, action) => {
       const { success, message } = action.payload;
       console.log(action.payload);
       if (success) {

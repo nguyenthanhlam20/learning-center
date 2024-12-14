@@ -28,7 +28,7 @@ export const ClassMemberDetails = ({ handleChangeValue, values, width }) => {
             />
           </div>
           <AppTextArea
-            height={"h-[130px]"}
+            height={"h-[140px]"}
             value={values?.description}
             title={"description"}
             handleChangeValue={handleChangeValue}

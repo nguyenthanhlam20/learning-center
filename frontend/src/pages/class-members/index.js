@@ -38,6 +38,7 @@ const AdminClassMemberPage = () => {
       data={classMembers ?? []}
       title={"thành viên lớp"}
       roleId={ROLE.USER}
+      classId={classId}
     />
   );
 };

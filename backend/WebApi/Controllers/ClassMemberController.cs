@@ -5,6 +5,8 @@ using BusinessObjects.DTO.Grades;
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.Win32;
 using NuGet.Protocol.Core.Types;
 using Reporitories;
 
@@ -91,7 +93,22 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
             var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Email == request.Email);
             if (account is null)
             {
-                var acc = _mapper.Map<Account>(request);
+                var acc = new Account()
+                {
+                    Name = request.Name,
+                    Email = request.Email,
+                    Phone = request.Phone,
+                    Password = "Abc1234!",
+                    ActiveStatus = true,
+                    Address = request.Address,
+                    AvatarUrl = request.AvatarUrl,
+                    DateOfBirth = request.DateOfBirth,
+                    Gender = request.Gender == 1,
+                    RoleId = request.RoleId,
+                    CreatedDate = DateTime.Now,
+                    Description = request.Description,
+
+                };
                 var success = _context.Accounts.Add(acc);
                 await _context.SaveChangesAsync();
             }
@@ -99,6 +116,26 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
             var existClassMember = await _context.ClassMembers.FirstOrDefaultAsync(x => x.ClassId == request.ClassId && x.StudentEmail == request.Email);
 
             if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
+
+
+            var course = await _context.Courses.Include(x => x.Classes).Where(x => x.Classes.Any(c => c.ClassId == request.ClassId)).FirstOrDefaultAsync();
+
+            if (course is not null)
+            {
+                var existUserCourse = _context.UserCourses.Any(x => x.Email == request.Email && x.CourseId == course.CourseId);
+
+                if (!existUserCourse)
+                {
+                    _context.UserCourses.Add(new UserCourse()
+                    {
+                        CourseId = course.CourseId,
+                        Email = request.Email!,
+                        EnrolledDate = DateTime.Now,
+                    });
+                }
+
+            }
+
             _context.ClassMembers.Add(new ClassMember()
             {
                 ClassId = request.ClassId,
@@ -111,7 +148,7 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
 
             return Ok(new ResponseDTO(true, "Thêm mới thành viên lớp thành công"));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             return Ok(new ResponseDTO(false, "Thêm thành viên lớp thất bại"));
@@ -163,19 +200,29 @@ public class ClassMemberController(SeedCenterContext context, IMapper mapper) : 
     }
 
     // DELETE: api/ClassMember/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteClassMember(string id)
+    [HttpGet("delete")]
+    public async Task<IActionResult> DeleteClassMember(string email, int classId)
     {
-        var classMember = await _context.ClassMembers.FindAsync(id);
-        if (classMember == null)
+        try
         {
-            return NotFound();
+            var classMember = await _context.ClassMembers
+                .Where(x => x.Status == true)
+                .Include(x => x.StudentEmailNavigation)
+                .Include(x => x.StudentEmailNavigation.Grades)
+                .FirstOrDefaultAsync(x => x.StudentEmail == email && x.ClassId == classId);
+
+            if (classMember == null) throw new Exception("Không tìm thấy học viên");
+
+            _context.ClassMembers.Remove(classMember);
+            await _context.SaveChangesAsync();
+
+            return Ok(new ResponseDTO(true, "Xóa học viên khỏi lớp thành công"));
+
         }
-
-        _context.ClassMembers.Remove(classMember);
-        await _context.SaveChangesAsync();
-
-        return Ok();
+        catch (Exception ex)
+        {
+            return Ok(new ResponseDTO(false, ex.Message));
+        }
     }
 
 }

@@ -24,6 +24,8 @@ import { ROUTE_CONSTANTS } from "../../constants/route.constants";
 import { useNavigate } from "react-router-dom";
 import { Delete } from "@mui/icons-material";
 import AlertDialog from "../../pages/class-members/alert";
+import { useDispatch } from "react-redux";
+import { removeClassMember } from "../../redux/classMemberSlice";
 
 export const ClassMemberTable = (props) => {
   const {
@@ -35,7 +37,7 @@ export const ClassMemberTable = (props) => {
     page = 0,
     rowsPerPage = 0,
   } = props;
-
+  const dispatch = useDispatch();
   const [selectedClassMember, setSelectedClassMember] = useState({
     classId: 0,
     studentEmail: "",
@@ -61,6 +63,12 @@ export const ClassMemberTable = (props) => {
 
   const handleSubmit = () => {
     console.log("Submitted!");
+    dispatch(
+      removeClassMember({
+        email: selectedClassMember.studentEmail,
+        classId: selectedClassMember.classId,
+      })
+    );
     //TODO: dispatch remove class member
   };
 
@@ -138,7 +146,7 @@ export const ClassMemberTable = (props) => {
                               <PencilIcon />
                             </SvgIcon>
                           </Button>
-                          {/* <Button
+                          <Button
                             onClick={() =>
                               handleRemoveClassMember(
                                 classMember.studentEmail,
@@ -152,7 +160,7 @@ export const ClassMemberTable = (props) => {
                             <SvgIcon>
                               <Delete />
                             </SvgIcon>
-                          </Button> */}
+                          </Button>
                         </Stack>
                       </TableCell>
                     </TableRow>

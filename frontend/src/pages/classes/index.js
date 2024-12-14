@@ -11,6 +11,9 @@ const AdminClassPage = () => {
   let classes = useSelector((state) => state.classes.data);
   const isRefreshClass = useSelector((state) => state.classes.isRefresh);
   const user = useSelector((state) => state.authen.user);
+  const isRefreshClassMember = useSelector(
+    (state) => state.classMember.isRefresh
+  );
 
   console.log("classes", classes);
   const { setCurrentPage } = classSlice.actions;
@@ -21,7 +24,7 @@ const AdminClassPage = () => {
 
   React.useEffect(() => {
     dispatch(getClasses());
-  }, [dispatch, isRefreshClass]);
+  }, [dispatch, isRefreshClass, isRefreshClassMember]);
 
   const staffs = useSelector((state) => state.user.staffs);
   const teachers = useSelector((state) => state.user.teachers);

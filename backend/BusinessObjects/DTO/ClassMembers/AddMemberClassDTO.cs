@@ -3,19 +3,13 @@
 namespace BusinessObjects.DTO.ClassMembers;
 public class AddMemberClassDTO
 {
-    public string StudentEmail { get; set; } = null!;
     public int ClassId { get; set; }
-    public DateTime? EnrollmentDate { get; set; }
-    public bool? Status { get; set; }
 
     [JsonPropertyName("email")]
-    public string Email { get; set; }
-
-    [JsonPropertyName("password")]
-    public string? Password { get; set; }
+    public string Email { get; set; } = null!;
 
     [JsonPropertyName("name")]
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [JsonPropertyName("avatar_url")]
     public string? AvatarUrl { get; set; }
@@ -26,25 +20,19 @@ public class AddMemberClassDTO
     [JsonPropertyName("address")]
     public string? Address { get; set; }
 
-    [JsonPropertyName("year_of_birth")]
-    public int? YearOfBirth { get; set; }
-
     [JsonPropertyName("gender")]
-    public int? Gender { get; set; }
+    public int Gender { get; set; }
 
     [JsonPropertyName("role_id")]
-    public int? RoleId { get; set; }
+    public int RoleId { get; set; }
 
     [JsonPropertyName("status")]
-    public bool? ActiveStatus { get; set; }
+    public bool ActiveStatus { get; set; }
 
     [JsonPropertyName("date_of_birth")]
     public DateTime? DateOfBirth { get; set; }
 
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-
-    [JsonPropertyName("created_date")]
-    public DateTime? CreatedDate { get; set; }
 
 }
