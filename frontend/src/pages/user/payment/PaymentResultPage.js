@@ -49,7 +49,11 @@ const PaymentResultPage = () => {
         clearTimeout(timeout);
       };
     }
-  }, [insertFinish]);
+
+    if (paymentStatus === false) {
+      setIsLoading(false);
+    }
+  }, [insertFinish, paymentStatus]);
 
   return (
     <>
