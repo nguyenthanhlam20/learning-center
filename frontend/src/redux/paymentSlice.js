@@ -36,6 +36,7 @@ const paymentSlice = createSlice({
     allPayments: [],
     url: "",
     isRefresh: false,
+    insertFinish: false,
   },
   reducers: {
     resetPayment: (state, action) => {
@@ -43,6 +44,9 @@ const paymentSlice = createSlice({
       state.url = "";
       state.go_to_payment = 0;
       localStorage.removeItem("goToPayment");
+    },
+    resetInsertFinish: (state, action) => {
+      state.insertFinish = false;
     },
   },
   extraReducers: (builder) => {
@@ -52,11 +56,12 @@ const paymentSlice = createSlice({
       state.data = data;
     });
     builder.addCase(insertPayment.fulfilled, (state, action) => {
+      const { success, message } = action.payload;
+
       state.data = null;
       state.url = "";
-      state.status = 0;
-
-      const { success, message } = action.payload;
+      state.status = success;
+      state.insertFinish = true;
       console.log(action.payload);
       if (success) {
         toast.success(message);

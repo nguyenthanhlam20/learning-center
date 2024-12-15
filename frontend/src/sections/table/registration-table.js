@@ -115,7 +115,7 @@ export const RegistrationTable = (props) => {
       >
         <Scrollbar>
           <Box sx={{ minWidth: 800, maxHeight: 450 }}>
-            <Table stickyHeader style={{ minWidth: "1800px" }}>
+            <Table stickyHeader style={{ minWidth: "1900px" }}>
               <TableHead>
                 <TableRow>
                   <TableCell>Họ và tên</TableCell>
@@ -129,7 +129,7 @@ export const RegistrationTable = (props) => {
                   <TableCell>Giới tính</TableCell>
                   <TableCell
                     sx={{
-                      width: "210px",
+                      width: "250px",
                       textAlign: "center",
                       position: "sticky",
                       right: 0,
@@ -178,7 +178,7 @@ export const RegistrationTable = (props) => {
                           position: "sticky",
                           right: 0,
                           background: "white",
-                          zIndex: 100,
+                          zIndex: 88,
                         }}
                       >
                         <Stack

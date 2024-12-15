@@ -3,6 +3,8 @@ using BusinessObjects.DTO;
 using BusinessObjects.DTO.Payment;
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Reporitories;
 
 namespace WebApi.Controllers
@@ -19,7 +21,7 @@ namespace WebApi.Controllers
 
         // POST api/<LessonController>
         [HttpPost("insert")]
-        public ActionResult InsertPayment([FromBody] InsertPaymentDTO paymentDTO)
+        public async Task<IActionResult> InsertPayment([FromBody] InsertPaymentDTO paymentDTO)
         {
 
             try
@@ -35,11 +37,7 @@ namespace WebApi.Controllers
 
 
                 var existAccount = _context.Accounts.Any(x => x.Email == paymentDTO.StudentEmail);
-                if (!existAccount) return Ok(new ResponseDTO(false, "Địa chỉ email không tồn tại trong hệ thống"));
-
-                var existPayment = _context.Payments.FirstOrDefault(x => x.StudentEmail == paymentDTO.StudentEmail
-                        && x.ClassId == paymentDTO.ClassId && x.CourseId == paymentDTO.CourseId);
-                if (existPayment != null) return Ok(new ResponseDTO(false, "Hóa đơn thanh toán đã tồn tại"));
+                if (!existAccount) throw new Exception("Địa chỉ email không tồn tại trong hệ thống");
 
                 var payment = _mapper.Map<Payment>(paymentDTO);
                 var paymentId = repository.InsertPayment(payment);
@@ -49,16 +47,21 @@ namespace WebApi.Controllers
 
                     if (paymentDTO.RegisterId != null)
                     {
-                        repository.UpdateRegisterStatus(paymentDTO.RegisterId ?? 0);
+                        var registerUpdate = await _context.RegistrationForms.FirstOrDefaultAsync(x => x.Id == paymentDTO.RegisterId);
+                        if (registerUpdate is not null)
+                        {
+                            registerUpdate.Status = 4;
+                            await context.SaveChangesAsync();
+                        }
 
                         var existClassMember = _context.ClassMembers
                                 .FirstOrDefault(x => x.ClassId == paymentDTO.ClassId
                                 && x.StudentEmail == paymentDTO.StudentEmail);
-                        if (existClassMember is not null) return Ok(new ResponseDTO(false, "Thành viên lớp đã tồn tại"));
 
                         if (existClassMember is not null)
                         {
                             existClassMember.Status = true;
+                            await _context.SaveChangesAsync();
                         }
                         else
                         {
@@ -69,12 +72,13 @@ namespace WebApi.Controllers
                                 EnrollmentDate = DateTime.Now,
                                 Status = true
                             });
+                            await _context.SaveChangesAsync();
                         }
 
                         var existUserCourse = _context.UserCourses.Any(x => x.Email == paymentDTO.StudentEmail
                         && x.CourseId == paymentDTO.CourseId);
 
-                        if(!existUserCourse)
+                        if (!existUserCourse)
                         {
                             _context.UserCourses.Add(new UserCourse()
                             {
@@ -82,18 +86,17 @@ namespace WebApi.Controllers
                                 Email = payment.StudentEmail!,
                                 EnrolledDate = DateTime.Now,
                             });
+                            await _context.SaveChangesAsync();
                         }
 
-                        _context.SaveChanges();
                     }
 
                     return Ok(new ResponseDTO(true, "Thanh toán hóa đơn thành công"));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-
+                return Ok(new ResponseDTO(false, ex.Message));
             }
             return Ok(new ResponseDTO(false, "Thanh toán hóa đơn thất bại"));
         }

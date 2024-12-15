@@ -96,13 +96,7 @@ const ListContact = ({ data }) => {
 
   const hanldeSubmit = () => {
     const details = {
-      email: currentContact?.email,
-      subject: "Phản Hồi Thắc Mắc Từ Seed Center website",
       contact_id: currentContact?.contact_id,
-      name: currentContact?.name,
-      status: true,
-      request_message: currentContact?.request_message,
-      response_date: new Date(new Date().toLocaleDateString()),
       response_message: responseMessage,
     };
     dispatch(updateContact(details));
