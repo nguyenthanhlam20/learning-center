@@ -19,7 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppInput from "../../components/AppInput/AppInput";
 import { getPaymentsByUser } from "../../redux/paymentSlice";
@@ -71,12 +71,12 @@ const ListPayment = ({ user, courses }) => {
     setCurrentPayment(null);
   };
 
-  const handlePageChange = useCallback((value) => {
+  const handlePageChange = (value) => {
     setPage(value);
     setPaymentsPagination(
       payments?.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
     );
-  }, []);
+  };
 
   const handleChangeSearchTerm = (key, value) => {
     setSearchTerm({
@@ -84,7 +84,7 @@ const ListPayment = ({ user, courses }) => {
     });
   };
 
-  const handleRowsPerPageChange = useCallback((event) => {
+  const handleRowsPerPageChange = (event) => {
     setPage(0);
     setRowsPerPage(event.target.value);
 
@@ -92,7 +92,7 @@ const ListPayment = ({ user, courses }) => {
     if (payments?.length < endIndex) endIndex = payments?.length;
 
     setPaymentsPagination(payments?.slice(0, endIndex));
-  }, []);
+  };
 
   React.useEffect(() => {
     const result = data?.filter((payment) =>

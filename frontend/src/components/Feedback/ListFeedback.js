@@ -6,7 +6,7 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import AppInput from "../../components/AppInput/AppInput";
 import { FeedbackTable } from "../../sections/table/feedback-table";
 
@@ -20,12 +20,12 @@ const ListFeedback = ({ data }) => {
   );
   const [searchTerm, setSearchTerm] = React.useState({ value: "" });
 
-  const handlePageChange = useCallback((value) => {
+  const handlePageChange = (value) => {
     setPage(value);
     setFeedbacksPagination(
       feedbacks.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
     );
-  }, []);
+  };
 
   const handleChangeSearchTerm = (key, value) => {
     setSearchTerm({
@@ -33,7 +33,7 @@ const ListFeedback = ({ data }) => {
     });
   };
 
-  const handleRowsPerPageChange = useCallback((event) => {
+  const handleRowsPerPageChange = (event) => {
     setPage(0);
     setRowsPerPage(event.target.value);
 
@@ -41,7 +41,7 @@ const ListFeedback = ({ data }) => {
     if (feedbacks.length < endIndex) endIndex = feedbacks.length;
 
     setFeedbacksPagination(feedbacks.slice(0, endIndex));
-  }, []);
+  };
 
   React.useEffect(() => {
     const result = data.filter(

@@ -1,4 +1,5 @@
 import XMarkIcon from "@heroicons/react/24/solid/XMarkIcon";
+import { FileDownload, SchoolOutlined } from "@mui/icons-material";
 import AlarmIcon from "@mui/icons-material/Alarm";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import BookIcon from "@mui/icons-material/Book";
@@ -19,16 +20,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useRef, useState } from "react";
-import AppInput from "../../../components/AppInput/AppInput";
-import { InvoiceTable } from "../../../sections/table/invoice-table";
-import { FileDownload, School, SchoolOutlined } from "@mui/icons-material";
-import { CSVLink } from "react-csv";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { useNavigate } from "react-router-dom";
-import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
 import dayjs from "dayjs";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AppInput from "../../../components/AppInput/AppInput";
 import ExportDialog from "../../../components/Export";
+import { ROUTE_CONSTANTS } from "../../../constants/route.constants";
+import { InvoiceTable } from "../../../sections/table/invoice-table";
 
 const ListInvoice = ({ data, user, courses }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -66,12 +64,12 @@ const ListInvoice = ({ data, user, courses }) => {
     setCurrentInvoice(null);
   };
 
-  const handlePageChange = useCallback((value) => {
+  const handlePageChange = (value) => {
     setPage(value);
     setInvoicesPagination(
       invoices?.slice(value * rowsPerPage, value * rowsPerPage + rowsPerPage)
     );
-  }, []);
+  };
 
   const handleChangeSearchTerm = (key, value) => {
     setSearchTerm({
@@ -79,7 +77,7 @@ const ListInvoice = ({ data, user, courses }) => {
     });
   };
 
-  const handleRowsPerPageChange = useCallback((event) => {
+  const handleRowsPerPageChange = (event) => {
     setPage(0);
     setRowsPerPage(event.target.value);
 
@@ -87,7 +85,7 @@ const ListInvoice = ({ data, user, courses }) => {
     if (invoices?.length < endIndex) endIndex = invoices?.length;
 
     setInvoicesPagination(invoices?.slice(0, endIndex));
-  }, []);
+  };
 
   React.useEffect(() => {
     const result = data?.filter((invoice) => {
