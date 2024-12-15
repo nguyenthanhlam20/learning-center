@@ -257,13 +257,23 @@ const CourseDetails = ({ course, user }) => {
                           {isRegistered ? (
                             <Badge text={"Đã đăng ký"} color={"#0288d1"} />
                           ) : (
-                            <Button
-                              onClick={() =>
-                                handleOpenDialog(row.classId, row.className)
-                              }
-                            >
-                              Đăng ký
-                            </Button>
+                            <>
+                              {row.classMembers.length >=
+                              row.numberOfStudent ? (
+                                <Badge
+                                  text={"Đã đủ học viên"}
+                                  color={"#ff0000"}
+                                />
+                              ) : (
+                                <Button
+                                  onClick={() =>
+                                    handleOpenDialog(row.classId, row.className)
+                                  }
+                                >
+                                  Đăng ký
+                                </Button>
+                              )}
+                            </>
                           )}
                         </TableCell>
                       </TableRow>
